@@ -8,10 +8,12 @@
 
 #import "YGInputView.h"
 
+
 @interface YGInputView ()<UITextFieldDelegate>
 @property (nonatomic, weak) UILabel *titleLabel;
 @property (nonatomic, weak) UITextField *inputField;
 @property (nonatomic, weak) UIView *bottomLine;
+@property (nonatomic, weak) UIView *editingLine;
 @end
 
 @implementation YGInputView
@@ -42,11 +44,6 @@
     return self;
 }
 
-//- (void)drawRect:(CGRect)rect
-//{
-//
-//}
-
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -72,10 +69,41 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     self.titleLabel.hidden = NO;
+    self.inputEditing = YES;
+    [self drawEditingLine];
+    [[NSNotificationCenter defaultCenter] postNotificationName:YGLoginDidBeginEditNotification object:nil];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     self.titleLabel.hidden = YES;
+    self.inputEditing = NO;
+    [self drawEditingLine];
+    
+    if (textField.text.length) {
+        if ([self.delegate respondsToSelector:@selector(inputViewDidEndEditing:)]) {
+            [self.delegate inputViewDidEndEditing:self];
+        }
+    }
+}
+
+// 编辑时底部画黑线
+- (void)drawEditingLine
+{
+    [self.editingLine removeFromSuperview];
+    UIView *editingLine = [[UIView alloc] init];
+    editingLine.backgroundColor = [UIColor blackColor];
+    [self addSubview:editingLine];
+    editingLine.x = 0;
+    editingLine.y = self.bottomLine.y;
+    editingLine.height = self.bottomLine.height;
+    self.editingLine = editingLine;
+    if (self.inputIsEditing) {
+        [UIView animateWithDuration:0.25 animations:^{
+            self.editingLine.width = self.bottomLine.width;
+        }];
+    } else {
+        [self.editingLine removeFromSuperview];
+    }
 }
 @end

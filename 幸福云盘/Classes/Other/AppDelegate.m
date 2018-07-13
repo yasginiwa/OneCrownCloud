@@ -25,7 +25,7 @@
     YGLoginVC *loginVC = [[YGLoginVC alloc] init];
     YGMainNavVC *navVC = [[YGMainNavVC alloc] initWithRootViewController:loginVC];
     
-    self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, srcW, srcH)];
+    self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, scrnW, scrnH)];
     [self.window makeKeyAndVisible];
     self.window.rootViewController = navVC;
     return YES;
