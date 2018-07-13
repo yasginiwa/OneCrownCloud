@@ -12,6 +12,8 @@
 #import "UIView+Extension.h"
 #import "UIImage+Extension.h"
 #import <Masonry.h>
+#import <SVProgressHUD.h>
+#import "YGURLString.h"
 
 #define scrnW [UIScreen mainScreen].bounds.size.width
 #define scrnH [UIScreen mainScreen].bounds.size.height

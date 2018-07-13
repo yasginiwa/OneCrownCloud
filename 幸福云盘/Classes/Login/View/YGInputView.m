@@ -11,13 +11,12 @@
 
 @interface YGInputView ()<UITextFieldDelegate>
 @property (nonatomic, weak) UILabel *titleLabel;
-@property (nonatomic, weak) UITextField *inputField;
 @property (nonatomic, weak) UIView *bottomLine;
 @property (nonatomic, weak) UIView *editingLine;
 @end
 
 @implementation YGInputView
-- (instancetype)initWithPlaceHolder:(NSString *)placeholder title:(NSString *)title
+- (instancetype)initWithPlaceHolder:(NSString *)placeholder title:(NSString *)title security:(BOOL)security
 {
     if (self = [super init]) {
         UILabel *titleLabel = [[UILabel alloc] init];
@@ -31,7 +30,7 @@
         UITextField *inputField = [[UITextField alloc] init];
         inputField.delegate = self;
         inputField.placeholder = placeholder;
-        inputField.secureTextEntry = self.isSecurity;
+        inputField.secureTextEntry = security;
         inputField.clearButtonMode = UITextFieldViewModeWhileEditing;
         [self addSubview:inputField];
         self.inputField = inputField;
@@ -79,12 +78,6 @@
     self.titleLabel.hidden = YES;
     self.inputEditing = NO;
     [self drawEditingLine];
-    
-    if (textField.text.length) {
-        if ([self.delegate respondsToSelector:@selector(inputViewDidEndEditing:)]) {
-            [self.delegate inputViewDidEndEditing:self];
-        }
-    }
 }
 
 // 编辑时底部画黑线

@@ -16,6 +16,7 @@
 		B676793E20F629D900945627 /* YGMainNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793D20F629D900945627 /* YGMainNavVC.m */; };
 		B676794120F629F000945627 /* YGTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = B676794020F629F000945627 /* YGTabBar.m */; };
 		B676794820F62B1400945627 /* YGLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676794720F62B1400945627 /* YGLoginVC.m */; };
+		B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */ = {isa = PBXBuildFile; fileRef = B680BCEB20F8E7D200F8CB98 /* YGURLString.m */; };
 		B6C4040B20F76F5600E95598 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4040A20F76F5600E95598 /* UIView+Extension.m */; };
 		B6C4040E20F7719000E95598 /* YGLoginTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4040D20F7719000E95598 /* YGLoginTopView.m */; };
 		B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4041020F7719C00E95598 /* YGLoginMidView.m */; };
@@ -48,6 +49,8 @@
 		B676794620F62B1400945627 /* YGLoginVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGLoginVC.h; sourceTree = "<group>"; };
 		B676794720F62B1400945627 /* YGLoginVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGLoginVC.m; sourceTree = "<group>"; };
 		B676794920F62BFA00945627 /* 幸福云盘-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "幸福云盘-Prefix.pch"; sourceTree = "<group>"; };
+		B680BCEA20F8E7D200F8CB98 /* YGURLString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGURLString.h; sourceTree = "<group>"; };
+		B680BCEB20F8E7D200F8CB98 /* YGURLString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGURLString.m; sourceTree = "<group>"; };
 		B6C4040920F76F5600E95598 /* UIView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
 		B6C4040A20F76F5600E95598 /* UIView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		B6C4040C20F7719000E95598 /* YGLoginTopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGLoginTopView.h; sourceTree = "<group>"; };
@@ -325,6 +328,8 @@
 				B6209E8720F4EE7E0075497C /* LaunchScreen.storyboard */,
 				B6209E8A20F4EE7E0075497C /* Info.plist */,
 				B676794920F62BFA00945627 /* 幸福云盘-Prefix.pch */,
+				B680BCEA20F8E7D200F8CB98 /* YGURLString.h */,
+				B680BCEB20F8E7D200F8CB98 /* YGURLString.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -463,11 +468,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-幸福云盘/Pods-幸福云盘-resources.sh",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Seafile/Seafile.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Seafile.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -517,6 +524,7 @@
 			files = (
 				737FDBF120F874A600BF5090 /* UIImage+Extension.m in Sources */,
 				B6FBA01120F62CE30012EFD0 /* YGStarVC.m in Sources */,
+				B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */,
 				B676794820F62B1400945627 /* YGLoginVC.m in Sources */,
 				B6C4040B20F76F5600E95598 /* UIView+Extension.m in Sources */,
 				B6FBA01720F62D4F0012EFD0 /* YGProfileVC.m in Sources */,
