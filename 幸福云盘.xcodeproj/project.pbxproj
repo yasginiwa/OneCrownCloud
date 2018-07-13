@@ -1,0 +1,710 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B6209E7E20F4EE7E0075497C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B6209E7D20F4EE7E0075497C /* AppDelegate.m */; };
+		B6209E8620F4EE7E0075497C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6209E8520F4EE7E0075497C /* Assets.xcassets */; };
+		B6209E8920F4EE7E0075497C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6209E8720F4EE7E0075497C /* LaunchScreen.storyboard */; };
+		B6209E8C20F4EE7E0075497C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6209E8B20F4EE7E0075497C /* main.m */; };
+		B676793B20F629BC00945627 /* YGMainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793A20F629BC00945627 /* YGMainTabBarVC.m */; };
+		B676793E20F629D900945627 /* YGMainNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793D20F629D900945627 /* YGMainNavVC.m */; };
+		B676794120F629F000945627 /* YGTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = B676794020F629F000945627 /* YGTabBar.m */; };
+		B676794820F62B1400945627 /* YGLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676794720F62B1400945627 /* YGLoginVC.m */; };
+		B6C4040B20F76F5600E95598 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4040A20F76F5600E95598 /* UIView+Extension.m */; };
+		B6C4040E20F7719000E95598 /* YGLoginTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4040D20F7719000E95598 /* YGLoginTopView.m */; };
+		B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4041020F7719C00E95598 /* YGLoginMidView.m */; };
+		B6C4041720F78ACF00E95598 /* YGInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4041620F78ACF00E95598 /* YGInputView.m */; };
+		B6FBA00E20F62CD10012EFD0 /* YGFileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FBA00D20F62CD10012EFD0 /* YGFileVC.m */; };
+		B6FBA01120F62CE30012EFD0 /* YGStarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FBA01020F62CE30012EFD0 /* YGStarVC.m */; };
+		B6FBA01420F62D240012EFD0 /* YGTansferVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FBA01320F62D240012EFD0 /* YGTansferVC.m */; };
+		B6FBA01720F62D4F0012EFD0 /* YGProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FBA01620F62D4F0012EFD0 /* YGProfileVC.m */; };
+		EA57C0B95943C32B66E999BD /* libPods-幸福云盘.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E200F24AA867E7994FC0ECE /* libPods-幸福云盘.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		24356D3E799840F6B9E6A5BF /* Pods-幸福云盘.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-幸福云盘.debug.xcconfig"; path = "Pods/Target Support Files/Pods-幸福云盘/Pods-幸福云盘.debug.xcconfig"; sourceTree = "<group>"; };
+		2E200F24AA867E7994FC0ECE /* libPods-幸福云盘.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-幸福云盘.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6209E7920F4EE7D0075497C /* 幸福云盘.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "幸福云盘.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6209E7C20F4EE7E0075497C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		B6209E7D20F4EE7E0075497C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		B6209E8520F4EE7E0075497C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B6209E8820F4EE7E0075497C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B6209E8A20F4EE7E0075497C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B6209E8B20F4EE7E0075497C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B676793920F629BC00945627 /* YGMainTabBarVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGMainTabBarVC.h; sourceTree = "<group>"; };
+		B676793A20F629BC00945627 /* YGMainTabBarVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGMainTabBarVC.m; sourceTree = "<group>"; };
+		B676793C20F629D900945627 /* YGMainNavVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGMainNavVC.h; sourceTree = "<group>"; };
+		B676793D20F629D900945627 /* YGMainNavVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGMainNavVC.m; sourceTree = "<group>"; };
+		B676793F20F629F000945627 /* YGTabBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGTabBar.h; sourceTree = "<group>"; };
+		B676794020F629F000945627 /* YGTabBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGTabBar.m; sourceTree = "<group>"; };
+		B676794620F62B1400945627 /* YGLoginVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGLoginVC.h; sourceTree = "<group>"; };
+		B676794720F62B1400945627 /* YGLoginVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGLoginVC.m; sourceTree = "<group>"; };
+		B676794920F62BFA00945627 /* 幸福云盘-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "幸福云盘-Prefix.pch"; sourceTree = "<group>"; };
+		B6C4040920F76F5600E95598 /* UIView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
+		B6C4040A20F76F5600E95598 /* UIView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
+		B6C4040C20F7719000E95598 /* YGLoginTopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGLoginTopView.h; sourceTree = "<group>"; };
+		B6C4040D20F7719000E95598 /* YGLoginTopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGLoginTopView.m; sourceTree = "<group>"; };
+		B6C4040F20F7719C00E95598 /* YGLoginMidView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGLoginMidView.h; sourceTree = "<group>"; };
+		B6C4041020F7719C00E95598 /* YGLoginMidView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGLoginMidView.m; sourceTree = "<group>"; };
+		B6C4041520F78ACF00E95598 /* YGInputView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGInputView.h; sourceTree = "<group>"; };
+		B6C4041620F78ACF00E95598 /* YGInputView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGInputView.m; sourceTree = "<group>"; };
+		B6FBA00C20F62CD10012EFD0 /* YGFileVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileVC.h; sourceTree = "<group>"; };
+		B6FBA00D20F62CD10012EFD0 /* YGFileVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileVC.m; sourceTree = "<group>"; };
+		B6FBA00F20F62CE30012EFD0 /* YGStarVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGStarVC.h; sourceTree = "<group>"; };
+		B6FBA01020F62CE30012EFD0 /* YGStarVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGStarVC.m; sourceTree = "<group>"; };
+		B6FBA01220F62D240012EFD0 /* YGTansferVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGTansferVC.h; sourceTree = "<group>"; };
+		B6FBA01320F62D240012EFD0 /* YGTansferVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGTansferVC.m; sourceTree = "<group>"; };
+		B6FBA01520F62D4F0012EFD0 /* YGProfileVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGProfileVC.h; sourceTree = "<group>"; };
+		B6FBA01620F62D4F0012EFD0 /* YGProfileVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGProfileVC.m; sourceTree = "<group>"; };
+		B84F913ECE58C483A85F0724 /* Pods-幸福云盘.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-幸福云盘.release.xcconfig"; path = "Pods/Target Support Files/Pods-幸福云盘/Pods-幸福云盘.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B6209E7620F4EE7D0075497C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA57C0B95943C32B66E999BD /* libPods-幸福云盘.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3F96C3A64FB5B44D2BFC0A77 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				24356D3E799840F6B9E6A5BF /* Pods-幸福云盘.debug.xcconfig */,
+				B84F913ECE58C483A85F0724 /* Pods-幸福云盘.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		49F3F30C0395FD079C1A76F3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2E200F24AA867E7994FC0ECE /* libPods-幸福云盘.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B6209E7020F4EE7D0075497C = {
+			isa = PBXGroup;
+			children = (
+				B6209E7B20F4EE7D0075497C /* 幸福云盘 */,
+				B6209E7A20F4EE7D0075497C /* Products */,
+				3F96C3A64FB5B44D2BFC0A77 /* Pods */,
+				49F3F30C0395FD079C1A76F3 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		B6209E7A20F4EE7D0075497C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B6209E7920F4EE7D0075497C /* 幸福云盘.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B6209E7B20F4EE7D0075497C /* 幸福云盘 */ = {
+			isa = PBXGroup;
+			children = (
+				B676791F20F627E500945627 /* Classes */,
+				B676793520F628D800945627 /* Supporting Files */,
+			);
+			path = "幸福云盘";
+			sourceTree = "<group>";
+		};
+		B676791F20F627E500945627 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B676792420F627E500945627 /* Main */,
+				B676794220F62AFC00945627 /* Login */,
+				B676792020F627E500945627 /* File */,
+				B676792D20F627E500945627 /* Star */,
+				B676793120F627E500945627 /* Transfer */,
+				B676792920F627E500945627 /* Profile */,
+				B676792820F627E500945627 /* Other */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		B676792020F627E500945627 /* File */ = {
+			isa = PBXGroup;
+			children = (
+				B676792120F627E500945627 /* Controller */,
+				B676792220F627E500945627 /* Model */,
+				B676792320F627E500945627 /* View */,
+			);
+			path = File;
+			sourceTree = "<group>";
+		};
+		B676792120F627E500945627 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B6FBA00C20F62CD10012EFD0 /* YGFileVC.h */,
+				B6FBA00D20F62CD10012EFD0 /* YGFileVC.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B676792220F627E500945627 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B676792320F627E500945627 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B676792420F627E500945627 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B676792520F627E500945627 /* Controller */,
+				B676792620F627E500945627 /* Model */,
+				B676792720F627E500945627 /* View */,
+				B6C4040720F76F4300E95598 /* Category */,
+				B6C4040820F76F4300E95598 /* Lib */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		B676792520F627E500945627 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B676793920F629BC00945627 /* YGMainTabBarVC.h */,
+				B676793A20F629BC00945627 /* YGMainTabBarVC.m */,
+				B676793C20F629D900945627 /* YGMainNavVC.h */,
+				B676793D20F629D900945627 /* YGMainNavVC.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B676792620F627E500945627 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B676792720F627E500945627 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B676793F20F629F000945627 /* YGTabBar.h */,
+				B676794020F629F000945627 /* YGTabBar.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B676792820F627E500945627 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				B6209E7C20F4EE7E0075497C /* AppDelegate.h */,
+				B6209E7D20F4EE7E0075497C /* AppDelegate.m */,
+				B6209E8B20F4EE7E0075497C /* main.m */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		B676792920F627E500945627 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				B676792A20F627E500945627 /* Controller */,
+				B676792B20F627E500945627 /* Model */,
+				B676792C20F627E500945627 /* View */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		B676792A20F627E500945627 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B6FBA01520F62D4F0012EFD0 /* YGProfileVC.h */,
+				B6FBA01620F62D4F0012EFD0 /* YGProfileVC.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B676792B20F627E500945627 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B676792C20F627E500945627 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B676792D20F627E500945627 /* Star */ = {
+			isa = PBXGroup;
+			children = (
+				B676792E20F627E500945627 /* Controller */,
+				B676792F20F627E500945627 /* Model */,
+				B676793020F627E500945627 /* View */,
+			);
+			path = Star;
+			sourceTree = "<group>";
+		};
+		B676792E20F627E500945627 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B6FBA00F20F62CE30012EFD0 /* YGStarVC.h */,
+				B6FBA01020F62CE30012EFD0 /* YGStarVC.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B676792F20F627E500945627 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B676793020F627E500945627 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B676793120F627E500945627 /* Transfer */ = {
+			isa = PBXGroup;
+			children = (
+				B676793220F627E500945627 /* Controller */,
+				B676793320F627E500945627 /* Model */,
+				B676793420F627E500945627 /* View */,
+			);
+			path = Transfer;
+			sourceTree = "<group>";
+		};
+		B676793220F627E500945627 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B6FBA01220F62D240012EFD0 /* YGTansferVC.h */,
+				B6FBA01320F62D240012EFD0 /* YGTansferVC.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B676793320F627E500945627 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B676793420F627E500945627 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B676793520F628D800945627 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B6209E8520F4EE7E0075497C /* Assets.xcassets */,
+				B6209E8720F4EE7E0075497C /* LaunchScreen.storyboard */,
+				B6209E8A20F4EE7E0075497C /* Info.plist */,
+				B676794920F62BFA00945627 /* 幸福云盘-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B676794220F62AFC00945627 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				B676794320F62AFC00945627 /* Controller */,
+				B676794420F62AFC00945627 /* Model */,
+				B676794520F62AFC00945627 /* View */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		B676794320F62AFC00945627 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B676794620F62B1400945627 /* YGLoginVC.h */,
+				B676794720F62B1400945627 /* YGLoginVC.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B676794420F62AFC00945627 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B676794520F62AFC00945627 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B6C4040C20F7719000E95598 /* YGLoginTopView.h */,
+				B6C4040D20F7719000E95598 /* YGLoginTopView.m */,
+				B6C4040F20F7719C00E95598 /* YGLoginMidView.h */,
+				B6C4041020F7719C00E95598 /* YGLoginMidView.m */,
+				B6C4041520F78ACF00E95598 /* YGInputView.h */,
+				B6C4041620F78ACF00E95598 /* YGInputView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B6C4040720F76F4300E95598 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				B6C4040920F76F5600E95598 /* UIView+Extension.h */,
+				B6C4040A20F76F5600E95598 /* UIView+Extension.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		B6C4040820F76F4300E95598 /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B6209E7820F4EE7D0075497C /* 幸福云盘 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B6209E8F20F4EE7E0075497C /* Build configuration list for PBXNativeTarget "幸福云盘" */;
+			buildPhases = (
+				3AB4D46047C6BB0E00613BD7 /* [CP] Check Pods Manifest.lock */,
+				B6209E7520F4EE7D0075497C /* Sources */,
+				B6209E7620F4EE7D0075497C /* Frameworks */,
+				B6209E7720F4EE7D0075497C /* Resources */,
+				9CED471EA68F8DC9FA52EADA /* [CP] Embed Pods Frameworks */,
+				1C7E8B4DA7977C6EA4BC98A9 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "幸福云盘";
+			productName = "幸福云盘";
+			productReference = B6209E7920F4EE7D0075497C /* 幸福云盘.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B6209E7120F4EE7D0075497C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = YGLEE;
+				TargetAttributes = {
+					B6209E7820F4EE7D0075497C = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = B6209E7420F4EE7D0075497C /* Build configuration list for PBXProject "幸福云盘" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B6209E7020F4EE7D0075497C;
+			productRefGroup = B6209E7A20F4EE7D0075497C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B6209E7820F4EE7D0075497C /* 幸福云盘 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B6209E7720F4EE7D0075497C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B6209E8920F4EE7E0075497C /* LaunchScreen.storyboard in Resources */,
+				B6209E8620F4EE7E0075497C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1C7E8B4DA7977C6EA4BC98A9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-幸福云盘/Pods-幸福云盘-resources.sh",
+				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Seafile/Seafile.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Seafile.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-幸福云盘/Pods-幸福云盘-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3AB4D46047C6BB0E00613BD7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-幸福云盘-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9CED471EA68F8DC9FA52EADA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-幸福云盘/Pods-幸福云盘-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B6209E7520F4EE7D0075497C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B6FBA01120F62CE30012EFD0 /* YGStarVC.m in Sources */,
+				B676794820F62B1400945627 /* YGLoginVC.m in Sources */,
+				B6C4040B20F76F5600E95598 /* UIView+Extension.m in Sources */,
+				B6FBA01720F62D4F0012EFD0 /* YGProfileVC.m in Sources */,
+				B6209E8C20F4EE7E0075497C /* main.m in Sources */,
+				B6FBA00E20F62CD10012EFD0 /* YGFileVC.m in Sources */,
+				B6C4040E20F7719000E95598 /* YGLoginTopView.m in Sources */,
+				B6FBA01420F62D240012EFD0 /* YGTansferVC.m in Sources */,
+				B6209E7E20F4EE7E0075497C /* AppDelegate.m in Sources */,
+				B676793B20F629BC00945627 /* YGMainTabBarVC.m in Sources */,
+				B676794120F629F000945627 /* YGTabBar.m in Sources */,
+				B6C4041720F78ACF00E95598 /* YGInputView.m in Sources */,
+				B676793E20F629D900945627 /* YGMainNavVC.m in Sources */,
+				B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		B6209E8720F4EE7E0075497C /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B6209E8820F4EE7E0075497C /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B6209E8D20F4EE7E0075497C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		B6209E8E20F4EE7E0075497C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B6209E9020F4EE7E0075497C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 24356D3E799840F6B9E6A5BF /* Pods-幸福云盘.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = C7C8DA83Q8;
+				GCC_PREFIX_HEADER = "$SRCROOT/幸福云盘/幸福云盘-Prefix.pch";
+				INFOPLIST_FILE = "幸福云盘/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yglee.----";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "f531295d-0b03-45e0-bed0-91bbcad6d067";
+				PROVISIONING_PROFILE_SPECIFIER = develop_new;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B6209E9120F4EE7E0075497C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B84F913ECE58C483A85F0724 /* Pods-幸福云盘.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = C7C8DA83Q8;
+				GCC_PREFIX_HEADER = "$SRCROOT/幸福云盘/幸福云盘-Prefix.pch";
+				INFOPLIST_FILE = "幸福云盘/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yglee.----";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "f531295d-0b03-45e0-bed0-91bbcad6d067";
+				PROVISIONING_PROFILE_SPECIFIER = develop_new;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B6209E7420F4EE7D0075497C /* Build configuration list for PBXProject "幸福云盘" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B6209E8D20F4EE7E0075497C /* Debug */,
+				B6209E8E20F4EE7E0075497C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B6209E8F20F4EE7E0075497C /* Build configuration list for PBXNativeTarget "幸福云盘" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B6209E9020F4EE7E0075497C /* Debug */,
+				B6209E9120F4EE7E0075497C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B6209E7120F4EE7D0075497C /* Project object */;
+}

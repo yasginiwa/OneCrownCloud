@@ -1,0 +1,56 @@
+PODS:
+  - AFNetworking (2.6.3):
+    - AFNetworking/NSURLConnection (= 2.6.3)
+    - AFNetworking/NSURLSession (= 2.6.3)
+    - AFNetworking/Reachability (= 2.6.3)
+    - AFNetworking/Security (= 2.6.3)
+    - AFNetworking/Serialization (= 2.6.3)
+    - AFNetworking/UIKit (= 2.6.3)
+  - AFNetworking/NSURLConnection (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.3)
+  - AFNetworking/Security (2.6.3)
+  - AFNetworking/Serialization (2.6.3)
+  - AFNetworking/UIKit (2.6.3):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - Masonry (1.1.0)
+  - MJExtension (3.0.13)
+  - MJRefresh (3.1.15.3)
+  - OpenSSL-Universal (1.0.2.13)
+  - Seafile (2.7.7):
+    - AFNetworking (~> 2.6.1)
+    - OpenSSL-Universal (~> 1.0.1.p)
+
+DEPENDENCIES:
+  - Masonry
+  - MJExtension
+  - MJRefresh
+  - Seafile (from `https://github.com/haiwen/seafile-iOS.git`)
+
+EXTERNAL SOURCES:
+  Seafile:
+    :git: https://github.com/haiwen/seafile-iOS.git
+
+CHECKOUT OPTIONS:
+  Seafile:
+    :commit: 060e4e9a43fd3157effc07663e699f621dfbc33d
+    :git: https://github.com/haiwen/seafile-iOS.git
+
+SPEC CHECKSUMS:
+  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MJExtension: 5932755f451458eefa24239358817f8d291240c7
+  MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
+  OpenSSL-Universal: 401888162f11c33ebbd46f782d9229da35c61327
+  Seafile: d91a2f015be457af4d95dc8d1916209caa74e90b
+
+PODFILE CHECKSUM: 483acf101294a371f7eb58525e51c6bb154dcae5
+
+COCOAPODS: 1.4.0
