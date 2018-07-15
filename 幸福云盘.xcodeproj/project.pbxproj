@@ -12,11 +12,14 @@
 		B6209E8620F4EE7E0075497C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6209E8520F4EE7E0075497C /* Assets.xcassets */; };
 		B6209E8920F4EE7E0075497C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6209E8720F4EE7E0075497C /* LaunchScreen.storyboard */; };
 		B6209E8C20F4EE7E0075497C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6209E8B20F4EE7E0075497C /* main.m */; };
+		B63DB4FF20FB8BB00085E415 /* YGAccountInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B63DB4FE20FB8BB00085E415 /* YGAccountInfo.m */; };
+		B63DB50320FB97210085E415 /* YGAccountTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B63DB50220FB97210085E415 /* YGAccountTool.m */; };
 		B676793B20F629BC00945627 /* YGMainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793A20F629BC00945627 /* YGMainTabBarVC.m */; };
 		B676793E20F629D900945627 /* YGMainNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793D20F629D900945627 /* YGMainNavVC.m */; };
 		B676794120F629F000945627 /* YGTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = B676794020F629F000945627 /* YGTabBar.m */; };
 		B676794820F62B1400945627 /* YGLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676794720F62B1400945627 /* YGLoginVC.m */; };
 		B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */ = {isa = PBXBuildFile; fileRef = B680BCEB20F8E7D200F8CB98 /* YGURLString.m */; };
+		B6A1E27820FA31EE009F94DF /* YGAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A1E27720FA31EE009F94DF /* YGAccount.m */; };
 		B6C4040B20F76F5600E95598 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4040A20F76F5600E95598 /* UIView+Extension.m */; };
 		B6C4040E20F7719000E95598 /* YGLoginTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4040D20F7719000E95598 /* YGLoginTopView.m */; };
 		B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4041020F7719C00E95598 /* YGLoginMidView.m */; };
@@ -40,6 +43,10 @@
 		B6209E8820F4EE7E0075497C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6209E8A20F4EE7E0075497C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6209E8B20F4EE7E0075497C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B63DB4FD20FB8BB00085E415 /* YGAccountInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGAccountInfo.h; sourceTree = "<group>"; };
+		B63DB4FE20FB8BB00085E415 /* YGAccountInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGAccountInfo.m; sourceTree = "<group>"; };
+		B63DB50120FB97210085E415 /* YGAccountTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGAccountTool.h; sourceTree = "<group>"; };
+		B63DB50220FB97210085E415 /* YGAccountTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGAccountTool.m; sourceTree = "<group>"; };
 		B676793920F629BC00945627 /* YGMainTabBarVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGMainTabBarVC.h; sourceTree = "<group>"; };
 		B676793A20F629BC00945627 /* YGMainTabBarVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGMainTabBarVC.m; sourceTree = "<group>"; };
 		B676793C20F629D900945627 /* YGMainNavVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGMainNavVC.h; sourceTree = "<group>"; };
@@ -51,6 +58,8 @@
 		B676794920F62BFA00945627 /* 幸福云盘-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "幸福云盘-Prefix.pch"; sourceTree = "<group>"; };
 		B680BCEA20F8E7D200F8CB98 /* YGURLString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGURLString.h; sourceTree = "<group>"; };
 		B680BCEB20F8E7D200F8CB98 /* YGURLString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGURLString.m; sourceTree = "<group>"; };
+		B6A1E27620FA31EE009F94DF /* YGAccount.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGAccount.h; sourceTree = "<group>"; };
+		B6A1E27720FA31EE009F94DF /* YGAccount.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGAccount.m; sourceTree = "<group>"; };
 		B6C4040920F76F5600E95598 /* UIView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
 		B6C4040A20F76F5600E95598 /* UIView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		B6C4040C20F7719000E95598 /* YGLoginTopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGLoginTopView.h; sourceTree = "<group>"; };
@@ -124,6 +133,15 @@
 				B676793520F628D800945627 /* Supporting Files */,
 			);
 			path = "幸福云盘";
+			sourceTree = "<group>";
+		};
+		B63DB50020FB97160085E415 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				B63DB50120FB97210085E415 /* YGAccountTool.h */,
+				B63DB50220FB97210085E415 /* YGAccountTool.m */,
+			);
+			path = Tool;
 			sourceTree = "<group>";
 		};
 		B676791F20F627E500945627 /* Classes */ = {
@@ -337,8 +355,9 @@
 		B676794220F62AFC00945627 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				B63DB50020FB97160085E415 /* Tool */,
+				B6A1E27520FA31E4009F94DF /* Model */,
 				B676794320F62AFC00945627 /* Controller */,
-				B676794420F62AFC00945627 /* Model */,
 				B676794520F62AFC00945627 /* View */,
 			);
 			path = Login;
@@ -353,13 +372,6 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		B676794420F62AFC00945627 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		B676794520F62AFC00945627 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -371,6 +383,17 @@
 				B6C4041620F78ACF00E95598 /* YGInputView.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		B6A1E27520FA31E4009F94DF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B6A1E27620FA31EE009F94DF /* YGAccount.h */,
+				B6A1E27720FA31EE009F94DF /* YGAccount.m */,
+				B63DB4FD20FB8BB00085E415 /* YGAccountInfo.h */,
+				B63DB4FE20FB8BB00085E415 /* YGAccountInfo.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		B6C4040720F76F4300E95598 /* Category */ = {
@@ -525,6 +548,7 @@
 				737FDBF120F874A600BF5090 /* UIImage+Extension.m in Sources */,
 				B6FBA01120F62CE30012EFD0 /* YGStarVC.m in Sources */,
 				B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */,
+				B63DB4FF20FB8BB00085E415 /* YGAccountInfo.m in Sources */,
 				B676794820F62B1400945627 /* YGLoginVC.m in Sources */,
 				B6C4040B20F76F5600E95598 /* UIView+Extension.m in Sources */,
 				B6FBA01720F62D4F0012EFD0 /* YGProfileVC.m in Sources */,
@@ -537,6 +561,8 @@
 				B676794120F629F000945627 /* YGTabBar.m in Sources */,
 				B6C4041720F78ACF00E95598 /* YGInputView.m in Sources */,
 				B676793E20F629D900945627 /* YGMainNavVC.m in Sources */,
+				B6A1E27820FA31EE009F94DF /* YGAccount.m in Sources */,
+				B63DB50320FB97210085E415 /* YGAccountTool.m in Sources */,
 				B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

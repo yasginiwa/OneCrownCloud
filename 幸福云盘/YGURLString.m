@@ -9,7 +9,10 @@
 #import "YGURLString.h"
 
 @implementation YGURLString
-/** 登录 */
-NSString *const loginURL = @"http://www.crowncake.cn:50080";
-
+/** BaseURL */
+NSString *const BaseURL = @"http://www.crowncake.cn:50080";
+/** v2API_URL */
+NSString *const API_URL = @"/api2";
+/** 请求账号信息 */
+NSString *const accountURL = @"/account/info";
 @end

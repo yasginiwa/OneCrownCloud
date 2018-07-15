@@ -9,11 +9,15 @@
 #import "YGLoginMidView.h"
 #import "YGInputView.h"
 #import <SeafConnection.h>
+#import "YGAccountInfo.h"
+#import "YGAccount.h"
+#import "YGAccountTool.h"
 
 @interface YGLoginMidView () <SeafLoginDelegate>
 @property (nonatomic, weak) YGInputView *userView;
 @property (nonatomic, weak) YGInputView *pwView;
 @property (nonatomic, weak) UIButton *loginBtn;
+@property (nonatomic, strong) SeafConnection *seafConn;
 @end
 
 @implementation YGLoginMidView
@@ -98,9 +102,10 @@
     [SVProgressHUD showWithStatus:@"登录中..."];
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
-    SeafConnection *seafConn = [[SeafConnection alloc] initWithUrl:loginURL cacheProvider:nil];
+    SeafConnection *seafConn = [[SeafConnection alloc] initWithUrl:BaseURL cacheProvider:nil];
     seafConn.loginDelegate = self;
     [seafConn loginWithUsername:self.userView.inputField.text password:self.pwView.inputField.text otp:nil rememberDevice:NO];
+    self.seafConn = seafConn;
 }
 
 #pragma mark - SeafLoginDelegate
@@ -108,11 +113,43 @@
 {
     NSLog(@"登录成功");
     [SVProgressHUD dismiss];
+    
+    YGAccountInfo *accountInfo = [YGAccountInfo mj_objectWithKeyValues:self.seafConn.info];
+    
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
+    [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", accountInfo.token] forHTTPHeaderField:@"Authorization"];
+    
+    NSString *accountInfoUrl = [BaseURL stringByAppendingString:@"/api2/account/info"];
+    
+    [mgr GET:accountInfoUrl parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+        YGAccount *account = [YGAccount mj_objectWithKeyValues:responseObject];
+        [YGAccountTool saveAccount:account];
+        YGLog(@"成功%@", responseObject);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@", error);
+    }];
+
+//    NSURL *accountInfoURL = [NSURL URLWithString:@"http://www.crowncake.cn:50080/api2/account/info"];
+//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:accountInfoURL];
+//    request.HTTPMethod = @"POST";
+//    request.allHTTPHeaderFields
+    
+    
+//    NSString *accountInfoURL = [NSString stringWithFormat:@"%@%@%@", BaseURL,API_URL,accountURL];
+//    YGLog(@"%@---", self.seafConn.info);
+//    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+//    [mgr GET:accountInfoURL parameters:@{@"user":@"admin@seafile.local"} success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+//        YGLog(@"%@", responseObject);
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        YGLog(@"%@", error);
+//    }];
 }
 
 - (void)loginFailed:(SeafConnection *)connection response:(NSHTTPURLResponse *)response error:(NSError *)error
 {
-    NSLog(@"登录失败");
+    NSLog(@"登录失败%@", response);
+    YGLog(@"%@---", self.seafConn.info);
     [SVProgressHUD dismiss];
 }
 
