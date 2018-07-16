@@ -9,7 +9,6 @@
 #import "YGLoginMidView.h"
 #import "YGInputView.h"
 #import <SeafConnection.h>
-#import "YGAccountInfo.h"
 #import "YGAccount.h"
 #import "YGAccountTool.h"
 
@@ -102,7 +101,7 @@
     [SVProgressHUD showWithStatus:@"登录中..."];
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
-    SeafConnection *seafConn = [[SeafConnection alloc] initWithUrl:BaseURL cacheProvider:nil];
+    SeafConnection *seafConn = [[SeafConnection alloc] initWithUrl:BASE_URL cacheProvider:nil];
     seafConn.loginDelegate = self;
     [seafConn loginWithUsername:self.userView.inputField.text password:self.pwView.inputField.text otp:nil rememberDevice:NO];
     self.seafConn = seafConn;
@@ -114,13 +113,19 @@
     NSLog(@"登录成功");
     [SVProgressHUD dismiss];
     
-    YGAccountInfo *accountInfo = [YGAccountInfo mj_objectWithKeyValues:self.seafConn.info];
+    // 请求成功登录后的token
+    __block NSString *token;
+    [YGAccountTool getTokenWithConnection:connection success:^(id responseObject) {
+        token = responseObject[@"token"];
+    } failure:^(NSError *error) {
+        YGLog(@"获取token失败");
+    }];
     
+    // 请求账号模型信息并储存
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
-    [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", accountInfo.token] forHTTPHeaderField:@"Authorization"];
-    
-    NSString *accountInfoUrl = [BaseURL stringByAppendingString:@"/api2/account/info"];
+    [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token] forHTTPHeaderField:@"Authorization"];
+    NSString *accountInfoUrl = [BASE_URL stringByAppendingString:@"/api2/account/info"];
     
     [mgr GET:accountInfoUrl parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         YGAccount *account = [YGAccount mj_objectWithKeyValues:responseObject];

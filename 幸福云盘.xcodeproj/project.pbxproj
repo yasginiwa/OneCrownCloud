@@ -12,7 +12,6 @@
 		B6209E8620F4EE7E0075497C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6209E8520F4EE7E0075497C /* Assets.xcassets */; };
 		B6209E8920F4EE7E0075497C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6209E8720F4EE7E0075497C /* LaunchScreen.storyboard */; };
 		B6209E8C20F4EE7E0075497C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6209E8B20F4EE7E0075497C /* main.m */; };
-		B63DB4FF20FB8BB00085E415 /* YGAccountInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B63DB4FE20FB8BB00085E415 /* YGAccountInfo.m */; };
 		B63DB50320FB97210085E415 /* YGAccountTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B63DB50220FB97210085E415 /* YGAccountTool.m */; };
 		B676793B20F629BC00945627 /* YGMainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793A20F629BC00945627 /* YGMainTabBarVC.m */; };
 		B676793E20F629D900945627 /* YGMainNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793D20F629D900945627 /* YGMainNavVC.m */; };
@@ -43,8 +42,6 @@
 		B6209E8820F4EE7E0075497C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6209E8A20F4EE7E0075497C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6209E8B20F4EE7E0075497C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		B63DB4FD20FB8BB00085E415 /* YGAccountInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGAccountInfo.h; sourceTree = "<group>"; };
-		B63DB4FE20FB8BB00085E415 /* YGAccountInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGAccountInfo.m; sourceTree = "<group>"; };
 		B63DB50120FB97210085E415 /* YGAccountTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGAccountTool.h; sourceTree = "<group>"; };
 		B63DB50220FB97210085E415 /* YGAccountTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGAccountTool.m; sourceTree = "<group>"; };
 		B676793920F629BC00945627 /* YGMainTabBarVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGMainTabBarVC.h; sourceTree = "<group>"; };
@@ -390,8 +387,6 @@
 			children = (
 				B6A1E27620FA31EE009F94DF /* YGAccount.h */,
 				B6A1E27720FA31EE009F94DF /* YGAccount.m */,
-				B63DB4FD20FB8BB00085E415 /* YGAccountInfo.h */,
-				B63DB4FE20FB8BB00085E415 /* YGAccountInfo.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -548,7 +543,6 @@
 				737FDBF120F874A600BF5090 /* UIImage+Extension.m in Sources */,
 				B6FBA01120F62CE30012EFD0 /* YGStarVC.m in Sources */,
 				B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */,
-				B63DB4FF20FB8BB00085E415 /* YGAccountInfo.m in Sources */,
 				B676794820F62B1400945627 /* YGLoginVC.m in Sources */,
 				B6C4040B20F76F5600E95598 /* UIView+Extension.m in Sources */,
 				B6FBA01720F62D4F0012EFD0 /* YGProfileVC.m in Sources */,

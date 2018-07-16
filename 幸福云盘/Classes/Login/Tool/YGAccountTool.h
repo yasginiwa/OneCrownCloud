@@ -12,4 +12,5 @@
 @interface YGAccountTool : NSObject
 + (void)saveAccount:(YGAccount *)account;
 + (void)clearAccount;
++ (void)getTokenWithConnection:(SeafConnection *)connection success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
 @end

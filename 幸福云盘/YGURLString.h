@@ -11,11 +11,14 @@
 @interface YGURLString : NSObject
 
 /** BaseURL */
-UIKIT_EXTERN NSString *const BaseURL;
+UIKIT_EXTERN NSString *const BASE_URL;
+
 /** v2API */
 UIKIT_EXTERN NSString *const API_URL;
-/** 登录URL */
-UIKIT_EXTERN NSString *const loginURL;
+
+/** 请求token的URL */
+UIKIT_EXTERN NSString *const TOKEN_URL;
+
 /** 请求账号信息 */
-UIKIT_EXTERN NSString *const accountURL;
+UIKIT_EXTERN NSString *const ACCOUNT_URL;
 @end

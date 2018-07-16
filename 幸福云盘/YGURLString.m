@@ -10,9 +10,14 @@
 
 @implementation YGURLString
 /** BaseURL */
-NSString *const BaseURL = @"http://www.crowncake.cn:50080";
+NSString *const BASE_URL = @"http://192.168.5.248";
+
 /** v2API_URL */
 NSString *const API_URL = @"/api2";
-/** 请求账号信息 */
-NSString *const accountURL = @"/account/info";
+
+/** 请求token的URL */
+NSString *const TOKEN_URL = @"/auth-token";
+
+/** 请求账号信息的URL */
+NSString *const ACCOUNT_URL = @"/account/info";
 @end
