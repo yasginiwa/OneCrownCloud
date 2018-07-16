@@ -32,7 +32,4 @@
 
 /** 用户已使用配额 单位是byte */
 @property (nonatomic, strong) NSNumber *usage;
-
-/** 登录成功后获得的token */
-@property (nonatomic, copy) NSString *token;
 @end

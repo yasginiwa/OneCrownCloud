@@ -19,16 +19,26 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    YGMainTabBarVC *tabBarVC = [[YGMainTabBarVC alloc] init];
-    
-    YGLoginVC *loginVC = [[YGLoginVC alloc] init];
-    YGMainNavVC *navVC = [[YGMainNavVC alloc] initWithRootViewController:loginVC];
-    
+    [self chooseRootVC];
+    return YES;
+}
+
+- (void)chooseRootVC
+{
+    // 创建主窗口
     self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, scrnW, scrnH)];
     [self.window makeKeyAndVisible];
-    self.window.rootViewController = navVC;
-    return YES;
+    
+    // 判断token文件是否存在
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    if([fileMgr fileExistsAtPath:YGTokenPath]) {
+        YGMainTabBarVC *tabBarVC = [[YGMainTabBarVC alloc] init];
+        self.window.rootViewController = tabBarVC;
+    } else {
+        YGLoginVC *loginVC = [[YGLoginVC alloc] init];
+        YGMainNavVC *navVC = [[YGMainNavVC alloc] initWithRootViewController:loginVC];
+        self.window.rootViewController = navVC;
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

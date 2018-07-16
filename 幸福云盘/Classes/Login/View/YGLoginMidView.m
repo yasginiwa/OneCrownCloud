@@ -10,12 +10,16 @@
 #import "YGInputView.h"
 #import <SeafConnection.h>
 #import "YGAccount.h"
-#import "YGAccountTool.h"
+#import "YGHttpTool.h"
+#import "YGApiToken.h"
+#import "YGApiTokenTool.h"
+#import "YGMainTabBarVC.h"
 
 @interface YGLoginMidView () <SeafLoginDelegate>
 @property (nonatomic, weak) YGInputView *userView;
 @property (nonatomic, weak) YGInputView *pwView;
 @property (nonatomic, weak) UIButton *loginBtn;
+@property (nonatomic, weak) UILabel *alertLabel;
 @property (nonatomic, strong) SeafConnection *seafConn;
 @end
 
@@ -39,9 +43,16 @@
         [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [loginBtn addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
         loginBtn.enabled = NO;
-
         [self addSubview:loginBtn];
         self.loginBtn = loginBtn;
+        
+        UILabel *alertLabel = [[UILabel alloc] init];
+        alertLabel.textColor = [UIColor redColor];
+        alertLabel.text = @"用户名或密码错误";
+        alertLabel.font = [UIFont systemFontOfSize:13];
+        alertLabel.hidden = YES;
+        [self addSubview:alertLabel];
+        self.alertLabel = alertLabel;
     }
     return self;
 }
@@ -91,6 +102,11 @@
         make.left.equalTo(self.pwView).equalTo(@20);
         make.right.equalTo(self.pwView).equalTo(@-20);
     }];
+    
+    [self.alertLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.pwView.mas_bottom).offset(-5.0);
+        make.left.equalTo(self.pwView);
+    }];
 }
 
 /*
@@ -110,52 +126,27 @@
 #pragma mark - SeafLoginDelegate
 - (void)loginSuccess:(SeafConnection *)connection
 {
-    NSLog(@"登录成功");
     [SVProgressHUD dismiss];
     
-    // 请求成功登录后的token
-    __block NSString *token;
-    [YGAccountTool getTokenWithConnection:connection success:^(id responseObject) {
-        token = responseObject[@"token"];
+    self.alertLabel.hidden = YES;
+    
+    // 请求apiToken并保存起来
+    [YGApiTokenTool requestApiTokenWithConnection:connection success:^(id responseObject) {
+        YGApiToken *apiToken = [YGApiToken mj_objectWithKeyValues:responseObject];
+        [YGApiTokenTool saveToken:apiToken];
     } failure:^(NSError *error) {
-        YGLog(@"获取token失败");
+        YGLog(@"%@", error);
     }];
     
-    // 请求账号模型信息并储存
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
-    [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token] forHTTPHeaderField:@"Authorization"];
-    NSString *accountInfoUrl = [BASE_URL stringByAppendingString:@"/api2/account/info"];
-    
-    [mgr GET:accountInfoUrl parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-        YGAccount *account = [YGAccount mj_objectWithKeyValues:responseObject];
-        [YGAccountTool saveAccount:account];
-        YGLog(@"成功%@", responseObject);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"失败%@", error);
-    }];
-
-//    NSURL *accountInfoURL = [NSURL URLWithString:@"http://www.crowncake.cn:50080/api2/account/info"];
-//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:accountInfoURL];
-//    request.HTTPMethod = @"POST";
-//    request.allHTTPHeaderFields
-    
-    
-//    NSString *accountInfoURL = [NSString stringWithFormat:@"%@%@%@", BaseURL,API_URL,accountURL];
-//    YGLog(@"%@---", self.seafConn.info);
-//    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-//    [mgr GET:accountInfoURL parameters:@{@"user":@"admin@seafile.local"} success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-//        YGLog(@"%@", responseObject);
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        YGLog(@"%@", error);
-//    }];
+    YGMainTabBarVC *tabBarVC = [[YGMainTabBarVC alloc] init];
+    [UIApplication sharedApplication].keyWindow.rootViewController = tabBarVC;
 }
 
 - (void)loginFailed:(SeafConnection *)connection response:(NSHTTPURLResponse *)response error:(NSError *)error
 {
-    NSLog(@"登录失败%@", response);
-    YGLog(@"%@---", self.seafConn.info);
     [SVProgressHUD dismiss];
+    
+    self.alertLabel.hidden = NO;
 }
 
 - (void)dealloc

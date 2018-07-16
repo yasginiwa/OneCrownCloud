@@ -12,7 +12,9 @@
 		B6209E8620F4EE7E0075497C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6209E8520F4EE7E0075497C /* Assets.xcassets */; };
 		B6209E8920F4EE7E0075497C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6209E8720F4EE7E0075497C /* LaunchScreen.storyboard */; };
 		B6209E8C20F4EE7E0075497C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6209E8B20F4EE7E0075497C /* main.m */; };
-		B63DB50320FB97210085E415 /* YGAccountTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B63DB50220FB97210085E415 /* YGAccountTool.m */; };
+		B650EA9C20FCCD3B0025D1E0 /* YGHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B650EA9B20FCCD3B0025D1E0 /* YGHttpTool.m */; };
+		B650EAA320FCCEA90025D1E0 /* YGApiToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B650EAA220FCCEA90025D1E0 /* YGApiToken.m */; };
+		B650EAA620FCD03E0025D1E0 /* YGApiTokenTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B650EAA520FCD03E0025D1E0 /* YGApiTokenTool.m */; };
 		B676793B20F629BC00945627 /* YGMainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793A20F629BC00945627 /* YGMainTabBarVC.m */; };
 		B676793E20F629D900945627 /* YGMainNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793D20F629D900945627 /* YGMainNavVC.m */; };
 		B676794120F629F000945627 /* YGTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = B676794020F629F000945627 /* YGTabBar.m */; };
@@ -42,8 +44,12 @@
 		B6209E8820F4EE7E0075497C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6209E8A20F4EE7E0075497C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6209E8B20F4EE7E0075497C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		B63DB50120FB97210085E415 /* YGAccountTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGAccountTool.h; sourceTree = "<group>"; };
-		B63DB50220FB97210085E415 /* YGAccountTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGAccountTool.m; sourceTree = "<group>"; };
+		B650EA9A20FCCD3B0025D1E0 /* YGHttpTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGHttpTool.h; sourceTree = "<group>"; };
+		B650EA9B20FCCD3B0025D1E0 /* YGHttpTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGHttpTool.m; sourceTree = "<group>"; };
+		B650EAA120FCCEA90025D1E0 /* YGApiToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGApiToken.h; sourceTree = "<group>"; };
+		B650EAA220FCCEA90025D1E0 /* YGApiToken.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGApiToken.m; sourceTree = "<group>"; };
+		B650EAA420FCD03E0025D1E0 /* YGApiTokenTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGApiTokenTool.h; sourceTree = "<group>"; };
+		B650EAA520FCD03E0025D1E0 /* YGApiTokenTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGApiTokenTool.m; sourceTree = "<group>"; };
 		B676793920F629BC00945627 /* YGMainTabBarVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGMainTabBarVC.h; sourceTree = "<group>"; };
 		B676793A20F629BC00945627 /* YGMainTabBarVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGMainTabBarVC.m; sourceTree = "<group>"; };
 		B676793C20F629D900945627 /* YGMainNavVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGMainNavVC.h; sourceTree = "<group>"; };
@@ -132,13 +138,24 @@
 			path = "幸福云盘";
 			sourceTree = "<group>";
 		};
-		B63DB50020FB97160085E415 /* Tool */ = {
+		B650EA9920FCCD2C0025D1E0 /* HttpTool */ = {
 			isa = PBXGroup;
 			children = (
-				B63DB50120FB97210085E415 /* YGAccountTool.h */,
-				B63DB50220FB97210085E415 /* YGAccountTool.m */,
+				B650EA9A20FCCD3B0025D1E0 /* YGHttpTool.h */,
+				B650EA9B20FCCD3B0025D1E0 /* YGHttpTool.m */,
+				B650EAA420FCD03E0025D1E0 /* YGApiTokenTool.h */,
+				B650EAA520FCD03E0025D1E0 /* YGApiTokenTool.m */,
 			);
-			path = Tool;
+			path = HttpTool;
+			sourceTree = "<group>";
+		};
+		B650EAA020FCCE9D0025D1E0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B650EAA120FCCEA90025D1E0 /* YGApiToken.h */,
+				B650EAA220FCCEA90025D1E0 /* YGApiToken.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		B676791F20F627E500945627 /* Classes */ = {
@@ -191,8 +208,9 @@
 		B676792420F627E500945627 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				B650EA9920FCCD2C0025D1E0 /* HttpTool */,
+				B650EAA020FCCE9D0025D1E0 /* Model */,
 				B676792520F627E500945627 /* Controller */,
-				B676792620F627E500945627 /* Model */,
 				B676792720F627E500945627 /* View */,
 				B6C4040720F76F4300E95598 /* Category */,
 				B6C4040820F76F4300E95598 /* Lib */,
@@ -209,13 +227,6 @@
 				B676793D20F629D900945627 /* YGMainNavVC.m */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		B676792620F627E500945627 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		B676792720F627E500945627 /* View */ = {
@@ -352,7 +363,6 @@
 		B676794220F62AFC00945627 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				B63DB50020FB97160085E415 /* Tool */,
 				B6A1E27520FA31E4009F94DF /* Model */,
 				B676794320F62AFC00945627 /* Controller */,
 				B676794520F62AFC00945627 /* View */,
@@ -542,6 +552,7 @@
 			files = (
 				737FDBF120F874A600BF5090 /* UIImage+Extension.m in Sources */,
 				B6FBA01120F62CE30012EFD0 /* YGStarVC.m in Sources */,
+				B650EA9C20FCCD3B0025D1E0 /* YGHttpTool.m in Sources */,
 				B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */,
 				B676794820F62B1400945627 /* YGLoginVC.m in Sources */,
 				B6C4040B20F76F5600E95598 /* UIView+Extension.m in Sources */,
@@ -553,10 +564,11 @@
 				B6209E7E20F4EE7E0075497C /* AppDelegate.m in Sources */,
 				B676793B20F629BC00945627 /* YGMainTabBarVC.m in Sources */,
 				B676794120F629F000945627 /* YGTabBar.m in Sources */,
+				B650EAA320FCCEA90025D1E0 /* YGApiToken.m in Sources */,
 				B6C4041720F78ACF00E95598 /* YGInputView.m in Sources */,
 				B676793E20F629D900945627 /* YGMainNavVC.m in Sources */,
 				B6A1E27820FA31EE009F94DF /* YGAccount.m in Sources */,
-				B63DB50320FB97210085E415 /* YGAccountTool.m in Sources */,
+				B650EAA620FCD03E0025D1E0 /* YGApiTokenTool.m in Sources */,
 				B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
