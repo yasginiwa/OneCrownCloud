@@ -7,34 +7,48 @@
 //
 
 #import "YGFileVC.h"
+#import "YGHttpTool.h"
+#import "YGApiTokenTool.h"
+#import "YGFileModel.h"
+#import "YGFileCell.h"
 
 @interface YGFileVC ()
-
+@property (nonatomic, strong) NSMutableArray *libraries;
 @end
 
 @implementation YGFileVC
 
+/** 懒加载 */
+- (NSMutableArray *)libraries
+{
+    if (_libraries == nil) {
+        _libraries = [NSMutableArray array];
+        NSString *librariesURL = [BASE_URL stringByAppendingString:[API_URL stringByAppendingString:LIST_LIBARIES_URL]];
+        [YGHttpTool GET:librariesURL apiToken:[YGApiTokenTool apiToken] params:nil success:^(id responseObject) {
+            NSArray *libs = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObject];
+            _libraries = [NSMutableArray arrayWithArray:libs];
+        } failure:^(NSError *error) {
+            
+        }];
+    }
+    return _libraries;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    YGLog(@"%@", self.libraries);
 }
 
 #pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+    return self.libraries.count;
 }
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    YGFileCell *cell = [YGFileCell cellWithTableView:tableView];
+    cell.fileModel = self.libraries[indexPath.row];
+    return cell;
+}
 @end

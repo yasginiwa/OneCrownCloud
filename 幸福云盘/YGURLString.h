@@ -25,4 +25,6 @@ UIKIT_EXTERN NSString *const ACCOUNT_URL;
 /** GET请求check账号信息的URL */
 UIKIT_EXTERN NSString *const CHECK_ACCOUNT_URL;
 
+/** GET List Libraries */
+UIKIT_EXTERN NSString *const LIST_LIBARIES_URL;
 @end
