@@ -114,12 +114,13 @@
  */
 - (void)login
 {
+    [self endEditing:YES];
     [SVProgressHUD showWithStatus:@"登录中..."];
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     SeafConnection *seafConn = [[SeafConnection alloc] initWithUrl:BASE_URL cacheProvider:nil];
     seafConn.loginDelegate = self;
-    [seafConn loginWithUsername:self.userView.inputField.text password:self.pwView.inputField.text otp:nil rememberDevice:NO];
+    [seafConn loginWithUsername:self.userView.inputField.text password:self.pwView.inputField.text];
     self.seafConn = seafConn;
 }
 
@@ -134,6 +135,7 @@
     [YGApiTokenTool requestApiTokenWithConnection:connection success:^(id responseObject) {
         YGApiToken *apiToken = [YGApiToken mj_objectWithKeyValues:responseObject];
         [YGApiTokenTool saveToken:apiToken];
+        [[NSNotificationCenter defaultCenter] postNotificationName:YGTokenSavedNotification object:nil];
     } failure:^(NSError *error) {
         YGLog(@"%@", error);
     }];

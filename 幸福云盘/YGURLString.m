@@ -10,7 +10,7 @@
 
 @implementation YGURLString
 /** BaseURL */
-NSString *const BASE_URL = @"http://192.168.5.248";
+NSString *const BASE_URL = @"http://www.crowncake.cn:50080";
 
 /** v2API_URL */
 NSString *const API_URL = @"/api2";

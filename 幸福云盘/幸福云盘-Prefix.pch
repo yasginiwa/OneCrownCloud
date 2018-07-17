@@ -25,7 +25,8 @@
 
 // 输入用户名密码时发出的通知
 #define YGLoginDidBeginEditNotification @"loginDidBeginEditNotification"
-#define YGLoginReadyToLogin @"loginReadyToLogin"
+// token已存入沙盒中
+#define YGTokenSavedNotification @"tokenSavedNotificaition"
 
 // 用户模型存储到沙盒的路径
 #define YGAccountPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"account.data"]

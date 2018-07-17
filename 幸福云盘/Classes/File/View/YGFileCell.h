@@ -12,6 +12,6 @@
 
 @interface YGFileCell : UITableViewCell
 @property (nonatomic, strong) YGFileModel *fileModel;
-+ (instancetype)cellWithTableView:(UITableView *)tableView;
++ (instancetype)fileCell;
 
 @end

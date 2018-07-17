@@ -92,7 +92,7 @@
     editingLine.height = self.bottomLine.height;
     self.editingLine = editingLine;
     if (self.inputIsEditing) {
-        [UIView animateWithDuration:0.25 animations:^{
+        [UIView animateWithDuration:0.5 animations:^{
             self.editingLine.width = self.bottomLine.width;
         }];
     } else {

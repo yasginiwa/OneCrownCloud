@@ -68,7 +68,7 @@ typedef enum {
 
 @property (nonatomic, copy) NSString *root;
 
-@property (nonatomic, assign) NSUInteger *size;
+@property (nonatomic, assign) NSUInteger size;
 
 @property (nonatomic, copy) NSString *size_formatted;
 
