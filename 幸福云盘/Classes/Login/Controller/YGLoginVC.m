@@ -48,9 +48,7 @@
 {
     self.title = @"幸福云盘账号登录";
     
-    UIImage *barBgImage = [UIImage imageNamed:@"nav_bg"];
-    [barBgImage stretchableImageWithLeftCapWidth:(barBgImage.size.width * 0.5 - 1) topCapHeight:(barBgImage.size.height * 0.5) - 1];
-    self.navigationController.navigationBar.backgroundColor = [UIColor colorWithPatternImage:barBgImage];
+
 }
 
 - (void)setupLoginTopView

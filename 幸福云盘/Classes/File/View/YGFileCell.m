@@ -43,4 +43,12 @@
     self.sizeLabel.text = fileModel.size_formatted;
 }
 
+- (IBAction)checkRepoFile:(UIButton *)sender {
+    sender.selected = !sender.isSelected;
+    if ([self.delegate respondsToSelector:@selector(fileCellDidSelectCheckBtn:)]) {
+        [self.delegate fileCellDidSelectCheckBtn:self];
+    }
+    NSLog(@"%@", NSStringFromCGRect(self.dateLabel.frame));
+    NSLog(@"%@", self.dateLabel.text);
+}
 @end

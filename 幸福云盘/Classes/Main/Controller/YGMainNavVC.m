@@ -12,26 +12,26 @@
 
 @end
 
+
 @implementation YGMainNavVC
+
+
++ (void)initialize
+{
+    UINavigationBar *barAppearace = [UINavigationBar appearance];
+    NSDictionary *attrs = @{
+                            NSFontAttributeName : [UIFont boldSystemFontOfSize:20]
+                            };
+    [barAppearace setTitleTextAttributes:attrs];
+    
+    UIImage *barBgImage = [UIImage imageNamed:@"nav_bg"];
+    [barBgImage stretchableImageWithLeftCapWidth:(barBgImage.size.width * 0.5 - 1) topCapHeight:(barBgImage.size.height * 0.5) - 1];
+    barAppearace.backgroundColor = [UIColor colorWithPatternImage:barBgImage];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

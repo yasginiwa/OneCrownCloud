@@ -30,20 +30,6 @@
  virtual = 0;
  */
 
-typedef enum {
-    r,
-    w,
-    e,
-    rw,
-} YGPermissionType;
-
-typedef enum {
-    repo,
-    dir,
-    file,
-    uploadfile
-} YGFileType;
-
 @property (nonatomic, assign) BOOL encrypted;
 
 @property (nonatomic, copy) NSString *head_commit_id;
@@ -64,7 +50,7 @@ typedef enum {
 
 @property (nonatomic, copy) NSString *owner;
 
-@property (nonatomic, assign) YGPermissionType permission;
+@property (nonatomic, copy) NSString *permission;
 
 @property (nonatomic, copy) NSString *root;
 
@@ -72,7 +58,7 @@ typedef enum {
 
 @property (nonatomic, copy) NSString *size_formatted;
 
-@property (nonatomic, assign) YGFileType type;
+@property (nonatomic, copy) NSString *type;
 
 @property (nonatomic, assign) NSInteger version;
 

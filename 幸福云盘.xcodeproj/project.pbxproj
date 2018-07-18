@@ -21,6 +21,7 @@
 		B650EA9C20FCCD3B0025D1E0 /* YGHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B650EA9B20FCCD3B0025D1E0 /* YGHttpTool.m */; };
 		B650EAA320FCCEA90025D1E0 /* YGApiToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B650EAA220FCCEA90025D1E0 /* YGApiToken.m */; };
 		B650EAA620FCD03E0025D1E0 /* YGApiTokenTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B650EAA520FCD03E0025D1E0 /* YGApiTokenTool.m */; };
+		B654D7E720FF6C4400881B13 /* YGSubFileTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B654D7E620FF6C4400881B13 /* YGSubFileTableVC.m */; };
 		B676793B20F629BC00945627 /* YGMainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793A20F629BC00945627 /* YGMainTabBarVC.m */; };
 		B676793E20F629D900945627 /* YGMainNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793D20F629D900945627 /* YGMainNavVC.m */; };
 		B676794120F629F000945627 /* YGTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = B676794020F629F000945627 /* YGTabBar.m */; };
@@ -67,6 +68,8 @@
 		B650EAA220FCCEA90025D1E0 /* YGApiToken.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGApiToken.m; sourceTree = "<group>"; };
 		B650EAA420FCD03E0025D1E0 /* YGApiTokenTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGApiTokenTool.h; sourceTree = "<group>"; };
 		B650EAA520FCD03E0025D1E0 /* YGApiTokenTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGApiTokenTool.m; sourceTree = "<group>"; };
+		B654D7E520FF6C4400881B13 /* YGSubFileTableVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGSubFileTableVC.h; sourceTree = "<group>"; };
+		B654D7E620FF6C4400881B13 /* YGSubFileTableVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGSubFileTableVC.m; sourceTree = "<group>"; };
 		B676793920F629BC00945627 /* YGMainTabBarVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGMainTabBarVC.h; sourceTree = "<group>"; };
 		B676793A20F629BC00945627 /* YGMainTabBarVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGMainTabBarVC.m; sourceTree = "<group>"; };
 		B676793C20F629D900945627 /* YGMainNavVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGMainNavVC.h; sourceTree = "<group>"; };
@@ -204,6 +207,8 @@
 			children = (
 				B6FBA00C20F62CD10012EFD0 /* YGFileVC.h */,
 				B6FBA00D20F62CD10012EFD0 /* YGFileVC.m */,
+				B654D7E520FF6C4400881B13 /* YGSubFileTableVC.h */,
+				B654D7E620FF6C4400881B13 /* YGSubFileTableVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -587,6 +592,7 @@
 				B6C4040B20F76F5600E95598 /* UIView+Extension.m in Sources */,
 				B6FBA01720F62D4F0012EFD0 /* YGProfileVC.m in Sources */,
 				B6209E8C20F4EE7E0075497C /* main.m in Sources */,
+				B654D7E720FF6C4400881B13 /* YGSubFileTableVC.m in Sources */,
 				B6FBA00E20F62CD10012EFD0 /* YGFileVC.m in Sources */,
 				B6C4040E20F7719000E95598 /* YGLoginTopView.m in Sources */,
 				B6FBA01420F62D240012EFD0 /* YGTansferVC.m in Sources */,

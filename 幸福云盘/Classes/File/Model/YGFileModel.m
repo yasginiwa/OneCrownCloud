@@ -23,9 +23,12 @@
     NSRange fromRange = [mtime_relative rangeOfString:@"title=\""];
     mtime_relative = [mtime_relative substringWithRange:NSMakeRange(fromRange.location + 7, fromRange.length + 24)];
     
+
     NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
-    fmt.dateFormat = @"EEE, dd MM yyyy HH:mm:ss Z";
+    [fmt setLocale:[NSLocale localeWithLocaleIdentifier:@"en_CN"]];
+    fmt.dateFormat = @"EEE, dd MMM yyyy HH:mm:ss zzz";
     NSDate *originDate = [fmt dateFromString:mtime_relative];
+    
     fmt.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     mtime_relative = [fmt stringFromDate:originDate];
     _mtime_relative = mtime_relative;

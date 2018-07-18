@@ -8,9 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@class YGFileModel;
+@class YGFileModel, YGFileCell;
+
+@protocol YGFileCellDelegate <NSObject>
+@optional
+- (void)fileCellDidSelectCheckBtn:(YGFileCell *)fileCell;
+@end
 
 @interface YGFileCell : UITableViewCell
+@property (nonatomic, weak) id<YGFileCellDelegate> delegate;
 @property (nonatomic, strong) YGFileModel *fileModel;
 + (instancetype)fileCell;
 
