@@ -34,14 +34,28 @@
     
     [self setupLoadingView];
     
-    [self addObserver];
+    [self judgeFirstLogin];
+    
+    [self setupNavBar];
 }
 
+/** 判断是否第一次登陆 然后请求所有的repo */
+- (void)judgeFirstLogin
+{
+    if ([YGApiTokenTool apiToken]) {
+        [self requestLibraries];
+    } else {
+        [self addObserver];
+    }
+}
+
+/** 添加KVO */
 - (void)addObserver
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestLibraries) name:YGTokenSavedNotification object:nil];
 }
 
+/** 初始化loadingView */
 - (void)setupLoadingView
 {
     YGLoadingView *loadingView = [[YGLoadingView alloc] init];
@@ -51,6 +65,7 @@
     self.loadingView = loadingView;
 }
 
+/** 请求repo */
 - (void)requestLibraries
 {
     NSString *librariesURL = [BASE_URL stringByAppendingString:[API_URL stringByAppendingString:LIST_LIBARIES_URL]];
@@ -66,6 +81,31 @@
     } failure:^(NSError *error) {
         YGLog(@"%@", error);
     }];
+}
+
+/** 初始化navBar */
+- (void)setupNavBar
+{
+    UIBarButtonItem *newFolderItem = [UIBarButtonItem itemWithImage:@"file_newfolder" highImage:@"file_newfolder_pressed" target:self action:@selector(newFolder)];
+    UIBarButtonItem *orderItem = [UIBarButtonItem itemWithImage:@"nav_order" highImage:@"nav_order_pressed" target:self action:@selector(orderFolder)];
+    UIBarButtonItem *uploadItem = [UIBarButtonItem itemWithImage:@"file_upload" highImage:@"file_upload_pressed" target:self action:@selector(fileUpload)];
+    self.navigationItem.leftBarButtonItems = @[newFolderItem, orderItem];
+    self.navigationItem.rightBarButtonItem = uploadItem;
+}
+
+- (void)newFolder
+{
+    YGLog(@"--newFolder--");
+}
+
+- (void)orderFolder
+{
+    YGLog(@"--orderFolder--");
+}
+
+- (void)fileUpload
+{
+    YGLog(@"--fileUpload--");
 }
 
 #pragma mark - Table view data source
@@ -84,5 +124,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 60.f;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end

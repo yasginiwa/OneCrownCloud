@@ -38,10 +38,9 @@
 - (void)setFileModel:(YGFileModel *)fileModel
 {
     _fileModel = fileModel;
-//    self.iconView.image = fileModel.type;
     self.nameLabel.text = fileModel.name;
-//    self.dateLabel.text = fileModel.mtime_relative;
-//    self.sizeLabel.text = fileModel.size_formatted;
+    self.dateLabel.text = fileModel.mtime_relative;
+    self.sizeLabel.text = fileModel.size_formatted;
 }
 
 @end

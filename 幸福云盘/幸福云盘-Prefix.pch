@@ -11,6 +11,7 @@
 
 #import "UIView+Extension.h"
 #import "UIImage+Extension.h"
+#import "UIBarButtonItem+Extension.h"
 #import <MJExtension.h>
 #import <Masonry.h>
 #import <SVProgressHUD.h>
