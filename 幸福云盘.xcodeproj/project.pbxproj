@@ -13,7 +13,6 @@
 		737FDBF120F874A600BF5090 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 737FDBF020F874A600BF5090 /* UIImage+Extension.m */; };
 		B6209E7E20F4EE7E0075497C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B6209E7D20F4EE7E0075497C /* AppDelegate.m */; };
 		B6209E8620F4EE7E0075497C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6209E8520F4EE7E0075497C /* Assets.xcassets */; };
-		B6209E8920F4EE7E0075497C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6209E8720F4EE7E0075497C /* LaunchScreen.storyboard */; };
 		B6209E8C20F4EE7E0075497C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6209E8B20F4EE7E0075497C /* main.m */; };
 		B641A1D120FDF69800FCA501 /* YGLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B641A1CF20FDF69700FCA501 /* YGLoadingView.m */; };
 		B641A1D420FE0A0C00FCA501 /* YGActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = B641A1D320FE0A0C00FCA501 /* YGActivityIndicator.m */; };
@@ -54,7 +53,6 @@
 		B6209E7C20F4EE7E0075497C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B6209E7D20F4EE7E0075497C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		B6209E8520F4EE7E0075497C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B6209E8820F4EE7E0075497C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6209E8A20F4EE7E0075497C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6209E8B20F4EE7E0075497C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B641A1CF20FDF69700FCA501 /* YGLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YGLoadingView.m; sourceTree = "<group>"; };
@@ -382,7 +380,6 @@
 			isa = PBXGroup;
 			children = (
 				B6209E8520F4EE7E0075497C /* Assets.xcassets */,
-				B6209E8720F4EE7E0075497C /* LaunchScreen.storyboard */,
 				B6209E8A20F4EE7E0075497C /* Info.plist */,
 				B676794920F62BFA00945627 /* 幸福云盘-Prefix.pch */,
 				B680BCEA20F8E7D200F8CB98 /* YGURLString.h */,
@@ -514,7 +511,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B641A1D620FE0BB400FCA501 /* YGFileCell.xib in Resources */,
-				B6209E8920F4EE7E0075497C /* LaunchScreen.storyboard in Resources */,
 				B6209E8620F4EE7E0075497C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -614,17 +610,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		B6209E8720F4EE7E0075497C /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B6209E8820F4EE7E0075497C /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B6209E8D20F4EE7E0075497C /* Debug */ = {
@@ -736,6 +721,7 @@
 			baseConfigurationReference = 24356D3E799840F6B9E6A5BF /* Pods-幸福云盘.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = C7C8DA83Q8;
 				GCC_PREFIX_HEADER = "$SRCROOT/幸福云盘/幸福云盘-Prefix.pch";
@@ -755,6 +741,7 @@
 			baseConfigurationReference = B84F913ECE58C483A85F0724 /* Pods-幸福云盘.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = C7C8DA83Q8;
 				GCC_PREFIX_HEADER = "$SRCROOT/幸福云盘/幸福云盘-Prefix.pch";
