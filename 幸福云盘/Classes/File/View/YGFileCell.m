@@ -48,7 +48,5 @@
     if ([self.delegate respondsToSelector:@selector(fileCellDidSelectCheckBtn:)]) {
         [self.delegate fileCellDidSelectCheckBtn:self];
     }
-    NSLog(@"%@", NSStringFromCGRect(self.dateLabel.frame));
-    NSLog(@"%@", self.dateLabel.text);
 }
 @end

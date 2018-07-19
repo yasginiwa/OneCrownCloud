@@ -26,6 +26,8 @@
 {
     if (_libraries == nil) {
         _libraries = [NSMutableArray array];
+        YGFileModel *firstFileModel = [[YGFileModel alloc] init];
+        [_libraries addObject:firstFileModel];
     }
     return _libraries;
 }
