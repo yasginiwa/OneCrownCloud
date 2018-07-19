@@ -59,13 +59,11 @@
     
     // 设置tabBar字体样式
     NSMutableDictionary *textAttrs = [NSMutableDictionary dictionary];
-//    textAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:12];
     textAttrs[NSForegroundColorAttributeName] = YGColorRGB(54, 54, 54);
     [childVC.tabBarItem setTitleTextAttributes:textAttrs forState:UIControlStateNormal];
     
     // 设置tabBar选中字体样式
     NSMutableDictionary *selectedTextAttrs = [NSMutableDictionary dictionary];
-//    selectedTextAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:12];
     selectedTextAttrs[NSForegroundColorAttributeName] = YGColorRGB(36, 140, 251);
     [childVC.tabBarItem setTitleTextAttributes:selectedTextAttrs forState:UIControlStateSelected];
     

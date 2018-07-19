@@ -1,14 +1,13 @@
 //
-//  YGFileVC.h
+//  YGTestVC.h
 //  幸福云盘
 //
-//  Created by YGLEE on 2018/7/11.
+//  Created by YGLEE on 2018/7/19.
 //  Copyright © 2018年 YGLEE. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "YGFileBaseVC.h"
 
-@interface YGFileVC : YGFileBaseVC
+@interface YGTestVC : YGFileBaseVC
 
 @end
