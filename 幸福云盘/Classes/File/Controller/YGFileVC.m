@@ -12,7 +12,6 @@
 #import "YGFileModel.h"
 #import "YGFileCell.h"
 #import "YGLoadingView.h"
-#import "YGTestVC.h"
 
 @interface YGFileVC () <YGFileCellDelegate>
 
@@ -23,12 +22,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self addObserver];
-    
     [self judgeFirstLogin];
 }
 
-/** 判断是否第一次登陆 然后请求所有的repo */
+/** 第一次登陆 判断沙盒中是否存在token的归档文件 然后请求所有的repo */
 - (void)judgeFirstLogin
 {
     if ([YGApiTokenTool apiToken]) {
@@ -54,15 +51,12 @@
         NSArray *libs = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObject];
         [self.libraries addObjectsFromArray:libs];
         [self.loadingView removeFromSuperview];
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         [self.tableView reloadData];
         YGLog(@"reloadData---");
     } failure:^(NSError *error) {
         YGLog(@"%@", error);
     }];
 }
-
-
 
 - (void)newFolder
 {

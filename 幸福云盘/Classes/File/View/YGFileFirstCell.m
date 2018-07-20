@@ -7,6 +7,7 @@
 //
 
 #import "YGFileFirstCell.h"
+#import "YGSearchField.h"
 
 @interface YGFileFirstCell ()
 @property (nonatomic, weak) UIButton *addFolderBtn;
@@ -29,12 +30,10 @@
         [self.contentView addSubview:orderBtn];
         self.orderBtn = orderBtn;
         
-        UITextField *searchField = [[UITextField alloc] init];
-        searchField.backgroundColor = [UIColor colorWithPatternImage:[UIImage resizeImage:@"file_search_bj"]];
-        UIImageView *leftView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"file_search_icon"]];
-        searchField.leftView = leftView;
+        YGSearchField *searchField = [[YGSearchField alloc] init];
         [self.contentView addSubview:searchField];
         self.searchField = searchField;
+        
     }
     return self;
 }
@@ -71,11 +70,11 @@
     
     [self.searchField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.orderBtn.mas_right).offset(20.0);
-        make.right.equalTo(self.contentView).offset(-10.0);
+        make.right.equalTo(self.contentView).offset(-20.0);
         make.centerY.equalTo(self.contentView);
         make.height.equalTo(@24);
     }];
     
-    YGLog(@"%@", NSStringFromCGRect(self.searchField.frame));
+    YGLog(@"%@", NSStringFromCGRect(self.searchField.leftView.frame));
 }
 @end

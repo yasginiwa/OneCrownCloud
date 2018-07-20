@@ -24,9 +24,8 @@
                             };
     [barAppearace setTitleTextAttributes:attrs];
     
-//    UIImage *barBgImage = [UIImage imageNamed:@"nav_bg"];
-//    [barBgImage stretchableImageWithLeftCapWidth:(barBgImage.size.width * 0.5 - 1) topCapHeight:(barBgImage.size.height * 0.5) - 1];
-//    barAppearace.backgroundColor = [UIColor colorWithPatternImage:barBgImage];
+    [barAppearace setBackIndicatorImage:[UIImage imageNamed:@"nav_back_icon"]];
+    [barAppearace setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"nav_back_icon"]];
 }
 
 - (void)viewDidLoad {

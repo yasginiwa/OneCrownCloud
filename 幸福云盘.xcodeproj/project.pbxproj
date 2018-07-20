@@ -10,12 +10,13 @@
 		732B81CB20FF10E8008E4C57 /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 732B81CA20FF10E8008E4C57 /* UIBarButtonItem+Extension.m */; };
 		7335A0A220FD864500F5ECF5 /* YGFileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7335A0A120FD864500F5ECF5 /* YGFileModel.m */; };
 		7335A0A520FD922F00F5ECF5 /* YGFileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7335A0A420FD922F00F5ECF5 /* YGFileCell.m */; };
+		73374F8A210184B1005BA2E9 /* YGSearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 73374F89210184B1005BA2E9 /* YGSearchField.m */; };
+		73374F8D2101B4E1005BA2E9 /* YGSubFileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 73374F8C2101B4E1005BA2E9 /* YGSubFileVC.m */; };
 		737FDBF120F874A600BF5090 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 737FDBF020F874A600BF5090 /* UIImage+Extension.m */; };
 		B6209E7E20F4EE7E0075497C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B6209E7D20F4EE7E0075497C /* AppDelegate.m */; };
 		B6209E8620F4EE7E0075497C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6209E8520F4EE7E0075497C /* Assets.xcassets */; };
 		B6209E8C20F4EE7E0075497C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6209E8B20F4EE7E0075497C /* main.m */; };
 		B63EF38D2100A50000C562DF /* YGFileBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B63EF38C2100A50000C562DF /* YGFileBaseVC.m */; };
-		B63EF3932100B3DB00C562DF /* YGTestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B63EF3922100B3DB00C562DF /* YGTestVC.m */; };
 		B63EF3962100D68D00C562DF /* UIButton+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B63EF3952100D68D00C562DF /* UIButton+Extension.m */; };
 		B63EF39A2100DF4600C562DF /* YGFileFirstCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B63EF3982100DF4600C562DF /* YGFileFirstCell.m */; };
 		B641A1D120FDF69800FCA501 /* YGLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B641A1CF20FDF69700FCA501 /* YGLoadingView.m */; };
@@ -50,6 +51,10 @@
 		7335A0A120FD864500F5ECF5 /* YGFileModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileModel.m; sourceTree = "<group>"; };
 		7335A0A320FD922F00F5ECF5 /* YGFileCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileCell.h; sourceTree = "<group>"; };
 		7335A0A420FD922F00F5ECF5 /* YGFileCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileCell.m; sourceTree = "<group>"; };
+		73374F88210184B1005BA2E9 /* YGSearchField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGSearchField.h; sourceTree = "<group>"; };
+		73374F89210184B1005BA2E9 /* YGSearchField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGSearchField.m; sourceTree = "<group>"; };
+		73374F8B2101B4E1005BA2E9 /* YGSubFileVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGSubFileVC.h; sourceTree = "<group>"; };
+		73374F8C2101B4E1005BA2E9 /* YGSubFileVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGSubFileVC.m; sourceTree = "<group>"; };
 		737FDBEF20F874A600BF5090 /* UIImage+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
 		737FDBF020F874A600BF5090 /* UIImage+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
 		B6209E7920F4EE7D0075497C /* 幸福云盘.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "幸福云盘.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,8 +65,6 @@
 		B6209E8B20F4EE7E0075497C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B63EF38B2100A50000C562DF /* YGFileBaseVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileBaseVC.h; sourceTree = "<group>"; };
 		B63EF38C2100A50000C562DF /* YGFileBaseVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileBaseVC.m; sourceTree = "<group>"; };
-		B63EF3912100B3DB00C562DF /* YGTestVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGTestVC.h; sourceTree = "<group>"; };
-		B63EF3922100B3DB00C562DF /* YGTestVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGTestVC.m; sourceTree = "<group>"; };
 		B63EF3942100D68D00C562DF /* UIButton+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+Extension.h"; sourceTree = "<group>"; };
 		B63EF3952100D68D00C562DF /* UIButton+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Extension.m"; sourceTree = "<group>"; };
 		B63EF3972100DF4600C562DF /* YGFileFirstCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileFirstCell.h; sourceTree = "<group>"; };
@@ -216,8 +219,8 @@
 				B6FBA00D20F62CD10012EFD0 /* YGFileVC.m */,
 				B63EF38B2100A50000C562DF /* YGFileBaseVC.h */,
 				B63EF38C2100A50000C562DF /* YGFileBaseVC.m */,
-				B63EF3912100B3DB00C562DF /* YGTestVC.h */,
-				B63EF3922100B3DB00C562DF /* YGTestVC.m */,
+				73374F8B2101B4E1005BA2E9 /* YGSubFileVC.h */,
+				73374F8C2101B4E1005BA2E9 /* YGSubFileVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -243,6 +246,8 @@
 				B641A1CF20FDF69700FCA501 /* YGLoadingView.m */,
 				B641A1D220FE0A0C00FCA501 /* YGActivityIndicator.h */,
 				B641A1D320FE0A0C00FCA501 /* YGActivityIndicator.m */,
+				73374F88210184B1005BA2E9 /* YGSearchField.h */,
+				73374F89210184B1005BA2E9 /* YGSearchField.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -601,12 +606,14 @@
 				B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */,
 				B676794820F62B1400945627 /* YGLoginVC.m in Sources */,
 				B6C4040B20F76F5600E95598 /* UIView+Extension.m in Sources */,
+				73374F8A210184B1005BA2E9 /* YGSearchField.m in Sources */,
 				B6FBA01720F62D4F0012EFD0 /* YGProfileVC.m in Sources */,
 				B6209E8C20F4EE7E0075497C /* main.m in Sources */,
 				B6FBA00E20F62CD10012EFD0 /* YGFileVC.m in Sources */,
 				B63EF3962100D68D00C562DF /* UIButton+Extension.m in Sources */,
 				B6C4040E20F7719000E95598 /* YGLoginTopView.m in Sources */,
 				B63EF39A2100DF4600C562DF /* YGFileFirstCell.m in Sources */,
+				73374F8D2101B4E1005BA2E9 /* YGSubFileVC.m in Sources */,
 				B6FBA01420F62D240012EFD0 /* YGTansferVC.m in Sources */,
 				B6209E7E20F4EE7E0075497C /* AppDelegate.m in Sources */,
 				B676793B20F629BC00945627 /* YGMainTabBarVC.m in Sources */,
@@ -621,7 +628,6 @@
 				B650EAA620FCD03E0025D1E0 /* YGApiTokenTool.m in Sources */,
 				B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */,
 				B641A1D120FDF69800FCA501 /* YGLoadingView.m in Sources */,
-				B63EF3932100B3DB00C562DF /* YGTestVC.m in Sources */,
 				7335A0A220FD864500F5ECF5 /* YGFileModel.m in Sources */,
 				732B81CB20FF10E8008E4C57 /* UIBarButtonItem+Extension.m in Sources */,
 			);

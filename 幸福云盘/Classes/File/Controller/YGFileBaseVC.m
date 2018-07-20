@@ -13,7 +13,7 @@
 #import "YGFileModel.h"
 #import "YGHttpTool.h"
 #import "YGFileFirstCell.h"
-#import "YGTestVC.h"
+#import "YGSubFileVC.h"
 
 @interface YGFileBaseVC () <YGFileCellDelegate, YGFileFirstCellDelegate>
 
@@ -35,10 +35,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupTableView];
+    
     [self setupLoadingView];
     
     [self setupNavBar];
+}
 
+/** 初始化tableView */
+- (void)setupTableView
+{
+    // 无数据的空白cell不显示分割线
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    // cell分割线样式
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
 }
 
 /** 初始化loadingView */
@@ -47,7 +58,6 @@
     YGLoadingView *loadingView = [[YGLoadingView alloc] init];
     loadingView.frame = self.view.bounds;
     [self.view addSubview:loadingView];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.loadingView = loadingView;
 }
 
@@ -82,13 +92,18 @@
 {
     if (indexPath.row == 0) {
         YGFileFirstCell *cell = [[YGFileFirstCell alloc] init];
+        self.tableView.allowsSelection = NO;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.delegate = self;
         return cell;
+    } else {
+        YGFileCell *cell = [YGFileCell fileCell];
+        self.tableView.allowsSelection = YES;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        cell.delegate = self;
+        cell.fileModel = self.libraries[indexPath.row];
+        return cell;
     }
-    YGFileCell *cell = [YGFileCell fileCell];
-    cell.delegate = self;
-    cell.fileModel = self.libraries[indexPath.row];
-    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -101,14 +116,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        self.tableView.allowsSelection = NO;
-        return;
-    }
     //    YGFileModel *fileModel = self.libraries[indexPath.row];
     //    [self requestSubRepoWithFileModel:fileModel];
-    YGTestVC *testVC = [[YGTestVC alloc] init];
-    [self.navigationController pushViewController:testVC animated:YES];
+    if (indexPath.row == 0) return;
+    YGSubFileVC *subFileVC = [[YGSubFileVC alloc] init];
+    [self.navigationController pushViewController:subFileVC animated:YES];
 }
 
 - (void)requestSubRepoWithFileModel:(YGFileModel *)fileModel
