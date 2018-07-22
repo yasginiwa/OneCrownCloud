@@ -31,6 +31,7 @@
         self.orderBtn = orderBtn;
         
         YGSearchField *searchField = [[YGSearchField alloc] init];
+        searchField.returnKeyType = UIReturnKeySearch;
         [self.contentView addSubview:searchField];
         self.searchField = searchField;
         
@@ -70,9 +71,9 @@
     
     [self.searchField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.orderBtn.mas_right).offset(20.0);
-        make.right.equalTo(self.contentView).offset(-20.0);
+        make.right.equalTo(self.contentView).offset(-10.0);
         make.centerY.equalTo(self.contentView);
-        make.height.equalTo(@24);
+        make.height.equalTo(@30);
     }];
     
     YGLog(@"%@", NSStringFromCGRect(self.searchField.leftView.frame));

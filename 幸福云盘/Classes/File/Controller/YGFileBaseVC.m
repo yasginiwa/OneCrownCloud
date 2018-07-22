@@ -14,8 +14,9 @@
 #import "YGHttpTool.h"
 #import "YGFileFirstCell.h"
 #import "YGSubFileVC.h"
+#import "YGFileEmptyView.h"
 
-@interface YGFileBaseVC () <YGFileCellDelegate, YGFileFirstCellDelegate>
+@interface YGFileBaseVC () <YGFileCellDelegate, YGFileFirstCellDelegate, UIScrollViewDelegate>
 
 @end
 
@@ -50,6 +51,13 @@
     
     // cell分割线样式
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    
+    // 添加下拉刷新
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshLibrary)];
+    header.lastUpdatedTimeLabel.hidden = YES;
+    header.arrowView.image = [UIImage imageNamed:@"blueArrow"];
+    self.tableView.mj_header = header;
+    
 }
 
 /** 初始化loadingView */
@@ -85,6 +93,7 @@
 
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
     return self.libraries.count;
 }
 
@@ -116,31 +125,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    YGFileModel *fileModel = self.libraries[indexPath.row];
-    //    [self requestSubRepoWithFileModel:fileModel];
+    YGFileModel *currentFileModel = self.libraries[indexPath.row];
     if (indexPath.row == 0) return;
     YGSubFileVC *subFileVC = [[YGSubFileVC alloc] init];
+    subFileVC.currentFileModel = currentFileModel;
     [self.navigationController pushViewController:subFileVC animated:YES];
 }
 
-- (void)requestSubRepoWithFileModel:(YGFileModel *)fileModel
-{
-    YGApiToken *token = [YGApiTokenTool apiToken];
-    if ([fileModel.type isEqualToString:@"repo"]) {
-        NSString *repoId = [NSString stringWithFormat:@"%@/dir/?p=/", fileModel.ID];
-        NSString *checkRepoURL = [[[BASE_URL stringByAppendingString:API_URL] stringByAppendingString:LIST_LIBARIES_URL] stringByAppendingString:repoId];
-        [YGHttpTool GET:checkRepoURL apiToken:token params:nil success:^(id responseObject) {
-            YGLog(@"%@", responseObject);
-        } failure:^(NSError *error) {
-            YGLog(@"%@", error);
-        }];
-    }
-}
+
 
 #pragma mark - YGFileCellDelegate
 - (void)fileCellDidSelectCheckBtn:(YGFileCell *)fileCell
 {
     YGLog(@"--fileCellDidSelectCheckBtn--");
 }
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.view endEditing:YES];
+}
+
 
 @end

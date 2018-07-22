@@ -20,12 +20,14 @@
 {
     UINavigationBar *barAppearace = [UINavigationBar appearance];
     NSDictionary *attrs = @{
-                            NSFontAttributeName : [UIFont boldSystemFontOfSize:20]
+                            NSFontAttributeName : [UIFont boldSystemFontOfSize:21]
                             };
     [barAppearace setTitleTextAttributes:attrs];
     
-    [barAppearace setBackIndicatorImage:[UIImage imageNamed:@"nav_back_icon"]];
-    [barAppearace setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"nav_back_icon"]];
+    UIImage *backImage = [UIImage imageNamed:@"back_icon"];
+    barAppearace.tintColor = YGColorRGB(54, 54, 54);
+    [barAppearace setBackIndicatorImage:backImage];
+    [barAppearace setBackIndicatorTransitionMaskImage:backImage];
 }
 
 - (void)viewDidLoad {

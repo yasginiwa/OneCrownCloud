@@ -30,7 +30,7 @@
 - (void)addAllChildVC
 {
     YGFileVC *fileVC = [[YGFileVC alloc] init];
-    [self addOneChildVC:fileVC title:@"网盘" image:@"tab_file_normal" selectedImage:@"tab_file_pressed"];
+    [self addOneChildVC:fileVC title:@"幸福网盘" image:@"tab_file_normal" selectedImage:@"tab_file_pressed"];
     
     YGStarVC *starVC = [[YGStarVC alloc] init];
     [self addOneChildVC:starVC title:@"星标文件" image:@"tab_star_normal" selectedImage:@"tab_star_pressed"];

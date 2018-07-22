@@ -12,6 +12,7 @@
 #import "YGFileModel.h"
 #import "YGFileCell.h"
 #import "YGLoadingView.h"
+#import "YGFileEmptyView.h"
 
 @interface YGFileVC () <YGFileCellDelegate>
 
@@ -51,6 +52,13 @@
         NSArray *libs = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObject];
         [self.libraries addObjectsFromArray:libs];
         [self.loadingView removeFromSuperview];
+        if (self.libraries.count < 2) {
+            YGFileEmptyView *fileEmptyView = [[YGFileEmptyView alloc] init];
+            [self.view addSubview:fileEmptyView];
+            self.fileEmptyView = fileEmptyView;
+        } else {
+            [self.fileEmptyView removeFromSuperview];
+        }
         [self.tableView reloadData];
         YGLog(@"reloadData---");
     } failure:^(NSError *error) {
@@ -77,6 +85,28 @@
 - (void)fileCellDidSelectCheckBtn:(YGFileCell *)fileCell
 {
     NSLog(@"--fileCellDidSelectCheckBtn--");
+}
+
+/** 刷新网盘根repo */
+- (void)refreshLibrary
+{
+    // 添加一个实例化的fileModel作为第一行的占位
+    YGFileModel *firstModel = self.libraries[0];
+    [self.libraries removeAllObjects];
+    [self.libraries addObject:firstModel];
+    
+    // 拼接请求的URL
+    NSString *urlStr = [BASE_URL stringByAppendingString:[API_URL stringByAppendingString:LIST_LIBARIES_URL]];
+    
+    // 发送请求
+    [YGHttpTool GET:urlStr params:nil success:^(id responseObj) {
+        NSArray *newFileModels = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObj];
+        [self.libraries addObjectsFromArray:newFileModels];
+        [self.tableView reloadData];
+        [self.tableView.mj_header endRefreshing];
+    } failure:^(NSError *error) {
+        YGLog(@"%@", error);
+    }];
 }
 
 - (void)dealloc

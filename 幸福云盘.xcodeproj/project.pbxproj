@@ -31,6 +31,7 @@
 		B676794820F62B1400945627 /* YGLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676794720F62B1400945627 /* YGLoginVC.m */; };
 		B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */ = {isa = PBXBuildFile; fileRef = B680BCEB20F8E7D200F8CB98 /* YGURLString.m */; };
 		B6A1E27820FA31EE009F94DF /* YGAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A1E27720FA31EE009F94DF /* YGAccount.m */; };
+		B6AA69EA21037B05006C1BAB /* YGFileEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6AA69E921037B05006C1BAB /* YGFileEmptyView.m */; };
 		B6C4040B20F76F5600E95598 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4040A20F76F5600E95598 /* UIView+Extension.m */; };
 		B6C4040E20F7719000E95598 /* YGLoginTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4040D20F7719000E95598 /* YGLoginTopView.m */; };
 		B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4041020F7719C00E95598 /* YGLoginMidView.m */; };
@@ -93,6 +94,8 @@
 		B680BCEB20F8E7D200F8CB98 /* YGURLString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGURLString.m; sourceTree = "<group>"; };
 		B6A1E27620FA31EE009F94DF /* YGAccount.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGAccount.h; sourceTree = "<group>"; };
 		B6A1E27720FA31EE009F94DF /* YGAccount.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGAccount.m; sourceTree = "<group>"; };
+		B6AA69E821037B05006C1BAB /* YGFileEmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileEmptyView.h; sourceTree = "<group>"; };
+		B6AA69E921037B05006C1BAB /* YGFileEmptyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileEmptyView.m; sourceTree = "<group>"; };
 		B6C4040920F76F5600E95598 /* UIView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
 		B6C4040A20F76F5600E95598 /* UIView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		B6C4040C20F7719000E95598 /* YGLoginTopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGLoginTopView.h; sourceTree = "<group>"; };
@@ -248,6 +251,8 @@
 				B641A1D320FE0A0C00FCA501 /* YGActivityIndicator.m */,
 				73374F88210184B1005BA2E9 /* YGSearchField.h */,
 				73374F89210184B1005BA2E9 /* YGSearchField.m */,
+				B6AA69E821037B05006C1BAB /* YGFileEmptyView.h */,
+				B6AA69E921037B05006C1BAB /* YGFileEmptyView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -604,6 +609,7 @@
 				B6FBA01120F62CE30012EFD0 /* YGStarVC.m in Sources */,
 				B650EA9C20FCCD3B0025D1E0 /* YGHttpTool.m in Sources */,
 				B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */,
+				B6AA69EA21037B05006C1BAB /* YGFileEmptyView.m in Sources */,
 				B676794820F62B1400945627 /* YGLoginVC.m in Sources */,
 				B6C4040B20F76F5600E95598 /* UIView+Extension.m in Sources */,
 				73374F8A210184B1005BA2E9 /* YGSearchField.m in Sources */,

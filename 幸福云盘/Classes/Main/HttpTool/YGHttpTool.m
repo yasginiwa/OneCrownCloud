@@ -8,6 +8,7 @@
 
 #import "YGHttpTool.h"
 #import "YGApiToken.h"
+#import "YGApiTokenTool.h"
 
 @implementation YGHttpTool
 + (void)GET:(NSString *)url apiToken:(YGApiToken *)apiToken params:(id)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
@@ -32,5 +33,17 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
     }];
+}
+
++ (void)GET:(NSString *)url params:(id)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    YGApiToken *token = [YGApiTokenTool apiToken];
+    [YGHttpTool GET:url apiToken:token params:params success:success failure:failure];
+}
+
++ (void)POST:(NSString *)url params:(id)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    YGApiToken *token = [YGApiTokenTool apiToken];
+    [YGHttpTool POST:url apiToken:token params:params success:success failure:failure];
 }
 @end
