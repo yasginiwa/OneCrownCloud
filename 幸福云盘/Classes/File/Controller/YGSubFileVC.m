@@ -48,7 +48,10 @@
             } else {
                 [self.fileEmptyView removeFromSuperview];
             }
+            
+            // 刷新tableView 停止下拉刷新加载菊花
             [self.tableView reloadData];
+            [self.tableView.mj_header endRefreshing];
         } failure:^(NSError *error) {
             YGLog(@"%@", error);
         }];
@@ -57,20 +60,6 @@
 
 - (void)refreshLibrary
 {
-//    NSString *urlStr = [BASE_URL stringByAppendingString:[API_URL stringByAppendingString:LIST_LIBARIES_URL]];
-//
-//    YGFileModel *firstModel = self.libraries[0];
-//    [self.libraries removeAllObjects];
-//    [self.libraries addObject:firstModel];
-//
-//    [YGHttpTool GET:urlStr params:nil success:^(id responseObj) {
-//        NSArray *newFileModels = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObj];
-//        [self.libraries addObjectsFromArray:newFileModels];
-//        [self.tableView reloadData];
-//        [self.tableView.mj_header endRefreshing];
-//    } failure:^(NSError *error) {
-//        YGLog(@"%@", error);
-//    }];
     [self requestDir];
 }
 @end

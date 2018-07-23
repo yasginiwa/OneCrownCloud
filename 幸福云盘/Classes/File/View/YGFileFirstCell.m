@@ -75,7 +75,5 @@
         make.centerY.equalTo(self.contentView);
         make.height.equalTo(@30);
     }];
-    
-    YGLog(@"%@", NSStringFromCGRect(self.searchField.leftView.frame));
 }
 @end

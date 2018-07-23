@@ -8,6 +8,8 @@
 
 #import "YGFileCell.h"
 #import "YGFileModel.h"
+#import "YGFileTypeTool.h"
+#import "YGMimeType.h"
 
 @interface YGFileCell ()
 /** 文件\文件夹图标 */
@@ -41,6 +43,22 @@
     self.nameLabel.text = fileModel.name;
     self.dateLabel.text = fileModel.mtime_relative;
     self.sizeLabel.text = fileModel.size_formatted;
+    
+    // 文件夹显示默认图标
+    if ([fileModel.type isEqualToString:@"repo"]) return;
+    
+    UIImage *fileIcon = [[UIImage alloc] init];
+    NSString *fileExt = [NSString extensionWithFile:fileModel.name];
+    
+    // 文件显示图标判断
+    for (YGMimeType *mimeType in [YGFileTypeTool fileMimeTypes]) {  // 能识别的文件类型
+        if ([fileExt isEqualToString:mimeType.type]) {
+            fileIcon = [UIImage imageNamed:mimeType.icon];
+        } else {    // 不能识别的文件类型
+            fileIcon = [UIImage imageNamed:@"file_unknown_icon"];
+        }
+    }
+    self.iconView.image = fileIcon;
 }
 
 - (IBAction)checkRepoFile:(UIButton *)sender {

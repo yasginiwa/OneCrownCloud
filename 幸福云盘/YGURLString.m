@@ -26,4 +26,6 @@ NSString *const CHECK_ACCOUNT_URL = @"/account/info/";
 
 /** GET List Libraries */
 NSString *const LIST_LIBARIES_URL = @"/repos/";
+
+/** GET 下载文件 https://cloud.seafile.com/api2/repos/{repo-id}/file/?p=/{filename} */
 @end

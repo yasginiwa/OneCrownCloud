@@ -23,7 +23,7 @@
         self.emptyImageView = emptyImageView;
         
         UILabel *emptyLabel = [[UILabel alloc] init];
-        emptyLabel.font = [UIFont systemFontOfSize:16];
+        emptyLabel.font = [UIFont systemFontOfSize:15];
         emptyLabel.textColor = YGColorRGB(181, 181, 181);
         emptyLabel.textAlignment = NSTextAlignmentCenter;
         emptyLabel.text = @"暂无文件,赶紧去创建吧...";
@@ -48,7 +48,7 @@
         make.top.equalTo(self.emptyImageView.mas_bottom).offset(30.0);
         make.centerX.equalTo(self.emptyImageView);
         make.width.equalTo(self);
-        make.height.equalTo(@16);
+        make.height.equalTo(@15);
     }];
 }
 @end

@@ -60,7 +60,6 @@
             [self.fileEmptyView removeFromSuperview];
         }
         [self.tableView reloadData];
-        YGLog(@"reloadData---");
     } failure:^(NSError *error) {
         YGLog(@"%@", error);
     }];

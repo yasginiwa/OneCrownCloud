@@ -23,8 +23,6 @@
     [super viewDidLoad];
     
     [self addAllChildVC];
-    
-    NSLog(@"%@", self.tabBar.subviews);
 }
 
 - (void)addAllChildVC

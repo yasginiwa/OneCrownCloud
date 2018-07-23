@@ -27,4 +27,6 @@ UIKIT_EXTERN NSString *const CHECK_ACCOUNT_URL;
 
 /** GET List Libraries */
 UIKIT_EXTERN NSString *const LIST_LIBARIES_URL;
+
+/** GET 下载文件 https://cloud.seafile.com/api2/repos/{repo-id}/file/?p=/foo */
 @end
