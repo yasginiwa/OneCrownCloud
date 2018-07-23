@@ -45,20 +45,20 @@
     self.sizeLabel.text = fileModel.size_formatted;
     
     // 文件夹显示默认图标
-    if ([fileModel.type isEqualToString:@"repo"]) return;
-    
-    UIImage *fileIcon = [[UIImage alloc] init];
-    NSString *fileExt = [NSString extensionWithFile:fileModel.name];
-    
-    // 文件显示图标判断
-    for (YGMimeType *mimeType in [YGFileTypeTool fileMimeTypes]) {  // 能识别的文件类型
-        if ([fileExt isEqualToString:mimeType.type]) {
-            fileIcon = [UIImage imageNamed:mimeType.icon];
-        } else {    // 不能识别的文件类型
-            fileIcon = [UIImage imageNamed:@"file_unknown_icon"];
-        }
+    if (![fileModel.type isEqualToString:@"repo"]) {
+        NSString *fileExt = [NSString extensionWithFile:fileModel.name];
+        
+        // 文件显示图标判断
+        NSArray *fileMimeTypes = [YGFileTypeTool fileMimeTypes];
+        [fileMimeTypes enumerateObjectsUsingBlock:^(YGMimeType *mimeType, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([[fileExt lowercaseString] isEqualToString:mimeType.mime]) {  // 能识别的文件类型
+                self.iconView.image = [UIImage imageNamed:mimeType.icon];
+                *stop = YES;
+            } else {// 不能识别的文件类型
+                self.iconView.image = [UIImage imageNamed:@"file_unknown_icon"];
+            }
+        }];
     }
-    self.iconView.image = fileIcon;
 }
 
 - (IBAction)checkRepoFile:(UIButton *)sender {

@@ -13,7 +13,6 @@
 {
     NSRange range = [file rangeOfString:@"."];
     NSString *fileExt = [file substringWithRange:NSMakeRange(range.location, (file.length - range.location))];
-    YGLog(@"%@", fileExt);
     return fileExt;
 }
 @end

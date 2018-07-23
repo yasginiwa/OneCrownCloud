@@ -10,9 +10,8 @@
 #import "YGMimeType.h"
 
 @implementation YGFileTypeTool
-+ (NSArray *)fileTypes
++ (NSMutableArray *)fileTypes
 {
-
     NSArray *mimeTypes = [YGFileTypeTool fileTypes];
     if (mimeTypes == nil) return nil;
     NSMutableArray *fileTypes = [NSMutableArray array];
@@ -22,9 +21,10 @@
     return fileTypes;
 }
 
-+ (NSArray *)fileMimeTypes
++ (NSMutableArray *)fileMimeTypes
 {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"FileMimeType.plist" ofType:nil];
-    return [YGMimeType mj_objectArrayWithFilename:filePath];
+    NSArray *fileMimeTypes = [NSArray arrayWithContentsOfFile:filePath];
+    return [YGMimeType mj_objectArrayWithKeyValuesArray:fileMimeTypes];
 }
 @end

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface YGMimeType : NSObject
+@property (nonatomic, copy) NSString *mime;
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, copy) NSString *icon;
 @end

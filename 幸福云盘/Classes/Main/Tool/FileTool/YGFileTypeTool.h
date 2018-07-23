@@ -10,8 +10,8 @@
 
 @interface YGFileTypeTool : NSObject
 /** 返回文件类型数组 */
-+ (NSArray *)fileTypes;
++ (NSMutableArray *)fileTypes;
 
 /** 返回文件mimeType对象数组 */
-+ (NSArray *)fileMimeTypes;
++ (NSMutableArray *)fileMimeTypes;
 @end

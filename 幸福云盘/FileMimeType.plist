@@ -3,122 +3,146 @@
 <plist version="1.0">
 <array>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.txt</string>
+		<key>type</key>
+		<string>text</string>
 		<key>icon</key>
 		<string>file_txtfile_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.rtf</string>
+		<key>type</key>
+		<string>text</string>
 		<key>icon</key>
 		<string>file_txtfile_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
-		<string>.txt</string>
-		<key>icon</key>
-		<string>file_txtfile_icon</string>
-	</dict>
-	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.doc</string>
+		<key>type</key>
+		<string>text</string>
 		<key>icon</key>
 		<string>file_doc_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.docx</string>
+		<key>type</key>
+		<string>text</string>
 		<key>icon</key>
 		<string>file_doc_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.xls</string>
+		<key>type</key>
+		<string>text</string>
 		<key>icon</key>
 		<string>file_excel_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.xlsx</string>
+		<key>type</key>
+		<string>text</string>
 		<key>icon</key>
 		<string>file_excel_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.ppt</string>
+		<key>type</key>
+		<string>text</string>
 		<key>icon</key>
 		<string>file_ppt_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.pptx</string>
+		<key>type</key>
+		<string>text</string>
 		<key>icon</key>
 		<string>file_ppt_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.pdf</string>
+		<key>type</key>
+		<string>text</string>
 		<key>icon</key>
 		<string>file_pdf_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
-		<string>.pdf</string>
-		<key>icon</key>
-		<string>file_pdf_icon</string>
-	</dict>
-	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.jpg</string>
+		<key>type</key>
+		<string>picture</string>
 		<key>icon</key>
 		<string>file_image_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.jpeg</string>
+		<key>type</key>
+		<string>picture</string>
 		<key>icon</key>
 		<string>file_image_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.bmp</string>
+		<key>type</key>
+		<string>picture</string>
 		<key>icon</key>
 		<string>file_image_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.png</string>
+		<key>type</key>
+		<string>pciture</string>
 		<key>icon</key>
 		<string>file_image_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.mp4</string>
+		<key>type</key>
+		<string>video</string>
 		<key>icon</key>
 		<string>file_videofile_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.3gp</string>
+		<key>type</key>
+		<string>video</string>
 		<key>icon</key>
 		<string>file_videofile_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.mov</string>
+		<key>type</key>
+		<string>video</string>
 		<key>icon</key>
 		<string>file_videofile_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.mp3</string>
+		<key>type</key>
+		<string>audio</string>
 		<key>icon</key>
 		<string>file_audiofile_icon</string>
 	</dict>
 	<dict>
-		<key>type</key>
+		<key>mime</key>
 		<string>.wma</string>
+		<key>type</key>
+		<string>audio</string>
 		<key>icon</key>
 		<string>file_audiofile_icon</string>
 	</dict>
