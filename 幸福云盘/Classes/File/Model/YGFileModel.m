@@ -33,4 +33,5 @@
     mtime_relative = [fmt stringFromDate:originDate];
     _mtime_relative = mtime_relative;
 }
+MJCodingImplementation
 @end

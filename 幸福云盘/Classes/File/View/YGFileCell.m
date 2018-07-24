@@ -51,10 +51,10 @@
         // 文件显示图标判断
         NSArray *fileMimeTypes = [YGFileTypeTool fileMimeTypes];
         [fileMimeTypes enumerateObjectsUsingBlock:^(YGMimeType *mimeType, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([[fileExt lowercaseString] isEqualToString:mimeType.mime]) {  // 能识别的文件类型
+            if ([[fileExt lowercaseString] isEqualToString:mimeType.mime]) {    // 能识别的文件类型
                 self.iconView.image = [UIImage imageNamed:mimeType.icon];
                 *stop = YES;
-            } else {// 不能识别的文件类型
+            } else {    // 不能识别的文件类型
                 self.iconView.image = [UIImage imageNamed:@"file_unknown_icon"];
             }
         }];

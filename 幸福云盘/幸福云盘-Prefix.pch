@@ -37,7 +37,6 @@
 // token模型存储到沙盒的路径
 #define YGTokenPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"token.data"]
 
-
 #if DEBUG   // 调试阶段
 #define YGLog(...) NSLog(__VA_ARGS__)
 #else   // 发布阶段

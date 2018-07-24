@@ -15,6 +15,7 @@
 #import "YGFileFirstCell.h"
 #import "YGSubFileVC.h"
 #import "YGFileEmptyView.h"
+#import "YGFilePreviewVC.h"
 
 @interface YGFileBaseVC () <YGFileCellDelegate, YGFileFirstCellDelegate, UIScrollViewDelegate>
 
@@ -126,10 +127,23 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     YGFileModel *currentFileModel = self.libraries[indexPath.row];
-    if (indexPath.row == 0) return;
-    YGSubFileVC *subFileVC = [[YGSubFileVC alloc] init];
-    subFileVC.currentFileModel = currentFileModel;
-    [self.navigationController pushViewController:subFileVC animated:YES];
+
+
+    if ([currentFileModel.type isEqualToString:@"repo"]) {
+        
+        if (indexPath.row == 0) return;
+        YGSubFileVC *subFileVC = [[YGSubFileVC alloc] init];
+        subFileVC.currentFileModel = currentFileModel;
+        [self.navigationController pushViewController:subFileVC animated:YES];
+        
+    } else {
+        
+        YGFilePreviewVC *previewVC = [[YGFilePreviewVC alloc] init];
+        previewVC.repoModel = self.currentFileModel;
+        previewVC.fileModel = currentFileModel;
+        [self.navigationController pushViewController:previewVC animated:YES];
+        
+    }
 }
 
 
