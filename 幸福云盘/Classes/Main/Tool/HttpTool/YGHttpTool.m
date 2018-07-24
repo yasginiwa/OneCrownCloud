@@ -16,6 +16,7 @@
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
     [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", apiToken.token] forHTTPHeaderField:@"Authorization"];
+    [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
     [mgr GET:url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         success(responseObject);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -28,6 +29,7 @@
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
     [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", apiToken.token] forHTTPHeaderField:@"Authorization"];
+    [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
     [mgr POST:url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         success(responseObject);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

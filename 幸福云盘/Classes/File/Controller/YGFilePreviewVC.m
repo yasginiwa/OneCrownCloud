@@ -11,6 +11,8 @@
 #import "YGFileTypeTool.h"
 #import "YGMimeType.h"
 #import "YGHttpTool.h"
+#import "YGApiTokenTool.h"
+#import "YGApiToken.h"
 
 @interface YGFilePreviewVC ()
 @property (nonatomic, weak) UIImageView *iconView;
@@ -64,11 +66,29 @@
                              @"p" : [NSString stringWithFormat:@"/%@", self.fileModel.name]
                              };
     
-    [YGHttpTool GET:downloadUrl params:params success:^(id responseObj) {
-        YGLog(@"%@", responseObj);
-    } failure:^(NSError *error) {
+    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    mgr.responseSerializer = [AFHTTPResponseSerializer serializer];
+    YGApiToken *token = [YGApiTokenTool apiToken];
+    [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
+    [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
+    
+    
+    [mgr GET:downloadUrl parameters:params success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSString *result = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        YGLog(@"%@", result);
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         YGLog(@"%@", error);
     }];
+    
+    
+    
+//    [YGHttpTool GET:downloadUrl params:params success:^(id responseObj) {
+//        NSData *responseData = [responseObj serializedRepresentation];
+//        NSString *result = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+//        YGLog(@"%@", responseObj);
+//    } failure:^(NSError *error) {
+//        YGLog(@"%@", error);
+//    }];
 }
 
 - (void)viewDidLayoutSubviews
