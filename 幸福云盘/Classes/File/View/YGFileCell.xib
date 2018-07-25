@@ -18,7 +18,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="file_filefolder_icon" translatesAutoresizingMaskIntoConstraints="NO" id="gp0-6B-qzP">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="file_folder_icon" translatesAutoresizingMaskIntoConstraints="NO" id="gp0-6B-qzP">
                         <rect key="frame" x="10" y="15" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="iII-vo-7WC"/>
@@ -93,7 +93,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="file_filefolder_icon" width="40" height="40"/>
+        <image name="file_folder_icon" width="40" height="40"/>
         <image name="file_selected" width="19" height="19"/>
         <image name="file_unselected" width="17" height="17"/>
     </resources>

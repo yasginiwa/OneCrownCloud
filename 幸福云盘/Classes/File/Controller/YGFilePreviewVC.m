@@ -24,10 +24,23 @@
 
 @implementation YGFilePreviewVC
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.hidesBottomBarWhenPushed = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupAppearance];
+    
     [self setupDownloadView];
+}
+
+- (void)setupAppearance
+{
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)setupDownloadView
@@ -67,20 +80,22 @@
                              @"p" : [NSString stringWithFormat:@"/%@", self.fileModel.name],
                              @"reuse" : @1
                              };
+    
     [YGHttpTool getDownloadUrlWithRepoID:self.repoModel.ID params:params success:^(id responseObj) {
         NSString *genDownloadUrl = [[NSString alloc] initWithData:responseObj encoding:NSUTF8StringEncoding];
-        //  请求下载文件 progress 下载进度
-//        [YGHttpTool downloadFile:genDownloadUrl finishProgress:^(NSProgress *progress) {
-//            [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:nil];
-//            self.progress = progress;
-//        }];;
         
+        NSString *filePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:self.fileModel.name];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+            [self.downloadView removeFromSuperview];
+            return;
+        }
+        //  请求下载文件
         [YGHttpTool downloadFile:genDownloadUrl finishProgress:^(NSProgress *progress) {
             [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:nil];
             self.progress = progress;
         } completion:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-//            [self.downloadView removeFromSuperview];
-            YGLog(@"--completion--");
+            [self.downloadView removeFromSuperview];
+            [self refreshCurrentPreviewItem];
         }];
 
     } failure:^(NSError *error) {
@@ -100,22 +115,17 @@
 {
     [super viewDidLayoutSubviews];
     
-    [self.downloadView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.left.right.equalTo(self.view);
-    }];
+    self.downloadView.frame = self.view.bounds;
     
-    [self.iconView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.downloadView);
-        make.centerY.equalTo(self.downloadView).multipliedBy(0.9);
-        make.width.height.equalTo(@60);
-    }];
+    self.iconView.centerX = self.view.centerX;
+    self.iconView.y = self.view.height * 0.4;
+    self.iconView.width = 60;
+    self.iconView.height = self.iconView.width;
     
-    [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.iconView.mas_bottom).offset(20.0);
-        make.centerX.equalTo(self.downloadView);
-        make.height.equalTo(@5);
-        make.width.equalTo(@180);
-    }];
+    self.progressView.centerX = self.view.centerX;
+    self.progressView.y = CGRectGetMaxY(self.iconView.frame) + 30;
+    self.progressView.width = 240;
+    self.progressView.height = 5;
 }
 
 - (void)dealloc

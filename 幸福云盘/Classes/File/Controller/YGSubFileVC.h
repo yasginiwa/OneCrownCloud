@@ -9,5 +9,6 @@
 #import "YGFileBaseVC.h"
 
 @interface YGSubFileVC : YGFileBaseVC
-
+@property (nonatomic, strong) YGFileModel *repoModel;
+@property (nonatomic, strong) YGFileModel *dirModel;
 @end

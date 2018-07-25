@@ -20,7 +20,7 @@
 {
     UINavigationBar *barAppearace = [UINavigationBar appearance];
     NSDictionary *attrs = @{
-                            NSFontAttributeName : [UIFont boldSystemFontOfSize:21]
+                            NSFontAttributeName : [UIFont boldSystemFontOfSize:18]
                             };
     [barAppearace setTitleTextAttributes:attrs];
     

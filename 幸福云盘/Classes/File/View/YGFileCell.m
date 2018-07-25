@@ -45,7 +45,9 @@
     self.sizeLabel.text = fileModel.size_formatted;
     
     // 文件夹显示默认图标
-    if (![fileModel.type isEqualToString:@"repo"]) {
+    if ([fileModel.type isEqualToString:@"repo"] || [fileModel.type isEqualToString:@"dir"]) {
+        self.iconView.image = [UIImage imageNamed:@"file_folder_icon"];
+    } else if ([fileModel.type isEqualToString:@"file"]){
         NSString *fileExt = [NSString extensionWithFile:fileModel.name];
         
         // 文件显示图标判断
@@ -54,7 +56,7 @@
             if ([[fileExt lowercaseString] isEqualToString:mimeType.mime]) {    // 能识别的文件类型
                 self.iconView.image = [UIImage imageNamed:mimeType.icon];
                 *stop = YES;
-            } else {    // 不能识别的文件类型
+            } else {
                 self.iconView.image = [UIImage imageNamed:@"file_unknown_icon"];
             }
         }];

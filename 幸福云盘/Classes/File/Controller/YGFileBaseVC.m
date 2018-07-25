@@ -128,25 +128,25 @@
 {
     YGFileModel *currentFileModel = self.libraries[indexPath.row];
 
+    if ([currentFileModel.type isEqualToString:@"file"]) {      //  如果是文件则push出previewVC
 
-    if ([currentFileModel.type isEqualToString:@"repo"]) {
-        
-        if (indexPath.row == 0) return;
-        YGSubFileVC *subFileVC = [[YGSubFileVC alloc] init];
-        subFileVC.currentFileModel = currentFileModel;
-        [self.navigationController pushViewController:subFileVC animated:YES];
-        
-    } else {
-        
         YGFilePreviewVC *previewVC = [[YGFilePreviewVC alloc] init];
         previewVC.dataSource = self;
         previewVC.repoModel = self.currentFileModel;
         previewVC.fileModel = currentFileModel;
         [self.navigationController pushViewController:previewVC animated:YES];
+        
+    } else {    //  如果是文件夹 push出subFileVC
+        
+        if (indexPath.row == 0) return;
+        YGSubFileVC *subFileVC = [[YGSubFileVC alloc] init];
+        YGLog(@"repo%@-dir%@", self.currentFileModel.ID, currentFileModel.ID);
+        subFileVC.repoModel = self.currentFileModel;
+        subFileVC.dirModel = currentFileModel;
+        subFileVC.currentFileModel = currentFileModel;
+        [self.navigationController pushViewController:subFileVC animated:YES];
     }
 }
-
-
 
 #pragma mark - YGFileCellDelegate
 - (void)fileCellDidSelectCheckBtn:(YGFileCell *)fileCell
