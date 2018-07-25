@@ -18,4 +18,10 @@
 /** GET POST方法 已包含token 无需传入 */
 + (void)GET:(NSString *)url params:(id)params success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 + (void)POST:(NSString *)url params:(id)params success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+
+/** 获得文件下载链接 */
++ (void)getDownloadUrlWithRepoID:(NSString *)repoID params:(id)params  success:(void(^)(id responseObj))success failure:(void(^)(NSError *error))failure;
+
+/** 下载文件 */
++ (void)downloadFile:(NSString *)url finishProgress:(void (^)(NSProgress *progress))finishProgress completion:(void (^)(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error))completion;
 @end

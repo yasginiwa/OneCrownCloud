@@ -17,7 +17,7 @@
 #import "YGFileEmptyView.h"
 #import "YGFilePreviewVC.h"
 
-@interface YGFileBaseVC () <YGFileCellDelegate, YGFileFirstCellDelegate, UIScrollViewDelegate>
+@interface YGFileBaseVC () <YGFileCellDelegate, YGFileFirstCellDelegate, UIScrollViewDelegate, QLPreviewControllerDataSource>
 
 @end
 
@@ -139,10 +139,10 @@
     } else {
         
         YGFilePreviewVC *previewVC = [[YGFilePreviewVC alloc] init];
+        previewVC.dataSource = self;
         previewVC.repoModel = self.currentFileModel;
         previewVC.fileModel = currentFileModel;
         [self.navigationController pushViewController:previewVC animated:YES];
-        
     }
 }
 
@@ -157,5 +157,18 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self.view endEditing:YES];
+}
+
+#pragma mark - QLPreviewControllerDataSource
+- (id<QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index
+{
+    YGFilePreviewVC *previewVC = (YGFilePreviewVC *)controller;
+    NSString *filePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:previewVC.fileModel.name];
+    return [NSURL fileURLWithPath:filePath];
+}
+
+- (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller
+{
+    return 1;
 }
 @end

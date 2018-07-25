@@ -48,4 +48,42 @@
     YGApiToken *token = [YGApiTokenTool apiToken];
     [YGHttpTool POST:url apiToken:token params:params success:success failure:failure];
 }
+
++ (void)getDownloadUrlWithRepoID:(NSString *)repoID params:(id)params success:(void(^)(id responseObj))success failure:(void(^)(NSError *error))failure
+{
+    NSString *url = [[[[BASE_URL stringByAppendingString:API_URL] stringByAppendingString:LIST_LIBARIES_URL] stringByAppendingString:repoID] stringByAppendingString:@"/file/"];
+    
+    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    mgr.responseSerializer = [AFHTTPResponseSerializer serializer];
+    YGApiToken *token = [YGApiTokenTool apiToken];
+    [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
+    [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
+    
+    [mgr GET:url parameters:params success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        // 此项目中返回的是字符串 不是json 故返回结果序列化 然后转换成字符串
+        success(responseObject);
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
++ (void)downloadFile:(NSString *)url finishProgress:(void (^)(NSProgress *progress))finishProgress completion:(void (^)(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error))completion
+{
+    // 去掉返回的downloadurl中多余的\"
+    url = [url stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    
+    NSURLRequest *downloadRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSURLSessionConfiguration *cfg = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFURLSessionManager *mgr = [[AFURLSessionManager alloc] initWithSessionConfiguration:cfg];
+    NSURLSessionDownloadTask *downloadTask = [mgr downloadTaskWithRequest:downloadRequest progress:nil destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+        NSURL *cacheUrl = [[NSFileManager defaultManager] URLForDirectory:NSCachesDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+        return [cacheUrl URLByAppendingPathComponent:[response suggestedFilename]];
+    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+        completion(response, filePath, error);
+    }];
+
+    [downloadTask resume];
+    
+    finishProgress([mgr downloadProgressForTask:downloadTask]);
+}
 @end

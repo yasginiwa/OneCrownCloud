@@ -18,7 +18,8 @@
 @property (nonatomic, weak) UIImageView *iconView;
 @property (nonatomic, weak) UIProgressView *progressView;
 @property (nonatomic, weak) UIView *downloadView;
-
+// 下载进度
+@property (nonatomic, strong) NSProgress *progress;
 @end
 
 @implementation YGFilePreviewVC
@@ -32,7 +33,7 @@
 - (void)setupDownloadView
 {
     UIView *downloadView = [[UIView alloc] init];
-    downloadView.frame = self.view.bounds;
+    downloadView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:downloadView];
     self.downloadView = downloadView;
     
@@ -52,60 +53,73 @@
         }
     }];
 
-    
+    // 图标添加进downloadView
     [downloadView addSubview:iconView];
     self.iconView = iconView;
     
+    // 创建进度控件
     UIProgressView *progressView = [[UIProgressView alloc] init];
     [downloadView addSubview:progressView];
     self.progressView = progressView;
     
-    NSString *downloadUrl = [[[[BASE_URL stringByAppendingString:API_URL] stringByAppendingString:LIST_LIBARIES_URL] stringByAppendingString:self.repoModel.ID] stringByAppendingString:@"/file/"];
-    
+    // 请求文件下载地址
     NSDictionary *params = @{
-                             @"p" : [NSString stringWithFormat:@"/%@", self.fileModel.name]
+                             @"p" : [NSString stringWithFormat:@"/%@", self.fileModel.name],
+                             @"reuse" : @1
                              };
-    
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
-    mgr.responseSerializer = [AFHTTPResponseSerializer serializer];
-    YGApiToken *token = [YGApiTokenTool apiToken];
-    [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
-    [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
-    
-    
-    [mgr GET:downloadUrl parameters:params success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        NSString *result = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        YGLog(@"%@", result);
-    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        YGLog(@"%@", error);
+    [YGHttpTool getDownloadUrlWithRepoID:self.repoModel.ID params:params success:^(id responseObj) {
+        NSString *genDownloadUrl = [[NSString alloc] initWithData:responseObj encoding:NSUTF8StringEncoding];
+        //  请求下载文件 progress 下载进度
+//        [YGHttpTool downloadFile:genDownloadUrl finishProgress:^(NSProgress *progress) {
+//            [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:nil];
+//            self.progress = progress;
+//        }];;
+        
+        [YGHttpTool downloadFile:genDownloadUrl finishProgress:^(NSProgress *progress) {
+            [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:nil];
+            self.progress = progress;
+        } completion:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+//            [self.downloadView removeFromSuperview];
+            YGLog(@"--completion--");
+        }];
+
+    } failure:^(NSError *error) {
+        YGLog(@"--downloadFile--%@", error);
     }];
-    
-    
-    
-//    [YGHttpTool GET:downloadUrl params:params success:^(id responseObj) {
-//        NSData *responseData = [responseObj serializedRepresentation];
-//        NSString *result = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-//        YGLog(@"%@", responseObj);
-//    } failure:^(NSError *error) {
-//        YGLog(@"%@", error);
-//    }];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+    float changeFL = [[change valueForKey:@"new"] floatValue];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.progressView setProgress:changeFL animated:YES];
+    });
 }
 
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
     
+    [self.downloadView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.left.right.equalTo(self.view);
+    }];
+    
     [self.iconView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.downloadView);
-        make.centerY.equalTo(self.downloadView).multipliedBy(0.7);
-        make.width.height.equalTo(@40);
+        make.centerY.equalTo(self.downloadView).multipliedBy(0.9);
+        make.width.height.equalTo(@60);
     }];
     
     [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.iconView).offset(20.0);
+        make.top.equalTo(self.iconView.mas_bottom).offset(20.0);
         make.centerX.equalTo(self.downloadView);
-        make.height.equalTo(@3);
-        make.width.equalTo(@100);
+        make.height.equalTo(@5);
+        make.width.equalTo(@180);
     }];
+}
+
+- (void)dealloc
+{
+    [self.progress removeObserver:self forKeyPath:@"fractionCompleted"];
 }
 @end
