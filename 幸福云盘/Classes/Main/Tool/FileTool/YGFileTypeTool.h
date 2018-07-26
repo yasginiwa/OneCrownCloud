@@ -8,10 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-@interface YGFileTypeTool : NSObject
-/** 返回文件类型数组 */
-+ (NSMutableArray *)fileTypes;
+@class YGFileModel;
 
+@interface YGFileTypeTool : NSObject
 /** 返回文件mimeType对象数组 */
 + (NSMutableArray *)fileMimeTypes;
+
+/** 判断是否是repo */
++ (BOOL)isRepo:(YGFileModel *)fileModel;
+
+/** 判断是否是dir */
++ (BOOL)isDir:(YGFileModel *)fileModel;
+
+/** 判断是否是file */
++ (BOOL)isFile:(YGFileModel *)fileModel;
+
+
 @end

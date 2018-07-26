@@ -10,22 +10,24 @@
 
 @implementation YGURLString
 /** BaseURL */
-NSString *const BASE_URL = @"http://www.crowncake.cn:50080";
+NSString *const BASE_URL = @"http://www.crowncake.cn:50080/api2";
 
-/** v2API_URL */
-NSString *const API_URL = @"/api2";
-
-/** POST请求token的URL */
-NSString *const TOKEN_URL = @"/auth-token/";
+/** POST请求token的URI */
+NSString *const TOKEN_URI = @"/auth-token/";
 
 /** GET请求站好信息URL 后面要加上请求账号的email*/
-NSString *const ACCOUNT_URL = @"/account/";
+NSString *const ACCOUNT_URI = @"/account/";
 
 /** GET请求check账号信息的URL */
-NSString *const CHECK_ACCOUNT_URL = @"/account/info/";
+NSString *const CHECK_ACCOUNT_URI = @"/account/info/";
 
-/** GET List Libraries */
-NSString *const LIST_LIBARIES_URL = @"/repos/";
+/** repo_URI*/
+NSString *const REPO_URI = @"/repos/";
 
-/** GET 下载文件 https://cloud.seafile.com/api2/repos/{repo-id}/file/?p=/{filename} */
+/** dir_URI */
+NSString *const DIR_URI = @"/dir/";
+
+/** file_URI */
+NSString *const FILE_URI = @"/file/";
+
 @end

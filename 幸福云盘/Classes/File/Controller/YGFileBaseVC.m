@@ -127,6 +127,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     YGFileModel *currentFileModel = self.libraries[indexPath.row];
+    
+    if ([currentFileModel.type isEqualToString:@"repo"]) {
+        [NSKeyedArchiver archiveRootObject:currentFileModel toFile:YGCurrentRepoPath];
+    }
 
     if ([currentFileModel.type isEqualToString:@"file"]) {      //  如果是文件则push出previewVC
 
@@ -140,7 +144,6 @@
         
         if (indexPath.row == 0) return;
         YGSubFileVC *subFileVC = [[YGSubFileVC alloc] init];
-        YGLog(@"repo%@-dir%@", self.currentFileModel.ID, currentFileModel.ID);
         subFileVC.repoModel = self.currentFileModel;
         subFileVC.dirModel = currentFileModel;
         subFileVC.currentFileModel = currentFileModel;

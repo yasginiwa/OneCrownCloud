@@ -76,12 +76,23 @@
     self.progressView = progressView;
     
     // 请求文件下载地址
-    NSDictionary *params = @{
-                             @"p" : [NSString stringWithFormat:@"/%@", self.fileModel.name],
-                             @"reuse" : @1
-                             };
+    NSDictionary *params;
+    if ([YGFileTypeTool isDir:self.repoModel]) {
+        params = @{
+                   @"p" : [[NSString stringWithFormat:@"/%@/%@", self.repoModel.name, self.fileModel.name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                   @"reuse" : @1
+                   };
+    }
     
-    [YGHttpTool getDownloadUrlWithRepoID:self.repoModel.ID params:params success:^(id responseObj) {
+    if ([YGFileTypeTool isFile:self.fileModel]) {
+        params = @{
+                   @"p" : [[NSString stringWithFormat:@"/%@", self.fileModel.name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                   @"reuse" : @1
+                   };
+    }
+    
+    YGFileModel *repoModel = [NSKeyedUnarchiver unarchiveObjectWithFile:YGCurrentRepoPath];
+    [YGHttpTool getDownloadUrlWithRepoID:repoModel.ID params:params success:^(id responseObj) {
         NSString *genDownloadUrl = [[NSString alloc] initWithData:responseObj encoding:NSUTF8StringEncoding];
         
         NSString *filePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:self.fileModel.name];

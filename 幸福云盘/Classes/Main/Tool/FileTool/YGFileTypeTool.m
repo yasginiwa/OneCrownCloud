@@ -8,23 +8,29 @@
 
 #import "YGFileTypeTool.h"
 #import "YGMimeType.h"
+#import "YGFileModel.h"
 
 @implementation YGFileTypeTool
-+ (NSMutableArray *)fileTypes
-{
-    NSArray *mimeTypes = [YGFileTypeTool fileTypes];
-    if (mimeTypes == nil) return nil;
-    NSMutableArray *fileTypes = [NSMutableArray array];
-    for (YGMimeType *mimeType in mimeTypes) {
-        [fileTypes addObject:mimeType.type];
-    }
-    return fileTypes;
-}
 
 + (NSMutableArray *)fileMimeTypes
 {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"FileMimeType.plist" ofType:nil];
     NSArray *fileMimeTypes = [NSArray arrayWithContentsOfFile:filePath];
     return [YGMimeType mj_objectArrayWithKeyValuesArray:fileMimeTypes];
+}
+
++ (BOOL)isRepo:(YGFileModel *)fileModel
+{
+    return [fileModel.type isEqualToString:@"repo"];
+}
+
++ (BOOL)isDir:(YGFileModel *)fileModel
+{
+    return [fileModel.type isEqualToString:@"dir"];
+}
+
++ (BOOL)isFile:(YGFileModel *)fileModel
+{
+    return [fileModel.type isEqualToString:@"file"];
 }
 @end

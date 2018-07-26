@@ -55,9 +55,8 @@
             YGLog(@"%@", error);
         }];
     } else {    //  是dir时发请求
-        YGLog(@"repo%@-dir%@", self.repoModel.ID, self.dirModel.ID);
         NSString *repoId = [NSString stringWithFormat:@"%@/dir/?p=/%@", self.repoModel.ID, self.dirModel.name];
-        NSString *urlStr = [[[BASE_URL stringByAppendingString:API_URL] stringByAppendingString:LIST_LIBARIES_URL] stringByAppendingString:repoId];
+        NSString *urlStr = [[[[BASE_URL stringByAppendingString:API_URL] stringByAppendingString:LIST_LIBARIES_URL] stringByAppendingString:repoId] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         // https://cloud.seafile.com/api2/repos/99b758e6-91ab-4265-b705-925367374cf0/dir/?p=/foo
         [YGHttpTool GET:urlStr params:nil success:^(id reponseObj) {
             NSArray *dirs = [YGFileModel mj_objectArrayWithKeyValuesArray:reponseObj];
@@ -78,7 +77,6 @@
             YGLog(@"%@", error);
         }];
     }
-
 }
 
 - (void)refreshLibrary

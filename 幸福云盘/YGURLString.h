@@ -10,23 +10,26 @@
 #import <Foundation/Foundation.h>
 
 @interface YGURLString : NSObject
+
 /** BaseURL */
 UIKIT_EXTERN NSString *const BASE_URL;
 
-/** v2API_URL */
-UIKIT_EXTERN NSString *const API_URL;
-
-/** POST请求token的URL */
-UIKIT_EXTERN NSString *const TOKEN_URL;
+/** POST请求token的URI */
+UIKIT_EXTERN NSString *const TOKEN_URI;
 
 /** GET请求站好信息URL 后面要加上请求账号的email*/
-UIKIT_EXTERN NSString *const ACCOUNT_URL;
+UIKIT_EXTERN NSString *const ACCOUNT_URI;
 
 /** GET请求check账号信息的URL */
-UIKIT_EXTERN NSString *const CHECK_ACCOUNT_URL;
+UIKIT_EXTERN NSString *const CHECK_ACCOUNT_URI;
 
-/** GET List Libraries */
-UIKIT_EXTERN NSString *const LIST_LIBARIES_URL;
+/** repo_URI*/
+UIKIT_EXTERN NSString *const REPO_URI;
 
-/** GET 下载文件 https://cloud.seafile.com/api2/repos/{repo-id}/file/?p=/foo */
+/** dir_URI */
+UIKIT_EXTERN NSString *const DIR_URI;
+
+/** file_URI */
+UIKIT_EXTERN NSString *const FILE_URI;
+
 @end
