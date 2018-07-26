@@ -11,47 +11,254 @@
 #import "YGApiTokenTool.h"
 
 @implementation YGHttpTool
-+ (void)GET:(NSString *)url apiToken:(YGApiToken *)apiToken params:(id)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
-    [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", apiToken.token] forHTTPHeaderField:@"Authorization"];
-    [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
-    [mgr GET:url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-        success(responseObject);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        failure(error);
-    }];
-}
 
-+ (void)POST:(NSString *)url apiToken:(YGApiToken *)apiToken params:(id)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
-    [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", apiToken.token] forHTTPHeaderField:@"Authorization"];
-    [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
-    [mgr POST:url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-        success(responseObject);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        failure(error);
-    }];
-}
-
-+ (void)GET:(NSString *)url params:(id)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
+/** GET请求方法封装 */
++ (void)GET:(NSString *)url params:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure
 {
     YGApiToken *token = [YGApiTokenTool apiToken];
-    [YGHttpTool GET:url apiToken:token params:params success:success failure:failure];
+    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
+    [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
+    [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
+    [mgr GET:url parameters:params success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        failure(error);
+    }];
 }
 
+/** POST请求方法封装 */
 + (void)POST:(NSString *)url params:(id)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     YGApiToken *token = [YGApiTokenTool apiToken];
-    [YGHttpTool POST:url apiToken:token params:params success:success failure:failure];
+    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
+    [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
+    [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
+    [mgr POST:url parameters:params success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
+/** download方法封装 */
++ (void)DOWNLOAD:(NSString *)url progress:(NSProgress *)progress destination:(NSURL *(^)(NSURL *, NSURLResponse *))destination completionHandler:(void (^)(NSURLResponse *, NSURL *, NSError *))completionHandler
+{
+    YGApiToken *token = [YGApiTokenTool apiToken];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFURLSessionManager *mgr = [[AFURLSessionManager alloc] initWithSessionConfiguration:config];
+    
+    NSURLSessionDownloadTask *downloadTask = [mgr downloadTaskWithRequest:request progress:&progress destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+        if (destination) {
+            return NSURL * (^destination)(targetPath, response);
+        }
+    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+        if (completionHandler) {
+            completionHandler(response, filePath, error);
+        }
+    }];
+    [downloadTask resume];
+}
+
+
+/** DELETE方法封装 */
++ (void)DELETE:(NSString *)url params:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure
+{
+    YGApiToken *token = [YGApiTokenTool apiToken];
+    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
+    [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
+    [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
+    [mgr DELETE:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
+/** PUT方法封装 */
++ (void)PUT:(NSString *)url params:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure
+{
+    YGApiToken *token = [YGApiTokenTool apiToken];
+    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
+    [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
+    [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
+    [mgr PUT:url parameters:params success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
++ (void)listLibrariesParams:(id)params success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure
+{
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    [YGHttpTool GET:urlStr params:params success:^(id  _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
++ (void)createLibraryParams:(id)params success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure
+{
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [YGHttpTool POST:urlStr params:params success:^(id  _Nonnull responseObject){
+        success(responseObject);
+    } failure:^(NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
++ (void)deleteLibrary:(NSString *)repoID success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure
+{
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [YGHttpTool DELETE:urlStr params:nil success:^(id responseObject) {
+        success(responseObject);
+    } failure:^(NSError *error) {
+        failure(error);
+    }];
+}
+
++ (void)renameLibrary:(NSString *)repoID parmas:(id)params success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure
+{
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [YGHttpTool POST:urlStr params:params success:^(id  _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
++ (void)listDirectory:(NSString *)repoID success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure
+{
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:DIR_URI];
+    [YGHttpTool GET:urlStr params:nil success:^(id _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
++ (void)createDirectory:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure
+{
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:DIR_URI];
+    [YGHttpTool POST:urlStr params:params success:^(id  _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
++ (void)deleteDirectory:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure
+{
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:DIR_URI];
+    [YGHttpTool DELETE:urlStr params:params success:^(id responseObject) {
+        success(responseObject);
+    } failure:^(NSError *error) {
+        failure(error);
+    }];
+}
+
++ (void)renameDirectory:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure
+{
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:DIR_URI];
+    [YGHttpTool POST:urlStr params:params success:^(id  _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
++ (void)downloadDirectory:(NSString *)repoID params:(id)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:DIRDOWNLOAD_URI];
+    [YGHttpTool GET:urlStr params:params success:^(id  _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
++ (void)createFile:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure
+{
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:FILE_URI];
+    [YGHttpTool POST:urlStr params:params success:^(id  _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
++ (void)deleteFile:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure
+{
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:FILE_URI];
+    [YGHttpTool DELETE:urlStr params:params success:^(id responseObject) {
+        success(responseObject);
+    } failure:^(NSError *error) {
+        failure(error);
+    }];
+}
+
++ (void)renameFile:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure
+{
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:FILE_URI];
+    [YGHttpTool POST:urlStr params:params success:^(id  _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
++ (void)moveFile:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure
+{
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:FILE_URI];
+    [YGHttpTool POST:urlStr params:params success:^(id  _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
++ (void)getUploadUrlWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:FILE_UPLOAD_URI];
+    [YGHttpTool GET:urlStr params:params success:^(id  _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
++ (void)uploadFileWithUrl:(NSString *)url params:(id)params success:(void (^)(id _Nonnull))success failure:(void (^)(NSError * _Nonnull))failure
+{
+    [YGHttpTool POST:url params:params success:^(id  _Nonnull responseObject) {
+        success(responseObject);
+    } failure:^(NSError * _Nonnull error) {
+        failure(error);
+    }];
 }
 
 + (void)getDownloadUrlWithRepoID:(NSString *)repoID params:(id)params success:(void(^)(id responseObj))success failure:(void(^)(NSError *error))failure
 {
-    NSString *url = [[[[BASE_URL stringByAppendingString:API_URL] stringByAppendingString:LIST_LIBARIES_URL] stringByAppendingString:repoID] stringByAppendingString:@"/file/"];
+    NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
+    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:FILE_URI];
     
     AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
     mgr.responseSerializer = [AFHTTPResponseSerializer serializer];

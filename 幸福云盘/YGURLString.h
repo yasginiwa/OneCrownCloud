@@ -29,7 +29,13 @@ UIKIT_EXTERN NSString *const REPO_URI;
 /** dir_URI */
 UIKIT_EXTERN NSString *const DIR_URI;
 
+/** dirDownload_URI */
+UIKIT_EXTERN NSString *const DIRDOWNLOAD_URI;
+
 /** file_URI */
 UIKIT_EXTERN NSString *const FILE_URI;
+
+/** file_upload_URI */
+UIKIT_EXTERN NSString *const FILE_UPLOAD_URI;
 
 @end

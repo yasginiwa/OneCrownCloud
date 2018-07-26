@@ -27,7 +27,14 @@ NSString *const REPO_URI = @"/repos/";
 /** dir_URI */
 NSString *const DIR_URI = @"/dir/";
 
+/** dirDownload_URI */
+NSString *const DIRDOWNLOAD_URI = @"/zip-task/";
+
 /** file_URI */
 NSString *const FILE_URI = @"/file/";
+
+/** file_upload_URI */
+NSString *const FILE_UPLOAD_URI = @"/upload-link/";
+
 
 @end
