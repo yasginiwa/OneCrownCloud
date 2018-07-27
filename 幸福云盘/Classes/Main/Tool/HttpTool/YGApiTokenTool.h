@@ -11,8 +11,13 @@
 @class YGApiToken;
 
 @interface YGApiTokenTool : NSObject
-+ (void)requestApiTokenWithConnection:(SeafConnection *)connection success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
+
+/** 保存token */
 + (void)saveToken:(YGApiToken *)apiToken;
+
+/** 获取token */
 + (YGApiToken *)apiToken;
+
+/** 清除token */
 + (void)clearToken;
 @end

@@ -47,8 +47,6 @@
 - (void)setupNavBar
 {
     self.title = @"幸福云盘账号登录";
-    
-
 }
 
 - (void)setupLoginTopView

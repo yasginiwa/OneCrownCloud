@@ -16,6 +16,8 @@
 #import "YGSubFileVC.h"
 #import "YGFileEmptyView.h"
 #import "YGFilePreviewVC.h"
+#import "YGFileTypeTool.h"
+#import "YGRepoTool.h"
 
 @interface YGFileBaseVC () <YGFileCellDelegate, YGFileFirstCellDelegate, UIScrollViewDelegate, QLPreviewControllerDataSource>
 
@@ -127,27 +129,35 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     YGFileModel *currentFileModel = self.libraries[indexPath.row];
+    self.currentFileModel = currentFileModel;
     
-    if ([currentFileModel.type isEqualToString:@"repo"]) {
-        [NSKeyedArchiver archiveRootObject:currentFileModel toFile:YGCurrentRepoPath];
+    //  选中的是repo
+    if ([YGFileTypeTool isRepo:currentFileModel]) {
+        
+        //  第0列为文件操作菜单 不允许点击
+        if (indexPath.row == 0) return;
+        //  保存当前repo到沙盒
+        [YGRepoTool saveRepo:currentFileModel];
+        YGSubFileVC *repoVC = [[YGSubFileVC alloc] init];
+        [self.navigationController pushViewController:repoVC animated:YES];
     }
-
-    if ([currentFileModel.type isEqualToString:@"file"]) {      //  如果是文件则push出previewVC
-
+    
+    //  选中的是dir
+    if ([YGFileTypeTool isDir:currentFileModel]) {      //  如果是文件则push出previewVC
+        
+        //  第0列为文件操作菜单 不允许点击
+        if (indexPath.row == 0) return;
+        
+        YGSubFileVC *dirVC = [[YGSubFileVC alloc] init];
+        [self.navigationController pushViewController:dirVC animated:YES];
+    }
+    
+    //  选中的是file
+    if ([YGFileTypeTool isFile:currentFileModel]) {
+        
         YGFilePreviewVC *previewVC = [[YGFilePreviewVC alloc] init];
         previewVC.dataSource = self;
-        previewVC.repoModel = self.currentFileModel;
-        previewVC.fileModel = currentFileModel;
         [self.navigationController pushViewController:previewVC animated:YES];
-        
-    } else {    //  如果是文件夹 push出subFileVC
-        
-        if (indexPath.row == 0) return;
-        YGSubFileVC *subFileVC = [[YGSubFileVC alloc] init];
-        subFileVC.repoModel = self.currentFileModel;
-        subFileVC.dirModel = currentFileModel;
-        subFileVC.currentFileModel = currentFileModel;
-        [self.navigationController pushViewController:subFileVC animated:YES];
     }
 }
 
@@ -166,7 +176,7 @@
 - (id<QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index
 {
     YGFilePreviewVC *previewVC = (YGFilePreviewVC *)controller;
-    NSString *filePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:previewVC.fileModel.name];
+    NSString *filePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:previewVC.currentFileModel.name];
     return [NSURL fileURLWithPath:filePath];
 }
 

@@ -31,7 +31,7 @@
     [self addOneChildVC:fileVC title:@"幸福网盘" image:@"tab_file_normal" selectedImage:@"tab_file_pressed"];
     
     YGStarVC *starVC = [[YGStarVC alloc] init];
-    [self addOneChildVC:starVC title:@"星标文件" image:@"tab_star_normal" selectedImage:@"tab_star_pressed"];
+    [self addOneChildVC:starVC title:@"分享" image:@"tab_share_normal" selectedImage:@"tab_share_pressed"];
     
     YGTansferVC *transferVC = [[YGTansferVC alloc] init];
     [self addOneChildVC:transferVC title:@"传输" image:@"tab_transfer_normal" selectedImage:@"tab_transfer_pressed"];

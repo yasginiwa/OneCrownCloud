@@ -8,60 +8,88 @@
 
 #import <Foundation/Foundation.h>
 
-@class YGApiToken;
+@class YGApiToken, SeafConnection;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface YGHttpTool : NSObject
-
-/** GET POST方法 已包含token 无需传入 */
+/** GET请求方法封装 */
 + (void)GET:(NSString *)url params:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
+
+/** POST请求方法封装 */
 + (void)POST:(NSString *)url params:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
 
+/**返回值为非Json的GET方法*/
++ (void)nonJsonGet:(NSString *)url params:(id)params success:(void (^)(id responseStr))success failure:(void (^)(NSError *))failure;
+
+/**返回值为非Json的POST方法*/
++ (void)nonJsonPOST:(NSString *)url params:(id)params success:(void (^)(id responseStr))success failure:(void (^)(NSError *))failure;
+
+/** download方法封装 */
++ (void)DOWNLOAD:(NSString *)url progress:(NSProgress *)progress destination:(NSURL *(^)(NSURL *targetPath, NSURLResponse *response))destination completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
+
+/** upload方法封装 */
++ (void)UPLOAD:(NSString *)url progress:(NSProgress *)progress fromFile:(NSURL *)fromFile completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler;
+
+/** DELETE方法封装 */
++ (void)DELETE:(NSString *)url params:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
+
+/** PUT方法封装 */
++ (void)PUT:(NSString *)url params:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
+
+/** Obtain Token */
++ (void)getToken:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
+
 /** List Libraries */
-+ (void)listLibrariesParams:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
++ (void)listLibrariesParams:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
 
-/** Create Library */
-+ (void)createLibraryParams:(id)params success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
+/** Create Libraries */
++ (void)createLibraryParams:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
 
-/** Delete Library */
-+ (void)deleteLibrary:(NSString *)repoID success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
+/** Delete Libraries */
++ (void)deleteLibraryWithRepoID:(NSString *)repoID success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
 
-/** Rename Library */
-+ (void)renameLibraryParmas:(id)params success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
+/** Rename Libraries */
++ (void)renameLibraryWithRepoID:(NSString *)repoID parmas:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
 
-/** List Directory Entries */
-+ (void)listDirectorySuccess:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
+/** List Directory dirName如是中文必须添加%*/
++ (void)listDirectoryWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
 
-/** Create New Directory */
-+ (void)createDirectoryParams:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
+/** Create Directory */
++ (void)createDirectoryWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
 
 /** Delete Directory */
-+ (void)deleteDirectoryParams:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
++ (void)deleteDirectoryWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
 
 /** Rename Directory */
-+ (void)renameDirectoryParams:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
++ (void)renameDirectoryWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
+
+/** Download Directory */
++ (void)downloadDirectoryWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
 
 /** Create File */
-+ (void)createFileParams:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
++ (void)createFileWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
 
 /** Delete File */
-+ (void)deleteFileParams:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
++ (void)deleteFileWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
 
 /** Rename File */
-+ (void)renameFileParams:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
++ (void)renameFileWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
 
 /** Move File */
-+ (void)moveFileParams:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
++ (void)moveFileWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
+
+/** Get Download Link */
++ (void)getDownloadUrlWithRepoID:(NSString *)repoID params:(id)params success:(void(^)(id responseObj))success failure:(void(^)(NSError *error))failure;
+
+/** Download File */
++ (void)downloadFile:(NSString *)url progress:(NSProgress *)progress destination:(NSURL * _Nonnull (^)(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response))destination completionHandler:(void (^)(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error))completionHandler;
+
+/** Get Upload Link*/
++ (void)getUploadUrlWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id responseObj))success failure:(void (^)(NSError *error))failure;
 
 /** Upload File */
-+ (void)uploadFileParams:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
-
-/** 获得文件下载链接 */
-+ (void)getDownloadUrlWithRepoID:(NSString *)repoID params:(id)params  success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
-
-/** downloadFile */
-+ (void)downloadFile:(NSString *)url finishProgress:(void (^)(NSProgress *progress))finishProgress completion:(void (^)(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error))completion;
++ (void)uploadFileWithUrl:(NSString *)url progress:(NSProgress *)progress fromFile:(NSURL *)fromFile completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler;
 
 NS_ASSUME_NONNULL_END
 @end

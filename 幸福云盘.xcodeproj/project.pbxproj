@@ -12,6 +12,7 @@
 		7335A0A520FD922F00F5ECF5 /* YGFileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7335A0A420FD922F00F5ECF5 /* YGFileCell.m */; };
 		73374F8A210184B1005BA2E9 /* YGSearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 73374F89210184B1005BA2E9 /* YGSearchField.m */; };
 		73374F8D2101B4E1005BA2E9 /* YGSubFileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 73374F8C2101B4E1005BA2E9 /* YGSubFileVC.m */; };
+		73484D20210AF54000BA344B /* YGRepoTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 73484D1F210AF54000BA344B /* YGRepoTool.m */; };
 		735E268A2106B63E000DB123 /* YGFilePreviewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 735E26892106B63E000DB123 /* YGFilePreviewVC.m */; };
 		73716C162105720300706C51 /* FileMimeType.plist in Resources */ = {isa = PBXBuildFile; fileRef = 73716C152105720300706C51 /* FileMimeType.plist */; };
 		73716C1921059B6B00706C51 /* YGMimeType.m in Sources */ = {isa = PBXBuildFile; fileRef = 73716C1821059B6B00706C51 /* YGMimeType.m */; };
@@ -62,6 +63,8 @@
 		73374F89210184B1005BA2E9 /* YGSearchField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGSearchField.m; sourceTree = "<group>"; };
 		73374F8B2101B4E1005BA2E9 /* YGSubFileVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGSubFileVC.h; sourceTree = "<group>"; };
 		73374F8C2101B4E1005BA2E9 /* YGSubFileVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGSubFileVC.m; sourceTree = "<group>"; };
+		73484D1E210AF54000BA344B /* YGRepoTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGRepoTool.h; sourceTree = "<group>"; };
+		73484D1F210AF54000BA344B /* YGRepoTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGRepoTool.m; sourceTree = "<group>"; };
 		735E26882106B63E000DB123 /* YGFilePreviewVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFilePreviewVC.h; sourceTree = "<group>"; };
 		735E26892106B63E000DB123 /* YGFilePreviewVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFilePreviewVC.m; sourceTree = "<group>"; };
 		73716C152105720300706C51 /* FileMimeType.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = FileMimeType.plist; sourceTree = "<group>"; };
@@ -174,6 +177,8 @@
 			children = (
 				73716C2321059C4700706C51 /* YGFileTypeTool.h */,
 				73716C2421059C4700706C51 /* YGFileTypeTool.m */,
+				73484D1E210AF54000BA344B /* YGRepoTool.h */,
+				73484D1F210AF54000BA344B /* YGRepoTool.m */,
 			);
 			path = FileTool;
 			sourceTree = "<group>";
@@ -650,6 +655,7 @@
 				737FDBF120F874A600BF5090 /* UIImage+Extension.m in Sources */,
 				B6FBA01120F62CE30012EFD0 /* YGStarVC.m in Sources */,
 				73716C2121059C2500706C51 /* YGApiTokenTool.m in Sources */,
+				73484D20210AF54000BA344B /* YGRepoTool.m in Sources */,
 				B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */,
 				B6AA69EA21037B05006C1BAB /* YGFileEmptyView.m in Sources */,
 				73716C2221059C2500706C51 /* YGHttpTool.m in Sources */,

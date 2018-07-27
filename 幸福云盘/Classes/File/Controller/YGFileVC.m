@@ -45,10 +45,8 @@
 /** 请求repo */
 - (void)requestLibraries
 {
-    NSString *librariesURL = [BASE_URL stringByAppendingString:[API_URL stringByAppendingString:LIST_LIBARIES_URL]];
-    
-    YGApiToken *token = [YGApiTokenTool apiToken];
-    [YGHttpTool GET:librariesURL apiToken:token params:nil success:^(id responseObject) {
+    NSDictionary *params = @{@"type" : @"mine"};
+    [YGHttpTool listLibrariesParams:params success:^(id  _Nonnull responseObject) {
         NSArray *libs = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObject];
         [self.libraries addObjectsFromArray:libs];
         [self.loadingView removeFromSuperview];
@@ -60,7 +58,7 @@
             [self.fileEmptyView removeFromSuperview];
         }
         [self.tableView reloadData];
-    } failure:^(NSError *error) {
+    } failure:^(NSError * _Nonnull error) {
         YGLog(@"%@", error);
     }];
 }
@@ -94,16 +92,13 @@
     [self.libraries removeAllObjects];
     [self.libraries addObject:firstModel];
     
-    // 拼接请求的URL
-    NSString *urlStr = [BASE_URL stringByAppendingString:[API_URL stringByAppendingString:LIST_LIBARIES_URL]];
-    
-    // 发送请求
-    [YGHttpTool GET:urlStr params:nil success:^(id responseObj) {
-        NSArray *newFileModels = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObj];
+    NSDictionary *params = @{@"type" : @"mine"};
+    [YGHttpTool listLibrariesParams:params success:^(id  _Nonnull responseObject) {
+        NSArray *newFileModels = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObject];
         [self.libraries addObjectsFromArray:newFileModels];
         [self.tableView reloadData];
         [self.tableView.mj_header endRefreshing];
-    } failure:^(NSError *error) {
+    } failure:^(NSError * _Nonnull error) {
         YGLog(@"%@", error);
     }];
 }

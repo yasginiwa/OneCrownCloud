@@ -11,6 +11,5 @@
 @class YGFileModel;
 
 @interface YGFilePreviewVC : QLPreviewController
-@property (nonatomic, strong) YGFileModel *repoModel;
-@property (nonatomic, strong) YGFileModel *fileModel;
+@property (nonatomic, strong) YGFileModel *currentFileModel;
 @end

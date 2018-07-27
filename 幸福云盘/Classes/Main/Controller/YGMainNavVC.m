@@ -29,10 +29,4 @@
     [barAppearace setBackIndicatorImage:backImage];
     [barAppearace setBackIndicatorTransitionMaskImage:backImage];
 }
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-}
-
 @end

@@ -53,7 +53,7 @@
     UIImageView *iconView = [[UIImageView alloc] init];
     
     // 文件夹显示默认图标
-    NSString *fileExt = [NSString extensionWithFile:self.fileModel.name];
+    NSString *fileExt = [NSString extensionWithFile:self.currentFileModel.name];
     
     // 文件显示图标判断
     NSArray *fileMimeTypes = [YGFileTypeTool fileMimeTypes];
@@ -77,16 +77,16 @@
     
     // 请求文件下载地址
     NSDictionary *params;
-    if ([YGFileTypeTool isDir:self.repoModel]) {
+    if ([YGFileTypeTool isDir:self.currentFileModel]) {
         params = @{
-                   @"p" : [[NSString stringWithFormat:@"/%@/%@", self.repoModel.name, self.fileModel.name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                   @"p" : [[NSString stringWithFormat:@"/%@/%@", self.currentFileModel.name, self.currentFileModel.name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
                    @"reuse" : @1
                    };
     }
     
-    if ([YGFileTypeTool isFile:self.fileModel]) {
+    if ([YGFileTypeTool isFile:self.currentFileModel]) {
         params = @{
-                   @"p" : [[NSString stringWithFormat:@"/%@", self.fileModel.name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                   @"p" : [[NSString stringWithFormat:@"/%@", self.currentFileModel.name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
                    @"reuse" : @1
                    };
     }
@@ -95,19 +95,19 @@
     [YGHttpTool getDownloadUrlWithRepoID:repoModel.ID params:params success:^(id responseObj) {
         NSString *genDownloadUrl = [[NSString alloc] initWithData:responseObj encoding:NSUTF8StringEncoding];
         
-        NSString *filePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:self.fileModel.name];
+        NSString *filePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:self.currentFileModel.name];
         if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
             [self.downloadView removeFromSuperview];
             return;
         }
         //  请求下载文件
-        [YGHttpTool downloadFile:genDownloadUrl finishProgress:^(NSProgress *progress) {
-            [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:nil];
-            self.progress = progress;
-        } completion:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-            [self.downloadView removeFromSuperview];
-            [self refreshCurrentPreviewItem];
-        }];
+//        [YGHttpTool downloadFile:genDownloadUrl finishProgress:^(NSProgress *progress) {
+//            [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:nil];
+//            self.progress = progress;
+//        } completion:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+//            [self.downloadView removeFromSuperview];
+//            [self refreshCurrentPreviewItem];
+//        }];
 
     } failure:^(NSError *error) {
         YGLog(@"--downloadFile--%@", error);

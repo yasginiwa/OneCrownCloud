@@ -15,12 +15,11 @@
 #import "YGApiTokenTool.h"
 #import "YGMainTabBarVC.h"
 
-@interface YGLoginMidView () <SeafLoginDelegate>
+@interface YGLoginMidView ()
 @property (nonatomic, weak) YGInputView *userView;
 @property (nonatomic, weak) YGInputView *pwView;
 @property (nonatomic, weak) UIButton *loginBtn;
 @property (nonatomic, weak) UILabel *alertLabel;
-@property (nonatomic, strong) SeafConnection *seafConn;
 @end
 
 @implementation YGLoginMidView
@@ -63,9 +62,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(readyToLogin) name:UITextFieldTextDidChangeNotification object:nil];
 }
 
-/*
- * 接收到通知 用户名\密码都已输入 可以准备登陆了
- */
+/** 接收到通知 用户名\密码都已输入 可以准备登陆了 */
 - (void)readyToLogin
 {
     if (self.userView.inputField.text.length && self.pwView.inputField.text.length) {
@@ -75,9 +72,7 @@
     }
 }
 
-/*
- * 布局子控件
- */
+/** 布局子控件 */
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -109,46 +104,33 @@
     }];
 }
 
-/*
- * 登陆
- */
+/** 登陆 */
 - (void)login
 {
     [self endEditing:YES];
     [SVProgressHUD showWithStatus:@"登录中..."];
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
-    SeafConnection *seafConn = [[SeafConnection alloc] initWithUrl:BASE_URL cacheProvider:nil];
-    seafConn.loginDelegate = self;
-    [seafConn loginWithUsername:self.userView.inputField.text password:self.pwView.inputField.text];
-    self.seafConn = seafConn;
-}
-
-#pragma mark - SeafLoginDelegate
-- (void)loginSuccess:(SeafConnection *)connection
-{
-    [SVProgressHUD dismiss];
     
-    self.alertLabel.hidden = YES;
+    NSDictionary *params = @{
+                             @"username" : self.userView.inputField.text,
+                             @"password" : self.pwView.inputField.text
+                             };
     
-    // 请求apiToken并保存起来
-    [YGApiTokenTool requestApiTokenWithConnection:connection success:^(id responseObject) {
+    [YGHttpTool getToken:params success:^(id  _Nonnull responseObject) {
         YGApiToken *apiToken = [YGApiToken mj_objectWithKeyValues:responseObject];
         [YGApiTokenTool saveToken:apiToken];
         [[NSNotificationCenter defaultCenter] postNotificationName:YGTokenSavedNotification object:nil];
-    } failure:^(NSError *error) {
-        YGLog(@"%@", error);
+        
+        YGMainTabBarVC *tabBarVC = [[YGMainTabBarVC alloc] init];
+        [UIApplication sharedApplication].keyWindow.rootViewController = tabBarVC;
+        [SVProgressHUD dismiss];
+        
+    } failure:^(NSError * _Nonnull error) {
+        
+        [SVProgressHUD dismiss];
+        self.alertLabel.hidden = NO;
     }];
-    
-    YGMainTabBarVC *tabBarVC = [[YGMainTabBarVC alloc] init];
-    [UIApplication sharedApplication].keyWindow.rootViewController = tabBarVC;
-}
-
-- (void)loginFailed:(SeafConnection *)connection response:(NSHTTPURLResponse *)response error:(NSError *)error
-{
-    [SVProgressHUD dismiss];
-    
-    self.alertLabel.hidden = NO;
 }
 
 - (void)dealloc
