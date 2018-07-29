@@ -8,7 +8,6 @@
 
 #import "YGLoginMidView.h"
 #import "YGInputView.h"
-#import <SeafConnection.h>
 #import "YGAccount.h"
 #import "YGHttpTool.h"
 #import "YGApiToken.h"

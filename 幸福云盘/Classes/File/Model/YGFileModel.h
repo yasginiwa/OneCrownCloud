@@ -42,7 +42,7 @@
 
 @property (nonatomic, copy) NSString *modifier_name;
 
-@property (nonatomic, copy) NSString *mtime;
+@property (nonatomic, strong) NSNumber *mtime;
 
 @property (nonatomic, copy) NSString *mtime_relative;
 
@@ -54,13 +54,13 @@
 
 @property (nonatomic, copy) NSString *root;
 
-@property (nonatomic, assign) NSUInteger size;
+@property (nonatomic, strong) NSNumber *size;
 
 @property (nonatomic, copy) NSString *size_formatted;
 
 @property (nonatomic, copy) NSString *type;
 
-@property (nonatomic, assign) NSInteger version;
+@property (nonatomic, strong) NSNumber *version;
 
 @property (nonatomic, assign) BOOL VIRTUAL;
 

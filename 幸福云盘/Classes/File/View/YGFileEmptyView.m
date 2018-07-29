@@ -26,7 +26,7 @@
         emptyLabel.font = [UIFont systemFontOfSize:15];
         emptyLabel.textColor = YGColorRGB(181, 181, 181);
         emptyLabel.textAlignment = NSTextAlignmentCenter;
-        emptyLabel.text = @"暂无文件,赶紧去创建吧...";
+        emptyLabel.text = @"哎哟，文件夹是空的^_^";
         [self addSubview:emptyLabel];
         self.emptyLabel = emptyLabel;
     }

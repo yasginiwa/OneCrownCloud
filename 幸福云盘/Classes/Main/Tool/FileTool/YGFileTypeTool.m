@@ -19,6 +19,15 @@
     return [YGMimeType mj_objectArrayWithKeyValuesArray:fileMimeTypes];
 }
 
++ (NSArray *)fileExts
+{
+    NSMutableArray *fileExtArray = [NSMutableArray array];
+    for (YGMimeType *mimeType in [YGFileTypeTool fileMimeTypes]) {
+        [fileExtArray addObject:mimeType.mime];
+    }
+    return fileExtArray;
+}
+
 + (BOOL)isRepo:(YGFileModel *)fileModel
 {
     return [fileModel.type isEqualToString:@"repo"];

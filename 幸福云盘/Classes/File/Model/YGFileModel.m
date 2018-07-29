@@ -7,6 +7,7 @@
 //
 
 #import "YGFileModel.h"
+#import "NSDate+Extension.h"
 
 @implementation YGFileModel
 + (NSDictionary *)mj_replacedKeyFromPropertyName
@@ -17,21 +18,10 @@
              };
 }
 
-- (void)setMtime_relative:(NSString *)mtime_relative
+- (void)setMtime:(NSNumber *)mtime
 {
-    // 截串返回的数值 重新给时间赋值
-    NSRange fromRange = [mtime_relative rangeOfString:@"title=\""];
-    mtime_relative = [mtime_relative substringWithRange:NSMakeRange(fromRange.location + 7, fromRange.length + 24)];
-    
-
-    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
-    [fmt setLocale:[NSLocale localeWithLocaleIdentifier:@"en_CN"]];
-    fmt.dateFormat = @"EEE, dd MMM yyyy HH:mm:ss zzz";
-    NSDate *originDate = [fmt dateFromString:mtime_relative];
-    
-    fmt.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    mtime_relative = [fmt stringFromDate:originDate];
-    _mtime_relative = mtime_relative;
+    _mtime = [NSDate dateWithMtime:mtime];
 }
+
 MJCodingImplementation
 @end

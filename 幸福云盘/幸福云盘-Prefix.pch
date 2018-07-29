@@ -18,8 +18,7 @@
 #import <MJRefresh.h>
 #import <Masonry.h>
 #import <SVProgressHUD.h>
-#import <AFHTTPSessionManager.h>
-#import <SeafFile.h>
+#import <AFNetworking.h>
 #import "YGURLString.h"
 #import "YGHttpTool.h"
 
@@ -42,6 +41,7 @@
 
 // 当前选中repo模型存储到沙盒的路径
 #define YGCurrentRepoPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"currentRepo.data"]
+#define YGDirPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"dir.data"]
 
 #if DEBUG   // 调试阶段
 #define YGLog(...) NSLog(__VA_ARGS__)

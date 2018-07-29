@@ -1,1 +1,0 @@
-../../../Seafile/Pod/Classes/SeafDir.h

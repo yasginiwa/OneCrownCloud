@@ -37,15 +37,14 @@
 }
 
 //UITextField 文字与输入框的距离
-- (CGRect)textRectForBounds:(CGRect)bounds{
-    
+- (CGRect)textRectForBounds:(CGRect)bounds
+{
     return CGRectInset(bounds, 37, 0);
-    
 }
 
 //控制文本的位置
-- (CGRect)editingRectForBounds:(CGRect)bounds{
-    
+- (CGRect)editingRectForBounds:(CGRect)bounds
+{
     return CGRectInset(bounds, 37, 0);
 }
 

@@ -75,4 +75,9 @@
     center.y = centerY;
     self.center = center;
 }
+
+- (CGFloat)centerY
+{
+    return self.center.y;
+}
 @end

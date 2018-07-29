@@ -12,7 +12,9 @@
 
 @interface YGFileTypeTool : NSObject
 /** 返回文件mimeType对象数组 */
-+ (NSMutableArray *)fileMimeTypes;
++ (NSArray *)fileMimeTypes;
+
++ (NSArray *)fileExts;
 
 /** 判断是否是repo */
 + (BOOL)isRepo:(YGFileModel *)fileModel;

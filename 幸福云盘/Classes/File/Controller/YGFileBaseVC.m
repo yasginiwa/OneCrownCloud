@@ -18,6 +18,7 @@
 #import "YGFilePreviewVC.h"
 #import "YGFileTypeTool.h"
 #import "YGRepoTool.h"
+#import "YGDirTool.h"
 
 @interface YGFileBaseVC () <YGFileCellDelegate, YGFileFirstCellDelegate, UIScrollViewDelegate, QLPreviewControllerDataSource>
 
@@ -139,16 +140,23 @@
         //  保存当前repo到沙盒
         [YGRepoTool saveRepo:currentFileModel];
         YGSubFileVC *repoVC = [[YGSubFileVC alloc] init];
+        
+        //  删除保存到沙盒中的dir路径
+        [YGDirTool removeDir];
+        
+        repoVC.currentFileModel = currentFileModel;
         [self.navigationController pushViewController:repoVC animated:YES];
     }
     
     //  选中的是dir
-    if ([YGFileTypeTool isDir:currentFileModel]) {      //  如果是文件则push出previewVC
-        
-        //  第0列为文件操作菜单 不允许点击
+    if ([YGFileTypeTool isDir:currentFileModel]) {
         if (indexPath.row == 0) return;
         
+        //  保存dir路径到沙盒
+        [YGDirTool saveDir:currentFileModel];
+        
         YGSubFileVC *dirVC = [[YGSubFileVC alloc] init];
+        dirVC.currentFileModel = currentFileModel;
         [self.navigationController pushViewController:dirVC animated:YES];
     }
     
@@ -156,7 +164,9 @@
     if ([YGFileTypeTool isFile:currentFileModel]) {
         
         YGFilePreviewVC *previewVC = [[YGFilePreviewVC alloc] init];
+        previewVC.hidesBottomBarWhenPushed = YES;
         previewVC.dataSource = self;
+        previewVC.currentFileModel = currentFileModel;
         [self.navigationController pushViewController:previewVC animated:YES];
     }
 }
@@ -175,8 +185,7 @@
 #pragma mark - QLPreviewControllerDataSource
 - (id<QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index
 {
-    YGFilePreviewVC *previewVC = (YGFilePreviewVC *)controller;
-    NSString *filePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:previewVC.currentFileModel.name];
+    NSString *filePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:self.currentFileModel.name];
     return [NSURL fileURLWithPath:filePath];
 }
 

@@ -16,13 +16,14 @@
 + (void)GET:(NSString *)url params:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure
 {
     YGApiToken *token = [YGApiTokenTool apiToken];
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
     [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
     [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
-    [mgr GET:url parameters:params success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+    
+    [mgr GET:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         success(responseObject);
-    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
     }];
 }
@@ -31,13 +32,14 @@
 + (void)POST:(NSString *)url params:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure
 {
     YGApiToken *token = [YGApiTokenTool apiToken];
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
     [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
     [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
-    [mgr POST:url parameters:params success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+    
+    [mgr POST:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         success(responseObject);
-    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
     }];
 }
@@ -46,15 +48,18 @@
 + (void)nonJsonGet:(NSString *)url params:(id)params success:(void (^)(id responseStr))success failure:(void (^)(NSError *))failure
 {
     YGApiToken *token = [YGApiTokenTool apiToken];
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
     [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
     [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
     mgr.responseSerializer = [AFHTTPResponseSerializer serializer];
-    [YGHttpTool GET:url params:params success:^(id  _Nonnull responseObject) {
+    
+    [mgr GET:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        responseStr = [responseStr stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         success(responseStr);
-    } failure:^(NSError * _Nonnull error) {
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
     }];
 }
@@ -63,33 +68,35 @@
 + (void)nonJsonPOST:(NSString *)url params:(id)params success:(void (^)(id responseStr))success failure:(void (^)(NSError *))failure
 {
     YGApiToken *token = [YGApiTokenTool apiToken];
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
     [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
     [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
     mgr.responseSerializer = [AFHTTPResponseSerializer serializer];
-    [YGHttpTool POST:url params:params success:^(id  _Nonnull responseObject) {
+    
+    [mgr POST:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         success(responseStr);
-    } failure:^(NSError * _Nonnull error) {
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
     }];
 }
 
 /** download方法封装 */
-+ (void)DOWNLOAD:(NSString *)url progress:(NSProgress *)progress destination:(NSURL *(^)(NSURL *targetPath, NSURLResponse *response))destination completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler
++ (void)DOWNLOAD:(NSString *)url progress:(void (^)(NSProgress *downloadProgress))progress destination:(NSURL *(^)(NSURL *targetPath, NSURLResponse *response))destination completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler
 {
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *mgr = [[AFURLSessionManager alloc] initWithSessionConfiguration:config];
     
-    NSURLSessionDownloadTask *downloadTask = [mgr downloadTaskWithRequest:request progress:&progress destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+    NSURLSessionDownloadTask *downloadTask = [mgr downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+        progress(downloadProgress);
+    } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
         NSURL *destURL;
         if (destination) {
             destURL = destination(targetPath, response);
         }
         return destURL;
-
     } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
         if (completionHandler) {
             completionHandler(response, filePath, error);
@@ -100,16 +107,18 @@
 }
 
 /** upload方法封装 */
-+ (void)UPLOAD:(NSString *)url progress:(NSProgress *)progress fromFile:(NSURL *)fromFile completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler
++ (void)UPLOAD:(NSString *)url progress:(void (^)(NSProgress *uploadProgress))progress fromFile:(NSURL *)fromFile completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler
 {
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *mgr = [[AFURLSessionManager alloc] initWithSessionConfiguration:config];
     
-    NSURLSessionUploadTask *uploadTask = [mgr uploadTaskWithRequest:request fromFile:fromFile progress:&progress completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+    NSURLSessionUploadTask *uploadTask = [mgr uploadTaskWithStreamedRequest:request progress:^(NSProgress * _Nonnull uploadProgress) {
+        progress(uploadProgress);
+    } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         completionHandler(response, responseObject, error);
     }];
-    
+
     [uploadTask resume];
 }
 
@@ -117,13 +126,13 @@
 + (void)DELETE:(NSString *)url params:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure
 {
     YGApiToken *token = [YGApiTokenTool apiToken];
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
     [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
     [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
-    [mgr DELETE:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+    [mgr DELETE:url parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         success(responseObject);
-    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
     }];
 }
@@ -132,13 +141,14 @@
 + (void)PUT:(NSString *)url params:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure
 {
     YGApiToken *token = [YGApiTokenTool apiToken];
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
     [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
     [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
-    [mgr PUT:url parameters:params success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+    
+    [mgr PUT:url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         success(responseObject);
-    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
     }];
 }
@@ -166,7 +176,6 @@
 + (void)createLibraryParams:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure
 {
     NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
-    urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [YGHttpTool POST:urlStr params:params success:^(id  _Nonnull responseObject){
         success(responseObject);
     } failure:^(NSError * _Nonnull error) {
@@ -177,8 +186,9 @@
 + (void)deleteLibrary:(NSString *)repoID success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure
 {
     NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
-    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [YGHttpTool DELETE:urlStr params:nil success:^(id responseObject) {
+    urlStr = [NSString stringWithFormat:@"%@%@", urlStr, repoID];
+    NSDictionary *params = nil;
+    [YGHttpTool DELETE:urlStr params:params success:^(id responseObject) {
         success(responseObject);
     } failure:^(NSError *error) {
         failure(error);
@@ -188,7 +198,7 @@
 + (void)renameLibrary:(NSString *)repoID parmas:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure
 {
     NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
-    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    urlStr = [NSString stringWithFormat:@"%@%@", urlStr, repoID];
     [YGHttpTool POST:urlStr params:params success:^(id  _Nonnull responseObject) {
         success(responseObject);
     } failure:^(NSError * _Nonnull error) {
@@ -307,12 +317,14 @@
     }];
 }
 
-+ (void)downloadFile:(NSString *)url progress:(NSProgress *)progress destination:(NSURL * _Nonnull (^)(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response))destination completionHandler:(void (^)(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error))completionHandler
++ (void)downloadFile:(NSString *)url progress:(void (^)(NSProgress *downloadProgress))progress destination:(NSURL * _Nonnull (^)(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response))destination completionHandler:(void (^)(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error))completionHandler
 {
-    [YGHttpTool DOWNLOAD:url progress:progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+    [YGHttpTool DOWNLOAD:url progress:^(NSProgress * _Nonnull downloadProgress) {
+        progress(downloadProgress);
+    } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
         NSURL *destURL = destination(targetPath, response);
         return destURL;
-    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nonnull filePath, NSError * _Nonnull error) {
         completionHandler(response, filePath, error);
     }];
 }
@@ -328,9 +340,11 @@
     }];
 }
 
-+ (void)uploadFileWithUrl:(NSString *)url progress:(NSProgress *)progress fromFile:(NSURL *)fromFile completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler
++ (void)uploadFileWithUrl:(NSString *)url progress:(void (^)(NSProgress *uploadProgress))progress fromFile:(NSURL *)fromFile completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler
 {
-    [YGHttpTool UPLOAD:url progress:progress fromFile:fromFile completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+    [YGHttpTool UPLOAD:url progress:^(NSProgress * _Nonnull uploadProgress) {
+        progress(uploadProgress);
+    } fromFile:fromFile completionHandler:^(NSURLResponse * _Nonnull response, id  _Nonnull responseObject, NSError * _Nonnull error) {
         completionHandler(response, responseObject, error);
     }];
 }

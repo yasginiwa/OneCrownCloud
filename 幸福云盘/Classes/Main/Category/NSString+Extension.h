@@ -10,4 +10,5 @@
 
 @interface NSString (Extension)
 + (NSString *)extensionWithFile:(NSString *)file;
++ (NSString *)stringWithSize:(NSNumber *)size;
 @end

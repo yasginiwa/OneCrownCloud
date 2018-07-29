@@ -37,11 +37,14 @@
 		B676794820F62B1400945627 /* YGLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676794720F62B1400945627 /* YGLoginVC.m */; };
 		B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */ = {isa = PBXBuildFile; fileRef = B680BCEB20F8E7D200F8CB98 /* YGURLString.m */; };
 		B6A1E27820FA31EE009F94DF /* YGAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A1E27720FA31EE009F94DF /* YGAccount.m */; };
+		B6A8E240210DBDC800E5117C /* YGFileUnableView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A8E23F210DBDC800E5117C /* YGFileUnableView.m */; };
+		B6A8E243210DF39600E5117C /* YGDirTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A8E242210DF39600E5117C /* YGDirTool.m */; };
 		B6AA69EA21037B05006C1BAB /* YGFileEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6AA69E921037B05006C1BAB /* YGFileEmptyView.m */; };
 		B6C4040B20F76F5600E95598 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4040A20F76F5600E95598 /* UIView+Extension.m */; };
 		B6C4040E20F7719000E95598 /* YGLoginTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4040D20F7719000E95598 /* YGLoginTopView.m */; };
 		B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4041020F7719C00E95598 /* YGLoginMidView.m */; };
 		B6C4041720F78ACF00E95598 /* YGInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4041620F78ACF00E95598 /* YGInputView.m */; };
+		B6DACDA2210C20BE008D164E /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B6DACDA1210C20BE008D164E /* NSDate+Extension.m */; };
 		B6FBA00E20F62CD10012EFD0 /* YGFileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FBA00D20F62CD10012EFD0 /* YGFileVC.m */; };
 		B6FBA01120F62CE30012EFD0 /* YGStarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FBA01020F62CE30012EFD0 /* YGStarVC.m */; };
 		B6FBA01420F62D240012EFD0 /* YGTansferVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FBA01320F62D240012EFD0 /* YGTansferVC.m */; };
@@ -112,6 +115,10 @@
 		B680BCEB20F8E7D200F8CB98 /* YGURLString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGURLString.m; sourceTree = "<group>"; };
 		B6A1E27620FA31EE009F94DF /* YGAccount.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGAccount.h; sourceTree = "<group>"; };
 		B6A1E27720FA31EE009F94DF /* YGAccount.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGAccount.m; sourceTree = "<group>"; };
+		B6A8E23E210DBDC800E5117C /* YGFileUnableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileUnableView.h; sourceTree = "<group>"; };
+		B6A8E23F210DBDC800E5117C /* YGFileUnableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileUnableView.m; sourceTree = "<group>"; };
+		B6A8E241210DF39600E5117C /* YGDirTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGDirTool.h; sourceTree = "<group>"; };
+		B6A8E242210DF39600E5117C /* YGDirTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGDirTool.m; sourceTree = "<group>"; };
 		B6AA69E821037B05006C1BAB /* YGFileEmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileEmptyView.h; sourceTree = "<group>"; };
 		B6AA69E921037B05006C1BAB /* YGFileEmptyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileEmptyView.m; sourceTree = "<group>"; };
 		B6C4040920F76F5600E95598 /* UIView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
@@ -122,6 +129,8 @@
 		B6C4041020F7719C00E95598 /* YGLoginMidView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGLoginMidView.m; sourceTree = "<group>"; };
 		B6C4041520F78ACF00E95598 /* YGInputView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGInputView.h; sourceTree = "<group>"; };
 		B6C4041620F78ACF00E95598 /* YGInputView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGInputView.m; sourceTree = "<group>"; };
+		B6DACDA0210C20BE008D164E /* NSDate+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
+		B6DACDA1210C20BE008D164E /* NSDate+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
 		B6FBA00C20F62CD10012EFD0 /* YGFileVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileVC.h; sourceTree = "<group>"; };
 		B6FBA00D20F62CD10012EFD0 /* YGFileVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileVC.m; sourceTree = "<group>"; };
 		B6FBA00F20F62CE30012EFD0 /* YGStarVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGStarVC.h; sourceTree = "<group>"; };
@@ -179,6 +188,8 @@
 				73716C2421059C4700706C51 /* YGFileTypeTool.m */,
 				73484D1E210AF54000BA344B /* YGRepoTool.h */,
 				73484D1F210AF54000BA344B /* YGRepoTool.m */,
+				B6A8E241210DF39600E5117C /* YGDirTool.h */,
+				B6A8E242210DF39600E5117C /* YGDirTool.m */,
 			);
 			path = FileTool;
 			sourceTree = "<group>";
@@ -296,6 +307,8 @@
 				73374F89210184B1005BA2E9 /* YGSearchField.m */,
 				B6AA69E821037B05006C1BAB /* YGFileEmptyView.h */,
 				B6AA69E921037B05006C1BAB /* YGFileEmptyView.m */,
+				B6A8E23E210DBDC800E5117C /* YGFileUnableView.h */,
+				B6A8E23F210DBDC800E5117C /* YGFileUnableView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -509,6 +522,8 @@
 				B63EF3952100D68D00C562DF /* UIButton+Extension.m */,
 				73716C262105AA5400706C51 /* NSString+Extension.h */,
 				73716C272105AA5400706C51 /* NSString+Extension.m */,
+				B6DACDA0210C20BE008D164E /* NSDate+Extension.h */,
+				B6DACDA1210C20BE008D164E /* NSDate+Extension.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -599,13 +614,11 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-幸福云盘/Pods-幸福云盘-resources.sh",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/Seafile/Seafile.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Seafile.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -668,12 +681,15 @@
 				B63EF3962100D68D00C562DF /* UIButton+Extension.m in Sources */,
 				B6C4040E20F7719000E95598 /* YGLoginTopView.m in Sources */,
 				B63EF39A2100DF4600C562DF /* YGFileFirstCell.m in Sources */,
+				B6A8E243210DF39600E5117C /* YGDirTool.m in Sources */,
 				73374F8D2101B4E1005BA2E9 /* YGSubFileVC.m in Sources */,
 				B6FBA01420F62D240012EFD0 /* YGTansferVC.m in Sources */,
 				B6209E7E20F4EE7E0075497C /* AppDelegate.m in Sources */,
 				735E268A2106B63E000DB123 /* YGFilePreviewVC.m in Sources */,
 				73716C1921059B6B00706C51 /* YGMimeType.m in Sources */,
+				B6DACDA2210C20BE008D164E /* NSDate+Extension.m in Sources */,
 				B676793B20F629BC00945627 /* YGMainTabBarVC.m in Sources */,
+				B6A8E240210DBDC800E5117C /* YGFileUnableView.m in Sources */,
 				7335A0A520FD922F00F5ECF5 /* YGFileCell.m in Sources */,
 				B676794120F629F000945627 /* YGTabBar.m in Sources */,
 				B650EAA320FCCEA90025D1E0 /* YGApiToken.m in Sources */,

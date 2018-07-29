@@ -13,6 +13,8 @@
 #import "YGHttpTool.h"
 #import "YGApiTokenTool.h"
 #import "YGApiToken.h"
+#import "YGFileUnableView.h"
+#import "YGDirTool.h"
 
 @interface YGFilePreviewVC ()
 @property (nonatomic, weak) UIImageView *iconView;
@@ -20,6 +22,7 @@
 @property (nonatomic, weak) UIView *downloadView;
 // 下载进度
 @property (nonatomic, strong) NSProgress *progress;
+@property (nonatomic, weak) YGFileUnableView *fileUnableView;
 @end
 
 @implementation YGFilePreviewVC
@@ -50,6 +53,12 @@
     [self.view addSubview:downloadView];
     self.downloadView = downloadView;
     
+
+    
+    YGFileUnableView *fileUnableView = [[YGFileUnableView alloc] init];
+    [self.view addSubview:fileUnableView];
+    self.fileUnableView = fileUnableView;
+    
     UIImageView *iconView = [[UIImageView alloc] init];
     
     // 文件夹显示默认图标
@@ -61,8 +70,12 @@
         if ([[fileExt lowercaseString] isEqualToString:mimeType.mime]) {    // 能识别的文件类型
             iconView.image = [UIImage imageNamed:mimeType.icon];
             *stop = YES;
+            
+            self.downloadView.hidden = NO;
+            self.fileUnableView.hidden = YES;
         } else {    // 不能识别的文件类型
-            iconView.image = [UIImage imageNamed:@"file_unknown_icon"];
+            self.downloadView.hidden = YES;
+            self.fileUnableView.hidden = NO;
         }
     }];
 
@@ -75,25 +88,16 @@
     [downloadView addSubview:progressView];
     self.progressView = progressView;
     
-    // 请求文件下载地址
-    NSDictionary *params;
-    if ([YGFileTypeTool isDir:self.currentFileModel]) {
-        params = @{
-                   @"p" : [[NSString stringWithFormat:@"/%@/%@", self.currentFileModel.name, self.currentFileModel.name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-                   @"reuse" : @1
-                   };
-    }
-    
-    if ([YGFileTypeTool isFile:self.currentFileModel]) {
-        params = @{
-                   @"p" : [[NSString stringWithFormat:@"/%@", self.currentFileModel.name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-                   @"reuse" : @1
-                   };
-    }
-    
     YGFileModel *repoModel = [NSKeyedUnarchiver unarchiveObjectWithFile:YGCurrentRepoPath];
+    NSString *dirPath = [YGDirTool dir];
+    // 请求文件下载地址
+    NSDictionary *params = @{
+                               @"p" : [NSString stringWithFormat:@"%@%@", dirPath, self.currentFileModel.name],
+                               @"reuse" : @1
+                               };
+
     [YGHttpTool getDownloadUrlWithRepoID:repoModel.ID params:params success:^(id responseObj) {
-        NSString *genDownloadUrl = [[NSString alloc] initWithData:responseObj encoding:NSUTF8StringEncoding];
+        NSString *genDownloadUrl = responseObj;
         
         NSString *filePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:self.currentFileModel.name];
         if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
@@ -101,30 +105,29 @@
             return;
         }
         //  请求下载文件
-//        [YGHttpTool downloadFile:genDownloadUrl finishProgress:^(NSProgress *progress) {
-//            [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:nil];
-//            self.progress = progress;
-//        } completion:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-//            [self.downloadView removeFromSuperview];
-//            [self refreshCurrentPreviewItem];
-//        }];
+        [YGHttpTool downloadFile:genDownloadUrl progress:^(NSProgress * _Nonnull downloadProgress) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.progressView setProgress:downloadProgress.fractionCompleted animated:YES];
+            });
+            
+        } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+            NSURL *cacheDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSCachesDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+            return [cacheDirectoryURL URLByAppendingPathComponent:response.suggestedFilename];
+        } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+            [self.downloadView removeFromSuperview];
+            [self refreshCurrentPreviewItem];
+        }];
 
     } failure:^(NSError *error) {
         YGLog(@"--downloadFile--%@", error);
     }];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
-{
-    float changeFL = [[change valueForKey:@"new"] floatValue];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.progressView setProgress:changeFL animated:YES];
-    });
-}
-
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
+    
+    self.fileUnableView.frame = self.view.bounds;
     
     self.downloadView.frame = self.view.bounds;
     
@@ -136,11 +139,7 @@
     self.progressView.centerX = self.view.centerX;
     self.progressView.y = CGRectGetMaxY(self.iconView.frame) + 30;
     self.progressView.width = 240;
-    self.progressView.height = 5;
+    self.progressView.height = 10;
 }
 
-- (void)dealloc
-{
-    [self.progress removeObserver:self forKeyPath:@"fractionCompleted"];
-}
 @end

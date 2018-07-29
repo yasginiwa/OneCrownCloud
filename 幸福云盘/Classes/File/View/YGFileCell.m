@@ -41,16 +41,20 @@
 {
     _fileModel = fileModel;
     self.nameLabel.text = fileModel.name;
-    self.dateLabel.text = fileModel.mtime_relative;
-    self.sizeLabel.text = fileModel.size_formatted;
+    self.dateLabel.text = [NSString stringWithFormat:@"%@", fileModel.mtime];
+    
+    if (fileModel.size) {
+        self.sizeLabel.text = [NSString stringWithSize:fileModel.size];
+    } else {
+        self.sizeLabel.text = nil;
+    }
     
     // 文件夹显示默认图标
-    if ([fileModel.type isEqualToString:@"repo"] || [fileModel.type isEqualToString:@"dir"]) {
+    if ([YGFileTypeTool isRepo:fileModel] || [YGFileTypeTool isDir:fileModel]) {
         self.iconView.image = [UIImage imageNamed:@"file_folder_icon"];
-    } else if ([fileModel.type isEqualToString:@"file"]){
+    } else {    // 文件显示图标判断
         NSString *fileExt = [NSString extensionWithFile:fileModel.name];
-        
-        // 文件显示图标判断
+    
         NSArray *fileMimeTypes = [YGFileTypeTool fileMimeTypes];
         [fileMimeTypes enumerateObjectsUsingBlock:^(YGMimeType *mimeType, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([[fileExt lowercaseString] isEqualToString:mimeType.mime]) {    // 能识别的文件类型
