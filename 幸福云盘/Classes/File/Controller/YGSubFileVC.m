@@ -23,9 +23,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSString *repoName = [YGRepoTool repo].name;
-    
-    self.title = repoName;
+//    if ([YGFileTypeTool isDir:self.currentFileModel]) {
+        self.title = self.currentFileModel.name;
+//    }
+//    NSString *repoName = [YGRepoTool repo].name;
+//
+//    self.title = repoName;
     
     [self requestDir];
 }
