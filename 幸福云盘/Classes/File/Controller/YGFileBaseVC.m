@@ -19,6 +19,7 @@
 #import "YGFileTypeTool.h"
 #import "YGRepoTool.h"
 #import "YGDirTool.h"
+#import "YGAddFolderView.h"
 
 @interface YGFileBaseVC () <YGFileCellDelegate, YGFileFirstCellDelegate, UIScrollViewDelegate, QLPreviewControllerDataSource>
 
@@ -80,20 +81,20 @@
     self.navigationItem.rightBarButtonItem = uploadItem;
 }
 
-- (void)newFolder
-{
-    YGLog(@"--newFolder--base");
-}
-
-- (void)orderFolder
-{
-    YGLog(@"--orderFolder--base");
-}
-
-- (void)fileUpload
-{
-    YGLog(@"--fileUpload--base");
-}
+//- (void)newFolder
+//{
+//    YGLog(@"--newFolder--base");
+//}
+//
+//- (void)orderFolder
+//{
+//    YGLog(@"--orderFolder--base");
+//}
+//
+//- (void)fileUpload
+//{
+//    YGLog(@"--fileUpload--base");
+//}
 
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -177,9 +178,24 @@
     YGLog(@"--fileCellDidSelectCheckBtn--");
 }
 
+#pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self.view endEditing:YES];
+}
+
+#pragma mark - YGFileFirstCellDelegate
+- (void)fileFirstCellDidClickAddFolderBtn:(YGFileFirstCell *)cell
+{
+    YGAddFolderView *addFolderView = [[YGAddFolderView alloc] init];
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    [keyWindow addSubview:addFolderView];
+    addFolderView.frame = keyWindow.bounds;
+}
+
+- (void)fileFirstCellDidClickOrderBtn:(YGFileFirstCell *)cell
+{
+    
 }
 
 #pragma mark - QLPreviewControllerDataSource

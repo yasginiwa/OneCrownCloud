@@ -37,6 +37,7 @@
 		B676794820F62B1400945627 /* YGLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676794720F62B1400945627 /* YGLoginVC.m */; };
 		B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */ = {isa = PBXBuildFile; fileRef = B680BCEB20F8E7D200F8CB98 /* YGURLString.m */; };
 		B6A1E27820FA31EE009F94DF /* YGAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A1E27720FA31EE009F94DF /* YGAccount.m */; };
+		B6A7C4F3210F561D00C0A929 /* YGAddFolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A7C4F2210F561D00C0A929 /* YGAddFolderView.m */; };
 		B6A8E240210DBDC800E5117C /* YGFileUnableView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A8E23F210DBDC800E5117C /* YGFileUnableView.m */; };
 		B6A8E243210DF39600E5117C /* YGDirTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A8E242210DF39600E5117C /* YGDirTool.m */; };
 		B6AA69EA21037B05006C1BAB /* YGFileEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6AA69E921037B05006C1BAB /* YGFileEmptyView.m */; };
@@ -115,6 +116,8 @@
 		B680BCEB20F8E7D200F8CB98 /* YGURLString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGURLString.m; sourceTree = "<group>"; };
 		B6A1E27620FA31EE009F94DF /* YGAccount.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGAccount.h; sourceTree = "<group>"; };
 		B6A1E27720FA31EE009F94DF /* YGAccount.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGAccount.m; sourceTree = "<group>"; };
+		B6A7C4F1210F561D00C0A929 /* YGAddFolderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGAddFolderView.h; sourceTree = "<group>"; };
+		B6A7C4F2210F561D00C0A929 /* YGAddFolderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGAddFolderView.m; sourceTree = "<group>"; };
 		B6A8E23E210DBDC800E5117C /* YGFileUnableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileUnableView.h; sourceTree = "<group>"; };
 		B6A8E23F210DBDC800E5117C /* YGFileUnableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileUnableView.m; sourceTree = "<group>"; };
 		B6A8E241210DF39600E5117C /* YGDirTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGDirTool.h; sourceTree = "<group>"; };
@@ -309,6 +312,8 @@
 				B6AA69E921037B05006C1BAB /* YGFileEmptyView.m */,
 				B6A8E23E210DBDC800E5117C /* YGFileUnableView.h */,
 				B6A8E23F210DBDC800E5117C /* YGFileUnableView.m */,
+				B6A7C4F1210F561D00C0A929 /* YGAddFolderView.h */,
+				B6A7C4F2210F561D00C0A929 /* YGAddFolderView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -701,6 +706,7 @@
 				B6A1E27820FA31EE009F94DF /* YGAccount.m in Sources */,
 				73716C282105AA5400706C51 /* NSString+Extension.m in Sources */,
 				B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */,
+				B6A7C4F3210F561D00C0A929 /* YGAddFolderView.m in Sources */,
 				B641A1D120FDF69800FCA501 /* YGLoadingView.m in Sources */,
 				7335A0A220FD864500F5ECF5 /* YGFileModel.m in Sources */,
 				732B81CB20FF10E8008E4C57 /* UIBarButtonItem+Extension.m in Sources */,
