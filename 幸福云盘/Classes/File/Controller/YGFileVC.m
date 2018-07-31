@@ -63,16 +63,6 @@
     }];
 }
 
-//- (void)orderFolder
-//{
-//    YGLog(@"--orderFolder--");
-//}
-//
-//- (void)fileUpload
-//{
-//    YGLog(@"--fileUpload--");
-//}
-
 #pragma mark - YGFileCellDelegate
 - (void)fileCellDidSelectCheckBtn:(YGFileCell *)fileCell
 {

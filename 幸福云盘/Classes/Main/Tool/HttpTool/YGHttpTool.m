@@ -9,6 +9,7 @@
 #import "YGHttpTool.h"
 #import "YGApiToken.h"
 #import "YGApiTokenTool.h"
+#import "YGDirTool.h"
 
 @implementation YGHttpTool
 
@@ -76,6 +77,7 @@
     
     [mgr POST:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        responseStr = [responseStr stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         success(responseStr);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
@@ -217,13 +219,15 @@
     }];
 }
 
-+ (void)createDirectoryWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure
++ (void)createDirectoryWithRepoID:(NSString *)repoID dir:(NSString *)dir params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure
 {
+    
     NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
-    urlStr = [[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:DIR_URI];
-    [YGHttpTool POST:urlStr params:params success:^(id  _Nonnull responseObject) {
-        success(responseObject);
-    } failure:^(NSError * _Nonnull error) {
+    NSString *currentDir = [[YGDirTool dir] substringFromIndex:1];
+    urlStr = [[[[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:DIR_URI] stringByAppendingString:[NSString stringWithFormat:@"?p=/%@%@", currentDir, dir]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [YGHttpTool nonJsonPOST:urlStr params:params success:^(id  _Nonnull responseStr) {
+        success(responseStr);
+    } failure:^(NSError * error) {
         failure(error);
     }];
 }

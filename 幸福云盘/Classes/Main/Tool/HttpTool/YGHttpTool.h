@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)listDirectoryWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
 
 /** Create Directory */
-+ (void)createDirectoryWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
++ (void)createDirectoryWithRepoID:(NSString *)repoID dir:(NSString *)dir params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;
 
 /** Delete Directory */
 + (void)deleteDirectoryWithRepoID:(NSString *)repoID params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure;

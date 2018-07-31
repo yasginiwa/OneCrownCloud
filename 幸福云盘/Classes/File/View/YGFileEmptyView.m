@@ -37,11 +37,9 @@
 {
     [super layoutSubviews];
     
-    self.frame = CGRectMake(0, 0, scrnW, scrnH);
-    
     [self.emptyImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
-        make.centerY.equalTo(self).multipliedBy(0.7);
+        make.centerY.equalTo(self).multipliedBy(0.6);
     }];
     
     [self.emptyLabel mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -13,9 +13,12 @@
 #import "YGFileTypeTool.h"
 #import "YGRepoTool.h"
 #import "YGDirTool.h"
+#import "YGFileCell.h"
+#import "YGAddFolderView.h"
+#import "YGFileFirstCell.h"
 
-@interface YGSubFileVC () <UIGestureRecognizerDelegate>
-
+@interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGFileFirstCellDelegate>
+@property (nonatomic, copy) NSString *addDirName;
 @end
 
 @implementation YGSubFileVC
@@ -25,7 +28,15 @@
     
     self.title = self.currentFileModel.name;
 
+    [self setupObserv];
+    
     [self requestDir];
+}
+
+/** 初始化监听新建文件夹内文本变化的通知中心 */
+- (void)setupObserv
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextFieldTextDidChangeNotification object:nil];
 }
 
 - (void)requestDir
@@ -62,6 +73,7 @@
             if (self.libraries.count < 2) {
                 YGFileEmptyView *fileEmptyView = [[YGFileEmptyView alloc] init];
                 [self.view addSubview:fileEmptyView];
+                fileEmptyView.frame = CGRectMake(0, 50, self.tableView.width, self.tableView.height);
                 self.fileEmptyView = fileEmptyView;
             } else {
                 [self.fileEmptyView removeFromSuperview];
@@ -84,8 +96,78 @@
     [self requestDir];
 }
 
+#pragma mark - YGFileFirstCellDelegate
+- (void)fileFirstCellDidClickAddFolderBtn:(YGFileFirstCell *)cell
+{
+    YGAddFolderView *addFolderView = [[YGAddFolderView alloc] init];
+    addFolderView.delegate = self;
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    [keyWindow addSubview:addFolderView];
+    addFolderView.frame = keyWindow.bounds;
+}
+
+- (void)fileFirstCellDidClickOrderBtn:(YGFileFirstCell *)cell
+{
+    
+}
+
+#pragma mark - YGAddFolderViewDelegate
+- (void)addFolderViewDidClickOkBtn:(YGAddFolderView *)addFolderView
+{
+    [addFolderView endEditing:YES];
+    
+    [SVProgressHUD showWaiting];
+    
+    NSString *repoID = [YGRepoTool repo].ID;
+    
+    NSDictionary *params = @{
+                             
+                             @"operation" : @"mkdir"
+                             };
+    
+    if (self.addDirName.length == 0) {
+        [SVProgressHUD showMessage:@"文件名不能为空"];
+        [SVProgressHUD dismissWithDelay:0.6];
+        return;
+    }
+    
+    
+    [YGHttpTool createDirectoryWithRepoID:repoID dir:self.addDirName params:params success:^(id  _Nonnull responseObject) {
+        [addFolderView removeFromSuperview];
+        
+        [SVProgressHUD showSuccessWithStatus:@"创建成功"];
+        [SVProgressHUD hideHud];
+        [self refreshLibrary];
+        
+    } failure:^(NSError * _Nonnull error) {
+        [SVProgressHUD dismiss];
+        YGLog(@"%@", error);
+    }];
+}
+
+- (void)addFolderViewDidClickCancelBtn:(YGAddFolderView *)addFolderView
+{
+    [addFolderView endEditing:YES];
+    [addFolderView removeFromSuperview];
+}
+
+#pragma mark - YGFileCellDelegate
+- (void)fileCellDidSelectCheckBtn:(YGFileCell *)fileCell
+{
+    YGLog(@"--fileCellDidSelectCheckBtn--");
+}
+
+
+- (void)textChanged:(NSNotification *)note
+{
+    UITextField *textField = note.object;
+    self.addDirName = textField.text;
+}
+
 - (void)dealloc
 {
     [YGDirTool backToParentDir];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end

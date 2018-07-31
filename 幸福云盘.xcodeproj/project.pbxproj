@@ -21,6 +21,7 @@
 		73716C2521059C4700706C51 /* YGFileTypeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 73716C2421059C4700706C51 /* YGFileTypeTool.m */; };
 		73716C282105AA5400706C51 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 73716C272105AA5400706C51 /* NSString+Extension.m */; };
 		737FDBF120F874A600BF5090 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 737FDBF020F874A600BF5090 /* UIImage+Extension.m */; };
+		73D6120821102736006F209E /* SVProgressHUD+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D6120721102736006F209E /* SVProgressHUD+Extension.m */; };
 		B6209E7E20F4EE7E0075497C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B6209E7D20F4EE7E0075497C /* AppDelegate.m */; };
 		B6209E8620F4EE7E0075497C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6209E8520F4EE7E0075497C /* Assets.xcassets */; };
 		B6209E8C20F4EE7E0075497C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6209E8B20F4EE7E0075497C /* main.m */; };
@@ -84,6 +85,8 @@
 		73716C272105AA5400706C51 /* NSString+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
 		737FDBEF20F874A600BF5090 /* UIImage+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
 		737FDBF020F874A600BF5090 /* UIImage+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
+		73D6120621102736006F209E /* SVProgressHUD+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD+Extension.h"; sourceTree = "<group>"; };
+		73D6120721102736006F209E /* SVProgressHUD+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SVProgressHUD+Extension.m"; sourceTree = "<group>"; };
 		B6209E7920F4EE7D0075497C /* 幸福云盘.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "幸福云盘.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6209E7C20F4EE7E0075497C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B6209E7D20F4EE7E0075497C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -529,6 +532,8 @@
 				73716C272105AA5400706C51 /* NSString+Extension.m */,
 				B6DACDA0210C20BE008D164E /* NSDate+Extension.h */,
 				B6DACDA1210C20BE008D164E /* NSDate+Extension.m */,
+				73D6120621102736006F209E /* SVProgressHUD+Extension.h */,
+				73D6120721102736006F209E /* SVProgressHUD+Extension.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -674,6 +679,7 @@
 				B6FBA01120F62CE30012EFD0 /* YGStarVC.m in Sources */,
 				73716C2121059C2500706C51 /* YGApiTokenTool.m in Sources */,
 				73484D20210AF54000BA344B /* YGRepoTool.m in Sources */,
+				73D6120821102736006F209E /* SVProgressHUD+Extension.m in Sources */,
 				B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */,
 				B6AA69EA21037B05006C1BAB /* YGFileEmptyView.m in Sources */,
 				73716C2221059C2500706C51 /* YGHttpTool.m in Sources */,

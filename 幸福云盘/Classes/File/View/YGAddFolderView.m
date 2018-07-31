@@ -8,7 +8,24 @@
 
 #import "YGAddFolderView.h"
 
-@interface YGAddFolderView ()
+@interface YGAddFolderBtn : UIButton
+
+@end
+
+@implementation YGAddFolderBtn
+- (void)drawRect:(CGRect)rect
+{
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextAddRect(ctx, rect);
+    CGContextSetLineWidth(ctx, 1.0);
+    [[UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:1.0] set];
+    CGContextStrokePath(ctx);
+}
+
+@end
+
+
+@interface YGAddFolderView () <UITextFieldDelegate>
 @property (nonatomic, weak) UIView *bgView;
 @property (nonatomic, weak) UILabel *titleLabel;
 @property (nonatomic, weak) UITextField *inputField;
@@ -20,11 +37,11 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor blackColor];
+        self.backgroundColor = YGColorRGBA(0, 0, 0, 0.3);
         
         UIView *bgView = [[UIView alloc] init];
         bgView.backgroundColor = [UIColor whiteColor];
-        bgView.layer.cornerRadius = 5.0;
+        bgView.layer.cornerRadius = 8.0;
         bgView.clipsToBounds = YES;
         [self addSubview:bgView];
         self.bgView = bgView;
@@ -38,23 +55,28 @@
         self.titleLabel = titleLabel;
         
         UITextField *inputField = [[UITextField alloc] init];
-        inputField.backgroundColor = [UIColor lightGrayColor];
+        inputField.backgroundColor = YGColorRGB(247, 247, 247);
         inputField.borderStyle = UITextBorderStyleRoundedRect;
+        inputField.clearButtonMode = UITextFieldViewModeWhileEditing;
         inputField.text = @"新建文件夹";
+        [inputField becomeFirstResponder];
+        [inputField performSelector:@selector(selectAll:) withObject:nil afterDelay:0.0];
         [self.bgView addSubview:inputField];
         self.inputField = inputField;
         
-        UIButton *okBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        YGAddFolderBtn *okBtn = [YGAddFolderBtn buttonWithType:UIButtonTypeCustom];
         okBtn.backgroundColor = [UIColor whiteColor];
         [okBtn setTitle:@"确定" forState:UIControlStateNormal];
+        okBtn.titleLabel.font = [UIFont systemFontOfSize:15];
         [okBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         [okBtn addTarget:self action:@selector(okBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.bgView addSubview:okBtn];
         self.okBtn = okBtn;
         
-        UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        YGAddFolderBtn *cancelBtn = [YGAddFolderBtn buttonWithType:UIButtonTypeCustom];
         cancelBtn.backgroundColor = [UIColor whiteColor];
         [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+        cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
         [cancelBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         [cancelBtn addTarget:self action:@selector(cancelBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.bgView addSubview:cancelBtn];
@@ -63,14 +85,14 @@
     return self;
 }
 
-- (void)okBtnClick:(UIButton *)okBtn
+- (void)okBtnClick:(YGAddFolderBtn *)okBtn
 {
     if ([self.delegate respondsToSelector:@selector(addFolderViewDidClickOkBtn:)]) {
         [self.delegate addFolderViewDidClickOkBtn:self];
     }
 }
 
-- (void)cancelBtnClick:(UIButton *)cancelBtn
+- (void)cancelBtnClick:(YGAddFolderBtn *)cancelBtn
 {
     if ([self.delegate respondsToSelector:@selector(addFolderViewDidClickCancelBtn:)]) {
         [self.delegate addFolderViewDidClickCancelBtn:self];
@@ -85,7 +107,7 @@
         make.centerX.equalTo(self);
         make.centerY.equalTo(self).multipliedBy(0.8);
         make.width.equalTo(@240);
-        make.height.equalTo(@170);
+        make.height.equalTo(@150);
     }];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -98,21 +120,22 @@
     [self.inputField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.bgView);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(20.0);
-        make.width.equalTo(self.bgView).offset(-20.0);
+        make.width.equalTo(self.bgView).offset(-40.0);
         make.height.equalTo(@30);
     }];
     
-    [self.okBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.bgView);
+    [self.cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.bgView).offset(-1.0);
         make.top.equalTo(self.inputField.mas_bottom).offset(20.0);
-        make.width.equalTo(self.bgView).multipliedBy(0.5);
+        make.width.equalTo(@121);
         make.height.equalTo(@50);
     }];
     
-    [self.cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.okBtn.mas_right);
-        make.top.equalTo(self.okBtn);
-        make.width.height.equalTo(self.okBtn);
+    [self.okBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.cancelBtn.mas_right);
+        make.top.equalTo(self.cancelBtn);
+        make.width.equalTo(self.cancelBtn);
+        make.height.equalTo(self.cancelBtn);
     }];
 }
 @end

@@ -24,9 +24,16 @@
                             };
     [barAppearace setTitleTextAttributes:attrs];
     
+    
     UIImage *backImage = [UIImage imageNamed:@"back_icon"];
+    backImage = [backImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     barAppearace.tintColor = YGColorRGB(54, 54, 54);
     [barAppearace setBackIndicatorImage:backImage];
     [barAppearace setBackIndicatorTransitionMaskImage:backImage];
+    UIBarButtonItem *barButtonItem = [UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil];
+    UIOffset offset;
+    offset.vertical = -0.5;
+    [barButtonItem setBackButtonTitlePositionAdjustment:offset forBarMetrics:UIBarMetricsDefault];
 }
+
 @end

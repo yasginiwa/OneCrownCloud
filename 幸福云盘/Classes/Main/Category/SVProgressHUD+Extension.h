@@ -1,0 +1,18 @@
+//
+//  SVProgressHUD+Extension.h
+//  幸福云盘
+//
+//  Created by LiYugang on 2018/7/31.
+//  Copyright © 2018年 YGLEE. All rights reserved.
+//
+
+#import "SVProgressHUD.h"
+
+@interface SVProgressHUD (Extension)
++ (void)showWaiting;
++ (void)showMessage:(NSString *)message;
++ (void)showWaitingWithTitle:(NSString *)title;
++ (void)showSuccessWithTitle:(NSString *)title;
++ (void)showErrorWithTitle:(NSString *)title;
++ (void)hideHud;
+@end
