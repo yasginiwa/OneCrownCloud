@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class YGFileModel, YGFileEmptyView;
+@class YGFileModel, YGFileEmptyView, YGNetworkFailedView;
 
 @interface YGFileBaseVC : UITableViewController
 @property (nonatomic, strong) NSMutableArray *libraries;
 @property (nonatomic, weak) UIView *loadingView;
 @property (nonatomic, weak) YGFileEmptyView *fileEmptyView;
+@property (nonatomic, weak) YGNetworkFailedView *networkFailedView;
 @property (nonatomic, strong) YGFileModel *currentFileModel;
 @end

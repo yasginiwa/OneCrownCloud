@@ -32,6 +32,7 @@
 		B641A1D420FE0A0C00FCA501 /* YGActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = B641A1D320FE0A0C00FCA501 /* YGActivityIndicator.m */; };
 		B641A1D620FE0BB400FCA501 /* YGFileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B641A1D520FE0BB400FCA501 /* YGFileCell.xib */; };
 		B650EAA320FCCEA90025D1E0 /* YGApiToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B650EAA220FCCEA90025D1E0 /* YGApiToken.m */; };
+		B66644FE2110A504007F1630 /* YGNetworkFailedView.m in Sources */ = {isa = PBXBuildFile; fileRef = B66644FD2110A504007F1630 /* YGNetworkFailedView.m */; };
 		B676793B20F629BC00945627 /* YGMainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793A20F629BC00945627 /* YGMainTabBarVC.m */; };
 		B676793E20F629D900945627 /* YGMainNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793D20F629D900945627 /* YGMainNavVC.m */; };
 		B676794120F629F000945627 /* YGTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = B676794020F629F000945627 /* YGTabBar.m */; };
@@ -106,6 +107,8 @@
 		B641A1D520FE0BB400FCA501 /* YGFileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YGFileCell.xib; sourceTree = "<group>"; };
 		B650EAA120FCCEA90025D1E0 /* YGApiToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGApiToken.h; sourceTree = "<group>"; };
 		B650EAA220FCCEA90025D1E0 /* YGApiToken.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGApiToken.m; sourceTree = "<group>"; };
+		B66644FC2110A504007F1630 /* YGNetworkFailedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGNetworkFailedView.h; sourceTree = "<group>"; };
+		B66644FD2110A504007F1630 /* YGNetworkFailedView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGNetworkFailedView.m; sourceTree = "<group>"; };
 		B676793920F629BC00945627 /* YGMainTabBarVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGMainTabBarVC.h; sourceTree = "<group>"; };
 		B676793A20F629BC00945627 /* YGMainTabBarVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGMainTabBarVC.m; sourceTree = "<group>"; };
 		B676793C20F629D900945627 /* YGMainNavVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGMainNavVC.h; sourceTree = "<group>"; };
@@ -350,6 +353,8 @@
 			children = (
 				B676793F20F629F000945627 /* YGTabBar.h */,
 				B676794020F629F000945627 /* YGTabBar.m */,
+				B66644FC2110A504007F1630 /* YGNetworkFailedView.h */,
+				B66644FD2110A504007F1630 /* YGNetworkFailedView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -709,6 +714,7 @@
 				B676793E20F629D900945627 /* YGMainNavVC.m in Sources */,
 				B641A1D420FE0A0C00FCA501 /* YGActivityIndicator.m in Sources */,
 				73716C2521059C4700706C51 /* YGFileTypeTool.m in Sources */,
+				B66644FE2110A504007F1630 /* YGNetworkFailedView.m in Sources */,
 				B6A1E27820FA31EE009F94DF /* YGAccount.m in Sources */,
 				73716C282105AA5400706C51 /* NSString+Extension.m in Sources */,
 				B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */,

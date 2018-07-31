@@ -19,6 +19,9 @@
     YGApiToken *token = [YGApiTokenTool apiToken];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
+    [mgr.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+    mgr.requestSerializer.timeoutInterval = 3.0;
+    [mgr.requestSerializer didChangeValueForKey:@"timeoutInterval"];
     [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
     [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
     
@@ -42,6 +45,7 @@
         success(responseObject);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
+        
     }];
 }
 

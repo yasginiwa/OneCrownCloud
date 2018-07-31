@@ -34,20 +34,20 @@
     [SVProgressHUD showWithStatus:title];
 }
 
-+ (void)showSuccessWithTitle:(NSString *)title
++ (void)showSuccess:(NSString *)success
 {
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
-    [SVProgressHUD showSuccessWithStatus:title];
+    [SVProgressHUD showSuccessWithStatus:success];
 }
 
-+ (void)showErrorWithTitle:(NSString *)title
++ (void)showError:(NSString *)error
 {
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
-    [SVProgressHUD showErrorWithTitle:title];
+    [SVProgressHUD showErrorWithStatus:error];
 }
 
 + (void)hideHud

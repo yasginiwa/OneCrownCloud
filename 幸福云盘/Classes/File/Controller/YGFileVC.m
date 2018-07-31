@@ -13,6 +13,7 @@
 #import "YGFileCell.h"
 #import "YGLoadingView.h"
 #import "YGFileEmptyView.h"
+#import "YGNetworkFailedView.h"
 
 @interface YGFileVC () <YGFileCellDelegate>
 
@@ -59,7 +60,9 @@
         }
         [self.tableView reloadData];
     } failure:^(NSError * _Nonnull error) {
-        YGLog(@"%@", error);
+        if (error.code == -1001) {
+            [self setupNetworkFailedView];
+        }
     }];
 }
 
@@ -79,6 +82,10 @@
     
     NSDictionary *params = @{@"type" : @"mine"};
     [YGHttpTool listLibrariesParams:params success:^(id  _Nonnull responseObject) {
+        
+        [self.networkFailedView removeFromSuperview];
+        [self.loadingView removeFromSuperview];
+        
         NSArray *newFileModels = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObject];
         [self.libraries addObjectsFromArray:newFileModels];
         [self.tableView reloadData];
@@ -86,6 +93,16 @@
     } failure:^(NSError * _Nonnull error) {
         YGLog(@"%@", error);
     }];
+}
+
+/** 初始化网络请求超时的显示view */
+- (void)setupNetworkFailedView
+{
+    [SVProgressHUD showError:@"网络不给力啊，兄del..."];
+    YGNetworkFailedView *networkFailedView = [[YGNetworkFailedView alloc] init];
+    [self.view addSubview:networkFailedView];
+    networkFailedView.frame = self.view.bounds;
+    self.networkFailedView = networkFailedView;
 }
 
 - (void)dealloc

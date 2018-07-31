@@ -12,7 +12,7 @@
 + (void)showWaiting;
 + (void)showMessage:(NSString *)message;
 + (void)showWaitingWithTitle:(NSString *)title;
-+ (void)showSuccessWithTitle:(NSString *)title;
-+ (void)showErrorWithTitle:(NSString *)title;
++ (void)showSuccess:(NSString *)success;
++ (void)showError:(NSString *)error;
 + (void)hideHud;
 @end

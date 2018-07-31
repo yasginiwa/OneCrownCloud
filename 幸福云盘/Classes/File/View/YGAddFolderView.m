@@ -58,9 +58,7 @@
         inputField.backgroundColor = YGColorRGB(247, 247, 247);
         inputField.borderStyle = UITextBorderStyleRoundedRect;
         inputField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        inputField.text = @"新建文件夹";
         [inputField becomeFirstResponder];
-        [inputField performSelector:@selector(selectAll:) withObject:nil afterDelay:0.0];
         [self.bgView addSubview:inputField];
         self.inputField = inputField;
         
