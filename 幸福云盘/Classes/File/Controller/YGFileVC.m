@@ -16,7 +16,7 @@
 #import "YGNetworkFailedView.h"
 #import "YGFileFirstCell.h"
 #import "YGAddFolderView.h"
-#import "YGFileUploadVC.h"
+#import "YGFileUploadView.h"
 
 @interface YGFileVC () <YGFileCellDelegate, YGFileFirstCellDelegate, YGAddFolderViewDelegate>
 @property (nonatomic, copy) NSString *addRepoName;
@@ -179,8 +179,15 @@
 /** 文件上传 */
 - (void)fileUpload
 {
-    YGFileUploadVC *fileUploadVC = [[YGFileUploadVC alloc] init];
-    [self.navigationController presentViewController:fileUploadVC animated:YES completion:nil];
+    YGFileUploadView *fileUploadView = [[YGFileUploadView alloc] init];
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    [keyWindow addSubview:fileUploadView];
+    fileUploadView.frame = keyWindow.bounds;
+    
+    fileUploadView.alpha = 0.0;
+    [UIView animateWithDuration:0.5 animations:^{
+        fileUploadView.alpha = 0.85;
+    }];
 }
 
 - (void)dealloc

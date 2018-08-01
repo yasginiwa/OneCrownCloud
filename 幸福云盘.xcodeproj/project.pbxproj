@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		730F367D21117226009D0804 /* YGFileUploadVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 730F367B21117226009D0804 /* YGFileUploadVC.m */; };
 		732B81CB20FF10E8008E4C57 /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 732B81CA20FF10E8008E4C57 /* UIBarButtonItem+Extension.m */; };
 		7335A0A220FD864500F5ECF5 /* YGFileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7335A0A120FD864500F5ECF5 /* YGFileModel.m */; };
 		7335A0A520FD922F00F5ECF5 /* YGFileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7335A0A420FD922F00F5ECF5 /* YGFileCell.m */; };
@@ -33,6 +32,7 @@
 		B641A1D420FE0A0C00FCA501 /* YGActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = B641A1D320FE0A0C00FCA501 /* YGActivityIndicator.m */; };
 		B641A1D620FE0BB400FCA501 /* YGFileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B641A1D520FE0BB400FCA501 /* YGFileCell.xib */; };
 		B650EAA320FCCEA90025D1E0 /* YGApiToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B650EAA220FCCEA90025D1E0 /* YGApiToken.m */; };
+		B6595AFF2111DA9300B9D71E /* YGFileUploadView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6595AFE2111DA9300B9D71E /* YGFileUploadView.m */; };
 		B66644FE2110A504007F1630 /* YGNetworkFailedView.m in Sources */ = {isa = PBXBuildFile; fileRef = B66644FD2110A504007F1630 /* YGNetworkFailedView.m */; };
 		B676793B20F629BC00945627 /* YGMainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793A20F629BC00945627 /* YGMainTabBarVC.m */; };
 		B676793E20F629D900945627 /* YGMainNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793D20F629D900945627 /* YGMainNavVC.m */; };
@@ -60,8 +60,6 @@
 		24356D3E799840F6B9E6A5BF /* Pods-幸福云盘.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-幸福云盘.debug.xcconfig"; path = "Pods/Target Support Files/Pods-幸福云盘/Pods-幸福云盘.debug.xcconfig"; sourceTree = "<group>"; };
 		2E200F24AA867E7994FC0ECE /* libPods-幸福云盘.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-幸福云盘.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7303B0072106E381003A6952 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
-		730F367B21117226009D0804 /* YGFileUploadVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YGFileUploadVC.m; sourceTree = "<group>"; };
-		730F367C21117226009D0804 /* YGFileUploadVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YGFileUploadVC.h; sourceTree = "<group>"; };
 		732B81C920FF10E8008E4C57 /* UIBarButtonItem+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Extension.h"; sourceTree = "<group>"; };
 		732B81CA20FF10E8008E4C57 /* UIBarButtonItem+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Extension.m"; sourceTree = "<group>"; };
 		7335A0A020FD864500F5ECF5 /* YGFileModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileModel.h; sourceTree = "<group>"; };
@@ -110,6 +108,8 @@
 		B641A1D520FE0BB400FCA501 /* YGFileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YGFileCell.xib; sourceTree = "<group>"; };
 		B650EAA120FCCEA90025D1E0 /* YGApiToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGApiToken.h; sourceTree = "<group>"; };
 		B650EAA220FCCEA90025D1E0 /* YGApiToken.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGApiToken.m; sourceTree = "<group>"; };
+		B6595AFD2111DA9300B9D71E /* YGFileUploadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileUploadView.h; sourceTree = "<group>"; };
+		B6595AFE2111DA9300B9D71E /* YGFileUploadView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileUploadView.m; sourceTree = "<group>"; };
 		B66644FC2110A504007F1630 /* YGNetworkFailedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGNetworkFailedView.h; sourceTree = "<group>"; };
 		B66644FD2110A504007F1630 /* YGNetworkFailedView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGNetworkFailedView.m; sourceTree = "<group>"; };
 		B676793920F629BC00945627 /* YGMainTabBarVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGMainTabBarVC.h; sourceTree = "<group>"; };
@@ -290,8 +290,6 @@
 				73374F8C2101B4E1005BA2E9 /* YGSubFileVC.m */,
 				735E26882106B63E000DB123 /* YGFilePreviewVC.h */,
 				735E26892106B63E000DB123 /* YGFilePreviewVC.m */,
-				730F367C21117226009D0804 /* YGFileUploadVC.h */,
-				730F367B21117226009D0804 /* YGFileUploadVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -325,6 +323,8 @@
 				B6A8E23F210DBDC800E5117C /* YGFileUnableView.m */,
 				B6A7C4F1210F561D00C0A929 /* YGAddFolderView.h */,
 				B6A7C4F2210F561D00C0A929 /* YGAddFolderView.m */,
+				B6595AFD2111DA9300B9D71E /* YGFileUploadView.h */,
+				B6595AFE2111DA9300B9D71E /* YGFileUploadView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -703,7 +703,6 @@
 				B63EF38D2100A50000C562DF /* YGFileBaseVC.m in Sources */,
 				B6C4041720F78ACF00E95598 /* YGInputView.m in Sources */,
 				B676793E20F629D900945627 /* YGMainNavVC.m in Sources */,
-				730F367D21117226009D0804 /* YGFileUploadVC.m in Sources */,
 				B641A1D420FE0A0C00FCA501 /* YGActivityIndicator.m in Sources */,
 				73716C2521059C4700706C51 /* YGFileTypeTool.m in Sources */,
 				B66644FE2110A504007F1630 /* YGNetworkFailedView.m in Sources */,
@@ -712,6 +711,7 @@
 				B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */,
 				B6A7C4F3210F561D00C0A929 /* YGAddFolderView.m in Sources */,
 				B641A1D120FDF69800FCA501 /* YGLoadingView.m in Sources */,
+				B6595AFF2111DA9300B9D71E /* YGFileUploadView.m in Sources */,
 				7335A0A220FD864500F5ECF5 /* YGFileModel.m in Sources */,
 				732B81CB20FF10E8008E4C57 /* UIBarButtonItem+Extension.m in Sources */,
 			);
