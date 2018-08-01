@@ -34,13 +34,19 @@
     return self;
 }
 
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    self.frame = newSuperview.bounds;
+    self.y = 0;
+}
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
     
     [self.failedImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
-        make.centerY.equalTo(self).multipliedBy(0.8);
+        make.centerY.equalTo(self).multipliedBy(0.7);
         make.width.equalTo(@60);
         make.height.equalTo(@130);
     }];

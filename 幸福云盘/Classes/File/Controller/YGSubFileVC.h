@@ -11,5 +11,5 @@
 @class YGFileModel;
 
 @interface YGSubFileVC : YGFileBaseVC
-@property (nonatomic, strong) YGFileModel *currentFileModel;
+
 @end

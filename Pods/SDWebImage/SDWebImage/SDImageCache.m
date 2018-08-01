@@ -50,7 +50,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 @property (strong, nonatomic, nonnull) NSCache *memCache;
 @property (strong, nonatomic, nonnull) NSString *diskCachePath;
 @property (strong, nonatomic, nullable) NSMutableArray<NSString *> *customPaths;
-@property (strong, nonatomic, nullable) dispatch_queue_t ioQueue;
+@property (SDDispatchQueueSetterSementics, nonatomic, nullable) dispatch_queue_t ioQueue;
 
 @end
 
@@ -129,6 +129,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    SDDispatchQueueRelease(_ioQueue);
 }
 
 - (void)checkIfQueueIsIOQueue {
@@ -217,14 +218,8 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
             @autoreleasepool {
                 NSData *data = imageData;
                 if (!data && image) {
-                    // If we do not have any data to detect image format, check whether it contains alpha channel to use PNG or JPEG format
-                    SDImageFormat format;
-                    if (SDCGImageRefContainsAlpha(image.CGImage)) {
-                        format = SDImageFormatPNG;
-                    } else {
-                        format = SDImageFormatJPEG;
-                    }
-                    data = [[SDWebImageCodersManager sharedInstance] encodedDataWithImage:image format:format];
+                    // If we do not have any data to detect image format, use PNG format
+                    data = [[SDWebImageCodersManager sharedInstance] encodedDataWithImage:image format:SDImageFormatPNG];
                 }
                 [self storeImageDataToDisk:data forKey:key];
             }

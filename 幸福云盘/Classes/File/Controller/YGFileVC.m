@@ -14,9 +14,12 @@
 #import "YGLoadingView.h"
 #import "YGFileEmptyView.h"
 #import "YGNetworkFailedView.h"
+#import "YGFileFirstCell.h"
+#import "YGAddFolderView.h"
+#import "YGFileUploadVC.h"
 
-@interface YGFileVC () <YGFileCellDelegate>
-
+@interface YGFileVC () <YGFileCellDelegate, YGFileFirstCellDelegate, YGAddFolderViewDelegate>
+@property (nonatomic, copy) NSString *addRepoName;
 @end
 
 @implementation YGFileVC
@@ -25,6 +28,8 @@
     [super viewDidLoad];
 
     [self judgeFirstLogin];
+    
+    [self addObsvr];
 }
 
 /** 第一次登陆 判断沙盒中是否存在token的归档文件 然后请求所有的repo */
@@ -41,6 +46,17 @@
 - (void)addObserver
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestLibraries) name:YGTokenSavedNotification object:nil];
+}
+
+- (void)addObsvr
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+}
+
+- (void)textChanged:(NSNotification *)note
+{
+    UITextField *textField = note.object;
+    self.addRepoName = textField.text;
 }
 
 /** 请求repo */
@@ -91,18 +107,80 @@
         [self.tableView reloadData];
         [self.tableView.mj_header endRefreshing];
     } failure:^(NSError * _Nonnull error) {
-        YGLog(@"%@", error);
+        if (error.code == - 1001) {
+            [self setupNetworkFailedView];
+        }
+        [self.tableView.mj_header endRefreshing];
     }];
 }
 
 /** 初始化网络请求超时的显示view */
 - (void)setupNetworkFailedView
 {
-    [SVProgressHUD showError:@"网络不给力啊，兄del..."];
+    [SVProgressHUD showError:@"网络不给力哦..."];
     YGNetworkFailedView *networkFailedView = [[YGNetworkFailedView alloc] init];
     [self.view addSubview:networkFailedView];
-    networkFailedView.frame = self.view.bounds;
-    self.networkFailedView = networkFailedView;
+}
+
+#pragma mark - YGFileFirstCellDelegate
+- (void)fileFirstCellDidClickAddFolderBtn:(YGFileFirstCell *)cell
+{
+    YGAddFolderView *addFolderView = [[YGAddFolderView alloc] init];
+    addFolderView.delegate = self;
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    [keyWindow addSubview:addFolderView];
+    addFolderView.frame = keyWindow.bounds;
+}
+
+- (void)fileFirstCellDidClickOrderBtn:(YGFileFirstCell *)cell
+{
+    YGLog(@"-fileFirstCellDidClickOrderBtn--");
+}
+
+#pragma mark - YGAddFolderViewDelegate
+- (void)addFolderViewDidClickOkBtn:(YGAddFolderView *)addFolderView
+{
+    [addFolderView endEditing:YES];
+
+    [SVProgressHUD showWaiting];
+
+    NSDictionary *params = @{
+                             @"name" : self.addRepoName,
+                             @"desc" : @"new library"
+                             };
+
+    if (self.addRepoName.length == 0) {
+        [SVProgressHUD showMessage:@"文件名不能为空"];
+        [SVProgressHUD dismissWithDelay:0.6];
+        return;
+    }
+
+    [YGHttpTool createLibraryParams:params success:^(id  _Nonnull responseObject) {
+        
+        [addFolderView removeFromSuperview];
+        [SVProgressHUD showSuccessWithStatus:@"创建成功"];
+        [SVProgressHUD hideHud];
+        [self refreshLibrary];
+        
+    } failure:^(NSError * _Nonnull error) {
+        
+        if (error.code == -1001) {
+            [SVProgressHUD showError:@"网络不给力哦..."];
+        }
+    }];
+}
+
+- (void)addFolderViewDidClickCancelBtn:(YGAddFolderView *)addFolderView
+{
+    [addFolderView endEditing:YES];
+    [addFolderView removeFromSuperview];
+}
+
+/** 文件上传 */
+- (void)fileUpload
+{
+    YGFileUploadVC *fileUploadVC = [[YGFileUploadVC alloc] init];
+    [self.navigationController presentViewController:fileUploadVC animated:YES completion:nil];
 }
 
 - (void)dealloc

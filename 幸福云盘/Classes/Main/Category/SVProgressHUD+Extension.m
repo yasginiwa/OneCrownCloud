@@ -23,7 +23,7 @@
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
     [SVProgressHUD showInfoWithStatus:message];
-    
+    [SVProgressHUD dismissWithDelay:1.5];
 }
 
 + (void)showWaitingWithTitle:(NSString *)title
@@ -40,6 +40,7 @@
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
     [SVProgressHUD showSuccessWithStatus:success];
+    [SVProgressHUD dismissWithDelay:1.5];
 }
 
 + (void)showError:(NSString *)error
@@ -48,6 +49,7 @@
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
     [SVProgressHUD showErrorWithStatus:error];
+    [SVProgressHUD dismissWithDelay:1.5];
 }
 
 + (void)hideHud

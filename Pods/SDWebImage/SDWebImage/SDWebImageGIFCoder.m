@@ -77,7 +77,7 @@
         NSDictionary *gifProperties = [imageProperties valueForKey:(__bridge_transfer NSString *)kCGImagePropertyGIFDictionary];
         if (gifProperties) {
             NSNumber *gifLoopCount = [gifProperties valueForKey:(__bridge_transfer NSString *)kCGImagePropertyGIFLoopCount];
-            if (gifLoopCount != nil) {
+            if (gifLoopCount) {
                 loopCount = gifLoopCount.unsignedIntegerValue;
             }
         }
@@ -99,11 +99,11 @@
     NSDictionary *gifProperties = frameProperties[(NSString *)kCGImagePropertyGIFDictionary];
     
     NSNumber *delayTimeUnclampedProp = gifProperties[(NSString *)kCGImagePropertyGIFUnclampedDelayTime];
-    if (delayTimeUnclampedProp != nil) {
+    if (delayTimeUnclampedProp) {
         frameDuration = [delayTimeUnclampedProp floatValue];
     } else {
         NSNumber *delayTimeProp = gifProperties[(NSString *)kCGImagePropertyGIFDelayTime];
-        if (delayTimeProp != nil) {
+        if (delayTimeProp) {
             frameDuration = [delayTimeProp floatValue];
         }
     }

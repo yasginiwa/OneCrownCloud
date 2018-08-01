@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		730F367D21117226009D0804 /* YGFileUploadVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 730F367B21117226009D0804 /* YGFileUploadVC.m */; };
 		732B81CB20FF10E8008E4C57 /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 732B81CA20FF10E8008E4C57 /* UIBarButtonItem+Extension.m */; };
 		7335A0A220FD864500F5ECF5 /* YGFileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7335A0A120FD864500F5ECF5 /* YGFileModel.m */; };
 		7335A0A520FD922F00F5ECF5 /* YGFileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7335A0A420FD922F00F5ECF5 /* YGFileCell.m */; };
@@ -59,6 +60,8 @@
 		24356D3E799840F6B9E6A5BF /* Pods-幸福云盘.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-幸福云盘.debug.xcconfig"; path = "Pods/Target Support Files/Pods-幸福云盘/Pods-幸福云盘.debug.xcconfig"; sourceTree = "<group>"; };
 		2E200F24AA867E7994FC0ECE /* libPods-幸福云盘.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-幸福云盘.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7303B0072106E381003A6952 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		730F367B21117226009D0804 /* YGFileUploadVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YGFileUploadVC.m; sourceTree = "<group>"; };
+		730F367C21117226009D0804 /* YGFileUploadVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YGFileUploadVC.h; sourceTree = "<group>"; };
 		732B81C920FF10E8008E4C57 /* UIBarButtonItem+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Extension.h"; sourceTree = "<group>"; };
 		732B81CA20FF10E8008E4C57 /* UIBarButtonItem+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Extension.m"; sourceTree = "<group>"; };
 		7335A0A020FD864500F5ECF5 /* YGFileModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileModel.h; sourceTree = "<group>"; };
@@ -287,6 +290,8 @@
 				73374F8C2101B4E1005BA2E9 /* YGSubFileVC.m */,
 				735E26882106B63E000DB123 /* YGFilePreviewVC.h */,
 				735E26892106B63E000DB123 /* YGFilePreviewVC.m */,
+				730F367C21117226009D0804 /* YGFileUploadVC.h */,
+				730F367B21117226009D0804 /* YGFileUploadVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -561,7 +566,6 @@
 				B6209E7520F4EE7D0075497C /* Sources */,
 				B6209E7620F4EE7D0075497C /* Frameworks */,
 				B6209E7720F4EE7D0075497C /* Resources */,
-				9CED471EA68F8DC9FA52EADA /* [CP] Embed Pods Frameworks */,
 				1C7E8B4DA7977C6EA4BC98A9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -628,11 +632,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-幸福云盘/Pods-幸福云盘-resources.sh",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/QBImagePickerController/QBImagePicker.bundle",
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -656,21 +662,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9CED471EA68F8DC9FA52EADA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-幸福云盘/Pods-幸福云盘-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -712,6 +703,7 @@
 				B63EF38D2100A50000C562DF /* YGFileBaseVC.m in Sources */,
 				B6C4041720F78ACF00E95598 /* YGInputView.m in Sources */,
 				B676793E20F629D900945627 /* YGMainNavVC.m in Sources */,
+				730F367D21117226009D0804 /* YGFileUploadVC.m in Sources */,
 				B641A1D420FE0A0C00FCA501 /* YGActivityIndicator.m in Sources */,
 				73716C2521059C4700706C51 /* YGFileTypeTool.m in Sources */,
 				B66644FE2110A504007F1630 /* YGNetworkFailedView.m in Sources */,
