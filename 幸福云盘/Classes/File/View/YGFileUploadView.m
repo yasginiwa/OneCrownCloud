@@ -14,7 +14,6 @@
 @property (nonatomic, weak) UIButton *videoUploadBtn;
 @property (nonatomic, weak) UILabel *videoUploadLabel;
 @property (nonatomic, weak) UIButton *closeBtn;
-@property (nonatomic, assign, getter=isOnBottom) BOOL onBottom;
 @end
 
 @implementation YGFileUploadView
@@ -23,11 +22,11 @@
     if (self = [super initWithFrame:frame]) {
         //  初始化自己外观
         self.backgroundColor = [UIColor whiteColor];
-        self.onBottom = NO;
         
         //  添加图片上传按钮
         UIButton *picUploadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [picUploadBtn setImage:[UIImage imageNamed:@"file_upload_pic"] forState:UIControlStateNormal];
+        [picUploadBtn addTarget:self action:@selector(startAnimating) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:picUploadBtn];
         self.picUploadBtn = picUploadBtn;
         
@@ -56,51 +55,82 @@
         //  添加关闭按钮
         UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [closeBtn setImage:[UIImage imageNamed:@"file_upload_close"] forState:UIControlStateNormal];
-        [closeBtn addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
+        [closeBtn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:closeBtn];
         self.closeBtn = closeBtn;
         
-        self.onBottom = NO;
-        
-//        [self.picUploadLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(self.picUploadBtn);
-//            make.top.equalTo(self.picUploadBtn.mas_bottom);
-//            make.width.equalTo(@(scrnW));
-//            make.height.equalTo(@14);
-//        }];
-//
-//        [self.videoUploadBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(self.picUploadBtn);
-//            make.top.equalTo(self.picUploadBtn.mas_bottom).offset(60.0);
-//            make.height.width.equalTo(self.picUploadBtn);
-//        }];
-//
-//        [self.videoUploadLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(self.picUploadBtn);
-//            make.top.equalTo(self.videoUploadBtn.mas_bottom);
-//            make.width.equalTo(@(scrnW));
-        //            make.height.equalTo(self.picUploadLabel);
-        //        }];
-        //
-        //        [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        //            make.centerX.equalTo(self.picUploadBtn);
-        //            make.top.equalTo(self.videoUploadBtn.mas_bottom).offset(120.0);
-        //            make.width.height.equalTo(@30);
-        //        }];
-
         [self.picUploadBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(@(scrnW * 0.5));
-            make.centerY.equalTo(@(scrnH));
+            make.centerX.equalTo(self);
+            make.top.equalTo(self.mas_bottom);
             make.height.width.equalTo(@123);
         }];
         
-        YGLog(@"%@", NSStringFromCGRect(self.picUploadBtn.frame));
+        [self.picUploadLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self);
+            make.top.equalTo(self.picUploadBtn.mas_bottom).offset(-10);
+            make.width.equalTo(self);
+            make.height.equalTo(@14);
+        }];
+
+        [self.videoUploadBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self);
+            make.top.equalTo(self.picUploadLabel.mas_bottom).offset(60);
+            make.width.height.equalTo(@123);
+        }];
+
+        [self.videoUploadLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self);
+            make.top.equalTo(self.videoUploadBtn.mas_bottom).offset(-10);
+            make.width.equalTo(self);
+            make.height.equalTo(@14);
+        }];
+
+        [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self);
+            make.top.equalTo(self.videoUploadLabel.mas_bottom).offset(60);
+            make.height.width.equalTo(@30);
+        }];
     }
     return self;
 }
 
+- (void)popUpButtons
+{
+    [self.picUploadBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.centerY.equalTo(self).multipliedBy(0.8);
+        make.height.width.equalTo(@123);
+    }];
+    
+    [self setNeedsUpdateConstraints];
+    
+    [self updateConstraints];
+    
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        [self getDownButtons];
+    }];
+}
 
-- (void)updateConstraints
+- (void)getDownButtons
+{
+    [self.picUploadBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.centerY.equalTo(self).multipliedBy(0.8).offset(16);
+        make.height.width.equalTo(@123);
+    }];
+    
+    [self setNeedsUpdateConstraints];
+    
+    [self updateConstraints];
+    
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self layoutIfNeeded];
+    } completion:nil];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [self.picUploadBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
@@ -108,39 +138,33 @@
         make.height.width.equalTo(@123);
     }];
     
-    [super updateConstraints];
-}
-
-- (void)didMoveToWindow
-{
-    [UIView animateWithDuration:2.0 animations:^{
+    [self setNeedsUpdateConstraints];
+    
+    [self updateConstraints];
+    
+    [UIView animateWithDuration:0.3 animations:^{
         [self layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        [self removeFromSuperview];
     }];
+    
+    [super touchesBegan:touches withEvent:event];
 }
 
-//- (void)popUp
-//{
-//    [UIView animateWithDuration:1.0 animations:^{
-//        [self.picUploadBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(self);
-//            make.centerY.equalTo(self).multipliedBy(0.8);
-//            make.height.width.equalTo(@123);
-//        }];
-//    }];
-//}
-//
-//
-//- (void)close
-//{
-//
-//    [self setNeedsUpdateConstraints];
-//
-//    [self updateConstraints];
-//
-//    [UIView animateWithDuration:10.0 animations:^{
-//
-//    }];
-//
-//    [self layoutIfNeeded];
-//}
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+    if (self.closeBtn.hidden == NO) {
+        CGPoint newPoint = [self convertPoint:point toView:self.closeBtn];
+        if ([self.closeBtn pointInside:newPoint withEvent:event]) {
+            return self.closeBtn;
+        }
+    }
+    return self;
+}
+
+- (void)dismiss
+{
+    YGLog(@"--dismiss--");
+}
+
 @end

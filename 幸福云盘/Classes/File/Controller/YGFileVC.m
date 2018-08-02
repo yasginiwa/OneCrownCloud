@@ -180,13 +180,14 @@
 - (void)fileUpload
 {
     YGFileUploadView *fileUploadView = [[YGFileUploadView alloc] init];
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    [keyWindow addSubview:fileUploadView];
-    fileUploadView.frame = keyWindow.bounds;
+    [self.navigationController.view addSubview:fileUploadView];
+    fileUploadView.frame = self.navigationController.view.bounds;
     
     fileUploadView.alpha = 0.0;
     [UIView animateWithDuration:0.5 animations:^{
-        fileUploadView.alpha = 0.85;
+        fileUploadView.alpha = 0.9;
+    } completion:^(BOOL finished) {
+        [fileUploadView popUpButtons];
     }];
 }
 

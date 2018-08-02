@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface YGFileUploadView : UIToolbar
-- (void)dismiss;
+- (void)popUpButtons;
 @end
