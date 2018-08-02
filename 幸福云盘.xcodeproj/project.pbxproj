@@ -337,7 +337,6 @@
 				B676792520F627E500945627 /* Controller */,
 				B676792720F627E500945627 /* View */,
 				B6C4040720F76F4300E95598 /* Category */,
-				B6C4040820F76F4300E95598 /* Lib */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -546,13 +545,6 @@
 				73D6120721102736006F209E /* SVProgressHUD+Extension.m */,
 			);
 			path = Category;
-			sourceTree = "<group>";
-		};
-		B6C4040820F76F4300E95598 /* Lib */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Lib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

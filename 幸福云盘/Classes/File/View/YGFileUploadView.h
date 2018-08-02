@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class YGFileUploadView;
+
+@protocol YGFileUploadDelegate <NSObject>
+@optional
+- (void)fileUploadDidClickPicUploadBtn:(YGFileUploadView *)fileUploadView;
+- (void)fileUploadDidClickVideoUploadBtn:(YGFileUploadView *)fileUploadView;
+@end
+
 @interface YGFileUploadView : UIToolbar
+@property (nonatomic, weak) id<YGFileUploadDelegate> uploadDelegate;
 - (void)popUpButtons;
+- (void)dismiss;
 @end

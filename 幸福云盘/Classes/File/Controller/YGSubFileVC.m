@@ -120,17 +120,16 @@
     
     NSString *repoID = [YGRepoTool repo].ID;
     
+    if (self.addDirName.length == 0) {
+        [SVProgressHUD showMessage:@"文件名不能为空"];
+        return;
+    }
+    
     NSDictionary *params = @{
                              
                              @"operation" : @"mkdir"
                              };
-    
-    if (self.addDirName.length == 0) {
-        [SVProgressHUD showMessage:@"文件名不能为空"];
-        [SVProgressHUD dismissWithDelay:0.6];
-        return;
-    }
-    
+
     [YGHttpTool createDirectoryWithRepoID:repoID dir:self.addDirName params:params success:^(id  _Nonnull responseObject) {
         [addFolderView removeFromSuperview];
         

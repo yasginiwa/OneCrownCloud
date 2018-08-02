@@ -17,8 +17,9 @@
 #import "YGFileFirstCell.h"
 #import "YGAddFolderView.h"
 #import "YGFileUploadView.h"
+#import <QBImagePickerController.h>
 
-@interface YGFileVC () <YGFileCellDelegate, YGFileFirstCellDelegate, YGAddFolderViewDelegate>
+@interface YGFileVC () <YGFileCellDelegate, YGFileFirstCellDelegate, YGAddFolderViewDelegate, YGFileUploadDelegate, QBImagePickerControllerDelegate>
 @property (nonatomic, copy) NSString *addRepoName;
 @end
 
@@ -143,17 +144,17 @@
     [addFolderView endEditing:YES];
 
     [SVProgressHUD showWaiting];
-
-    NSDictionary *params = @{
-                             @"name" : self.addRepoName,
-                             @"desc" : @"new library"
-                             };
-
+    
     if (self.addRepoName.length == 0) {
         [SVProgressHUD showMessage:@"文件名不能为空"];
         [SVProgressHUD dismissWithDelay:0.6];
         return;
     }
+
+    NSDictionary *params = @{
+                             @"name" : self.addRepoName,
+                             @"desc" : @"new library"
+                             };
 
     [YGHttpTool createLibraryParams:params success:^(id  _Nonnull responseObject) {
         
@@ -180,8 +181,10 @@
 - (void)fileUpload
 {
     YGFileUploadView *fileUploadView = [[YGFileUploadView alloc] init];
-    [self.navigationController.view addSubview:fileUploadView];
-    fileUploadView.frame = self.navigationController.view.bounds;
+    fileUploadView.uploadDelegate = self;
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    [keyWindow addSubview:fileUploadView];
+    fileUploadView.frame = [UIScreen mainScreen].bounds;
     
     fileUploadView.alpha = 0.0;
     [UIView animateWithDuration:0.5 animations:^{
@@ -189,6 +192,47 @@
     } completion:^(BOOL finished) {
         [fileUploadView popUpButtons];
     }];
+}
+
+#pragma mark - YGFileUploadDelegate
+- (void)fileUploadDidClickPicUploadBtn:(YGFileUploadView *)fileUploadView
+{
+    QBImagePickerController *imagePickerVC = [[QBImagePickerController alloc] init];
+    imagePickerVC.delegate = self;
+    imagePickerVC.allowsMultipleSelection = YES;
+    imagePickerVC.maximumNumberOfSelection = 9;
+    imagePickerVC.showsNumberOfSelectedAssets = YES;
+    imagePickerVC.numberOfColumnsInPortrait = 4;
+    imagePickerVC.mediaType = QBImagePickerMediaTypeImage;
+    imagePickerVC.assetCollectionSubtypes = @[
+                                              @(PHAssetCollectionSubtypeSmartAlbumUserLibrary), // Camera Roll
+//                                              @(PHAssetCollectionSubtypeAlbumMyPhotoStream), // My Photo Stream
+//                                              @(PHAssetCollectionSubtypeSmartAlbumPanoramas), // Panoramas
+//                                              @(PHAssetCollectionSubtypeSmartAlbumVideos), // Videos
+//                                              @(PHAssetCollectionSubtypeSmartAlbumBursts) // Bursts
+                                              ];
+    
+    [imagePickerVC.selectedAssets addObject:[PHAsset fetchAssetsWithOptions:PHAsset].lastObject];
+    [fileUploadView dismiss];
+    [fileUploadView removeFromSuperview];
+    
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
+}
+
+- (void)fileUploadDidClickVideoUploadBtn:(YGFileUploadView *)fileUploadView
+{
+    
+}
+
+#pragma mark - QBImagePickerControllerDelegate
+- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets
+{
+    
+}
+
+- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController
+{
+    [imagePickerController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)dealloc
