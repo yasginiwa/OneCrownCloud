@@ -23,10 +23,10 @@
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
     [SVProgressHUD showInfoWithStatus:message];
-    [SVProgressHUD dismissWithDelay:1.5];
+    [SVProgressHUD dismissWithDelay:1.0];
 }
 
-+ (void)showWaitingWithTitle:(NSString *)title
++ (void)showWaiting:(NSString *)title
 {
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
@@ -40,7 +40,7 @@
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
     [SVProgressHUD showSuccessWithStatus:success];
-    [SVProgressHUD dismissWithDelay:1.5];
+    [SVProgressHUD dismissWithDelay:1.0];
 }
 
 + (void)showError:(NSString *)error
@@ -49,11 +49,27 @@
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
     [SVProgressHUD showErrorWithStatus:error];
-    [SVProgressHUD dismissWithDelay:1.5];
+    [SVProgressHUD dismissWithDelay:1.0];
+}
+
++ (void)showSuccessFace:(NSString *)success
+{
+    [SVProgressHUD showSuccess:success];
+    [SVProgressHUD setImageViewSize:CGSizeMake(38, 38)];
+    [SVProgressHUD showImage:[UIImage imageNamed:@"file_successface"] status:success];
+    [SVProgressHUD dismissWithDelay:1.0];
+}
+
++ (void)showFailureFace:(NSString *)failure
+{
+    [SVProgressHUD showError:failure];
+    [SVProgressHUD setImageViewSize:CGSizeMake(38, 38)];
+    [SVProgressHUD showImage:[UIImage imageNamed:@"file_failureface"] status:failure];
+    [SVProgressHUD dismissWithDelay:1.0];
 }
 
 + (void)hideHud
 {
-    [SVProgressHUD dismissWithDelay:1.0];
+    [SVProgressHUD dismissWithDelay:0.0];
 }
 @end

@@ -133,10 +133,12 @@
     YGApiToken *token = [YGApiTokenTool apiToken];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
+    mgr.responseSerializer = [AFHTTPResponseSerializer serializer];
     [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
     [mgr.requestSerializer setValue:@"application/json; charset=utf-8; indent=4" forHTTPHeaderField:@"Accept"];
-    [mgr DELETE:url parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        success(responseObject);
+    [mgr DELETE:url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSString *resonseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        success(resonseStr);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
     }];
@@ -191,12 +193,13 @@
 + (void)deleteLibrary:(NSString *)repoID success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure
 {
     NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
-    urlStr = [NSString stringWithFormat:@"%@%@", urlStr, repoID];
+    urlStr = [NSString stringWithFormat:@"%@%@/", urlStr, repoID];
     NSDictionary *params = nil;
     [YGHttpTool DELETE:urlStr params:params success:^(id responseObject) {
         success(responseObject);
     } failure:^(NSError *error) {
         failure(error);
+        YGLog(@"%@", error);
     }];
 }
 
@@ -224,10 +227,9 @@
 
 + (void)createDirectoryWithRepoID:(NSString *)repoID dir:(NSString *)dir params:(id)params success:(void (^)(id _Nonnull responseObject))success failure:(void (^)(NSError * _Nonnull error))failure
 {
-    
     NSString *urlStr = [BASE_URL stringByAppendingString:REPO_URI];
-    NSString *currentDir = [[YGDirTool dir] substringFromIndex:1];
-    urlStr = [[[[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:DIR_URI] stringByAppendingString:[NSString stringWithFormat:@"?p=/%@%@", currentDir, dir]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *currentDir = [YGDirTool dir];
+    urlStr = [[[[NSString stringWithFormat:@"%@%@", urlStr, repoID] stringByAppendingString:DIR_URI] stringByAppendingString:[NSString stringWithFormat:@"?p=%@%@", currentDir, dir]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [YGHttpTool nonJsonPOST:urlStr params:params success:^(id  _Nonnull responseStr) {
         success(responseStr);
     } failure:^(NSError * error) {

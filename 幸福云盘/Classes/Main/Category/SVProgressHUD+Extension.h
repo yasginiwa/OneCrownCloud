@@ -11,8 +11,10 @@
 @interface SVProgressHUD (Extension)
 + (void)showWaiting;
 + (void)showMessage:(NSString *)message;
-+ (void)showWaitingWithTitle:(NSString *)title;
++ (void)showWaiting:(NSString *)title;
 + (void)showSuccess:(NSString *)success;
 + (void)showError:(NSString *)error;
++ (void)showSuccessFace:(NSString *)success;
++ (void)showFailureFace:(NSString *)failure;
 + (void)hideHud;
 @end

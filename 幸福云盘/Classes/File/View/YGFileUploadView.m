@@ -25,8 +25,8 @@
         
         //  添加图片上传按钮
         UIButton *picUploadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [picUploadBtn setImage:[UIImage imageNamed:@"file_upload_pic"] forState:UIControlStateNormal];
-        [picUploadBtn addTarget:self action:@selector(picUploadClick) forControlEvents:UIControlEventTouchUpInside];
+        [picUploadBtn setBackgroundImage:[UIImage imageNamed:@"file_upload_pic"] forState:UIControlStateNormal];
+        [picUploadBtn addTarget:self action:@selector(picUploadClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:picUploadBtn];
         self.picUploadBtn = picUploadBtn;
         
@@ -40,8 +40,8 @@
         
         //  添加视频上传按钮
         UIButton *videoUploadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [videoUploadBtn setImage:[UIImage imageNamed:@"file_upload_video"] forState:UIControlStateNormal];
-        [videoUploadBtn addTarget:self action:@selector(videoUploadClick) forControlEvents:UIControlEventTouchUpInside];
+        [videoUploadBtn setBackgroundImage:[UIImage imageNamed:@"file_upload_video"] forState:UIControlStateNormal];
+        [videoUploadBtn addTarget:self action:@selector(videoUploadClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:videoUploadBtn];
         self.videoUploadBtn = videoUploadBtn;
         
@@ -63,12 +63,12 @@
         [self.picUploadBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
             make.top.equalTo(self.mas_bottom);
-            make.height.width.equalTo(@123);
+            make.height.width.equalTo(@73);
         }];
         
         [self.picUploadLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
-            make.top.equalTo(self.picUploadBtn.mas_bottom).offset(-10);
+            make.top.equalTo(self.picUploadBtn.mas_bottom).offset(20.0);
             make.width.equalTo(self);
             make.height.equalTo(@14);
         }];
@@ -76,12 +76,12 @@
         [self.videoUploadBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
             make.top.equalTo(self.picUploadLabel.mas_bottom).offset(60);
-            make.width.height.equalTo(@123);
+            make.width.height.equalTo(@73);
         }];
 
         [self.videoUploadLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
-            make.top.equalTo(self.videoUploadBtn.mas_bottom).offset(-10);
+            make.top.equalTo(self.videoUploadBtn.mas_bottom).offset(20.0);
             make.width.equalTo(self);
             make.height.equalTo(@14);
         }];
@@ -99,8 +99,8 @@
 {
     [self.picUploadBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
-        make.centerY.equalTo(self).multipliedBy(0.8);
-        make.height.width.equalTo(@123);
+        make.centerY.equalTo(self).multipliedBy(0.7);
+        make.height.width.equalTo(@73);
     }];
     
     [self setNeedsUpdateConstraints];
@@ -119,7 +119,7 @@
     [self.picUploadBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
         make.centerY.equalTo(self).multipliedBy(0.8).offset(20);
-        make.height.width.equalTo(@123);
+        make.height.width.equalTo(@73);
     }];
     
     [self setNeedsUpdateConstraints];
@@ -133,21 +133,7 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [self.picUploadBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self);
-        make.top.equalTo(self.mas_bottom);
-        make.height.width.equalTo(@123);
-    }];
-    
-    [self setNeedsUpdateConstraints];
-    
-    [self updateConstraints];
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        [self layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        [self removeFromSuperview];
-    }];
+    [self dismiss];
     
     [super touchesBegan:touches withEvent:event];
 }
@@ -177,18 +163,46 @@
     return self;
 }
 
-- (void)picUploadClick
+- (void)picUploadClick:(UIButton *)picButton
 {
-    if ([self.uploadDelegate respondsToSelector:@selector(fileUploadDidClickPicUploadBtn:)]) {
-        [self.uploadDelegate fileUploadDidClickPicUploadBtn:self];
-    }
+    [picButton mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.height.equalTo(@143);
+    }];
+    
+    [self setNeedsUpdateConstraints];
+    [self updateConstraints];
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        picButton.alpha = 0.1;
+        [self layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        [self dismiss];
+        
+        if ([self.uploadDelegate respondsToSelector:@selector(fileUploadDidClickPicUploadBtn:)]) {
+            [self.uploadDelegate fileUploadDidClickPicUploadBtn:self];
+        }
+    }];
 }
 
-- (void)videoUploadClick
+- (void)videoUploadClick:(UIButton *)videoBtn
 {
-    if ([self.uploadDelegate respondsToSelector:@selector(fileUploadDidClickVideoUploadBtn:)]) {
-        [self.uploadDelegate fileUploadDidClickVideoUploadBtn:self];
-    }
+    [videoBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.height.equalTo(@143);
+    }];
+    
+    [self setNeedsUpdateConstraints];
+    [self updateConstraints];
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        videoBtn.alpha = 0.1;
+        [self layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        [self dismiss];
+        
+        if ([self.uploadDelegate respondsToSelector:@selector(fileUploadDidClickVideoUploadBtn:)]) {
+            [self.uploadDelegate fileUploadDidClickVideoUploadBtn:self];
+        }
+    }];
 }
 
 - (void)dismiss
@@ -196,7 +210,7 @@
     [self.picUploadBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
         make.top.equalTo(self.mas_bottom);
-        make.height.width.equalTo(@123);
+        make.height.width.equalTo(@73);
     }];
     
     [self setNeedsUpdateConstraints];

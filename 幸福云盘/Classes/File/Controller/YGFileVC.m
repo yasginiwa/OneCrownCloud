@@ -118,7 +118,7 @@
 /** 初始化网络请求超时的显示view */
 - (void)setupNetworkFailedView
 {
-    [SVProgressHUD showError:@"网络不给力哦..."];
+    [SVProgressHUD showFailureFace:@"网络不给力哦..."];
     YGNetworkFailedView *networkFailedView = [[YGNetworkFailedView alloc] init];
     [self.view addSubview:networkFailedView];
 }
@@ -141,15 +141,12 @@
 #pragma mark - YGAddFolderViewDelegate
 - (void)addFolderViewDidClickOkBtn:(YGAddFolderView *)addFolderView
 {
-    [addFolderView endEditing:YES];
-
-    [SVProgressHUD showWaiting];
-    
     if (self.addRepoName.length == 0) {
-        [SVProgressHUD showMessage:@"文件名不能为空"];
-        [SVProgressHUD dismissWithDelay:0.6];
+        addFolderView.emptyDirName = YES;
         return;
     }
+    
+    [addFolderView endEditing:YES];
 
     NSDictionary *params = @{
                              @"name" : self.addRepoName,
@@ -157,16 +154,13 @@
                              };
 
     [YGHttpTool createLibraryParams:params success:^(id  _Nonnull responseObject) {
-        
         [addFolderView removeFromSuperview];
-        [SVProgressHUD showSuccessWithStatus:@"创建成功"];
-        [SVProgressHUD hideHud];
+        [SVProgressHUD showSuccessFace:@"创建成功"];
         [self refreshLibrary];
         
     } failure:^(NSError * _Nonnull error) {
-        
         if (error.code == -1001) {
-            [SVProgressHUD showError:@"网络不给力哦..."];
+            [SVProgressHUD showFailureFace:@"网络不给力哦..."];
         }
     }];
 }
@@ -203,16 +197,12 @@
     imagePickerVC.maximumNumberOfSelection = 9;
     imagePickerVC.showsNumberOfSelectedAssets = YES;
     imagePickerVC.numberOfColumnsInPortrait = 4;
+    imagePickerVC.showsNumberOfSelectedAssets = YES;
     imagePickerVC.mediaType = QBImagePickerMediaTypeImage;
     imagePickerVC.assetCollectionSubtypes = @[
                                               @(PHAssetCollectionSubtypeSmartAlbumUserLibrary), // Camera Roll
-//                                              @(PHAssetCollectionSubtypeAlbumMyPhotoStream), // My Photo Stream
-//                                              @(PHAssetCollectionSubtypeSmartAlbumPanoramas), // Panoramas
-//                                              @(PHAssetCollectionSubtypeSmartAlbumVideos), // Videos
-//                                              @(PHAssetCollectionSubtypeSmartAlbumBursts) // Bursts
                                               ];
     
-    [imagePickerVC.selectedAssets addObject:[PHAsset fetchAssetsWithOptions:PHAsset].lastObject];
     [fileUploadView dismiss];
     [fileUploadView removeFromSuperview];
     
@@ -221,7 +211,22 @@
 
 - (void)fileUploadDidClickVideoUploadBtn:(YGFileUploadView *)fileUploadView
 {
+    QBImagePickerController *imagePickerVC = [[QBImagePickerController alloc] init];
+    imagePickerVC.delegate = self;
+    imagePickerVC.allowsMultipleSelection = YES;
+    imagePickerVC.maximumNumberOfSelection = 9;
+    imagePickerVC.showsNumberOfSelectedAssets = YES;
+    imagePickerVC.numberOfColumnsInPortrait = 4;
+    imagePickerVC.showsNumberOfSelectedAssets = YES;
+    imagePickerVC.mediaType = QBImagePickerMediaTypeVideo;
+    imagePickerVC.assetCollectionSubtypes = @[
+                                              @(PHAssetCollectionSubtypeSmartAlbumVideos), // Videos
+                                              ];
     
+    [fileUploadView dismiss];
+    [fileUploadView removeFromSuperview];
+    
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
 }
 
 #pragma mark - QBImagePickerControllerDelegate
@@ -233,6 +238,28 @@
 - (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController
 {
     [imagePickerController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)qb_imagePickerController:(QBImagePickerController *)imagePickerController shouldSelectAsset:(PHAsset *)asset
+{
+    return YES;
+}
+
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    YGFileModel *currentFileModel = self.libraries[indexPath.row];
+    self.currentFileModel = currentFileModel;
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        [YGHttpTool deleteLibrary:currentFileModel.ID success:^(id  _Nonnull responseObject) {
+            [SVProgressHUD showSuccessFace:@"删除成功"];
+            [self refreshLibrary];
+        } failure:^(NSError * _Nonnull error) {
+            [SVProgressHUD showFailureFace:@"删除失败"];
+        }];
+    }
 }
 
 - (void)dealloc

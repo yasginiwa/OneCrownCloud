@@ -139,7 +139,6 @@
         
         //  保存dir路径到沙盒
         [YGDirTool saveDir:currentFileModel];
-        
 
         YGSubFileVC *dirVC = [[YGSubFileVC alloc] init];
         dirVC.currentFileModel = currentFileModel;

@@ -54,18 +54,19 @@
     
     //  如果当前点击的是repo 则请求列出目录时param为空
     if ([YGFileTypeTool isRepo:self.currentFileModel]) {
-        
         params = nil;
     }
     //  如果当前点击的是dir 则请求列出目录时param的参数是目录的名字
     if ([YGFileTypeTool isDir:self.currentFileModel]) {
         
+        NSString *currentDir = [YGDirTool dir];
+        
         params = @{
-                   @"p" : [YGDirTool dir]
+                   @"p" : currentDir
                    };
     }
     
-        [YGHttpTool listDirectoryWithRepoID:repoID params:params success:^(id  _Nonnull responseObject) {
+    [YGHttpTool listDirectoryWithRepoID:repoID params:params success:^(id  _Nonnull responseObject) {
             
             NSArray *repos = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObject];
             [self.libraries addObjectsFromArray:repos];
@@ -88,7 +89,6 @@
             YGLog(@"%@", error);
             
         }];
-
 }
 
 - (void)refreshLibrary
@@ -114,32 +114,30 @@
 #pragma mark - YGAddFolderViewDelegate
 - (void)addFolderViewDidClickOkBtn:(YGAddFolderView *)addFolderView
 {
-    [addFolderView endEditing:YES];
-    
-    [SVProgressHUD showWaiting];
-    
     NSString *repoID = [YGRepoTool repo].ID;
     
     if (self.addDirName.length == 0) {
-        [SVProgressHUD showMessage:@"文件名不能为空"];
+        addFolderView.emptyDirName = YES;
         return;
     }
     
+    [addFolderView endEditing:YES];
+
+    self.addDirName = [NSString stringWithFormat:@"/%@", self.addDirName];
     NSDictionary *params = @{
-                             
                              @"operation" : @"mkdir"
                              };
 
     [YGHttpTool createDirectoryWithRepoID:repoID dir:self.addDirName params:params success:^(id  _Nonnull responseObject) {
         [addFolderView removeFromSuperview];
-        
-        [SVProgressHUD showSuccessWithStatus:@"创建成功"];
-        [SVProgressHUD hideHud];
+        self.addDirName = nil;
+        [SVProgressHUD showSuccessFace:@"创建成功"];
         [self refreshLibrary];
         
     } failure:^(NSError * _Nonnull error) {
-        [SVProgressHUD dismiss];
-        YGLog(@"%@", error);
+        if (error.code == -1001) {
+            [SVProgressHUD showFailureFace:@"网络不给力哦..."];
+        }
     }];
 }
 
@@ -160,6 +158,35 @@
 {
     UITextField *textField = note.object;
     self.addDirName = textField.text;
+}
+
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    YGFileModel *currentFileModel = self.libraries[indexPath.row];
+    self.currentFileModel = currentFileModel;
+    [YGDirTool saveDir:currentFileModel];
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        NSString *repoID = [YGRepoTool repo].ID;
+        NSString *dirName = [YGDirTool dir];
+        NSDictionary *params = @{
+                                 @"p" : dirName
+                                 };
+        
+        [YGHttpTool deleteDirectoryWithRepoID:repoID params:params success:^(id  _Nonnull responseObject) {
+            [SVProgressHUD showSuccessFace:@"删除成功"];
+            if ([YGFileTypeTool isDir:currentFileModel]) {
+                [YGDirTool backToParentDir];
+            }             
+            [self refreshLibrary];
+            [self.tableView reloadData];
+        } failure:^(NSError * _Nonnull error) {
+            [SVProgressHUD showFailureFace:@"删除失败"];
+            YGLog(@"%@",error);
+        }];
+    }
 }
 
 - (void)dealloc

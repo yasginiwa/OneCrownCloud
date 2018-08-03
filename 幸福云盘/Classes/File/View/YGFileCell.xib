@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -43,11 +44,11 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="560.0MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="me7-7a-hgK">
-                        <rect key="frame" x="280" y="34" width="70" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="560.0TB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="me7-7a-hgK">
+                        <rect key="frame" x="279" y="34" width="70" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="21" id="CmN-SZ-OSJ"/>
-                            <constraint firstAttribute="width" constant="70" id="ZeN-Lj-i1b"/>
+                            <constraint firstAttribute="height" constant="21" id="0pi-dn-5DH"/>
+                            <constraint firstAttribute="width" constant="70" id="3me-Nx-jFU"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -73,12 +74,12 @@
                     <constraint firstItem="gp0-6B-qzP" firstAttribute="centerY" secondItem="Tml-6X-CBH" secondAttribute="centerY" id="C7V-Qr-6kq"/>
                     <constraint firstItem="gp0-6B-qzP" firstAttribute="leading" secondItem="Tml-6X-CBH" secondAttribute="leading" constant="10" id="E0U-v7-6C0"/>
                     <constraint firstItem="X6N-cN-ItK" firstAttribute="bottom" secondItem="gp0-6B-qzP" secondAttribute="bottom" id="HO0-UD-Cw1"/>
-                    <constraint firstItem="me7-7a-hgK" firstAttribute="top" secondItem="X6N-cN-ItK" secondAttribute="top" id="OBi-bK-YZ2"/>
-                    <constraint firstItem="me7-7a-hgK" firstAttribute="leading" secondItem="X6N-cN-ItK" secondAttribute="trailing" id="Yqi-Y6-YsR"/>
+                    <constraint firstItem="me7-7a-hgK" firstAttribute="bottom" secondItem="X6N-cN-ItK" secondAttribute="bottom" id="K0N-3I-2HJ"/>
                     <constraint firstItem="hcN-ok-fQa" firstAttribute="top" secondItem="Tml-6X-CBH" secondAttribute="top" id="bcv-x7-Wni"/>
                     <constraint firstItem="2Lx-0o-mF2" firstAttribute="top" secondItem="gp0-6B-qzP" secondAttribute="top" constant="5" id="f00-wb-AJz"/>
                     <constraint firstAttribute="bottom" secondItem="hcN-ok-fQa" secondAttribute="bottom" id="h6Z-M5-nct"/>
                     <constraint firstItem="2Lx-0o-mF2" firstAttribute="leading" secondItem="gp0-6B-qzP" secondAttribute="trailing" constant="10" id="nPl-LG-l3Z"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="me7-7a-hgK" secondAttribute="trailing" constant="10" id="ywM-Qd-b1H"/>
                 </constraints>
             </tableViewCellContentView>
             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>

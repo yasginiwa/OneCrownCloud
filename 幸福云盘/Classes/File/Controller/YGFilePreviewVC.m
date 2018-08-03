@@ -90,6 +90,7 @@
     
     YGFileModel *repoModel = [NSKeyedUnarchiver unarchiveObjectWithFile:YGCurrentRepoPath];
     NSString *dirPath = [YGDirTool dir];
+    
     // 请求文件下载地址
     NSDictionary *params = @{
                                @"p" : [NSString stringWithFormat:@"%@%@", dirPath, self.currentFileModel.name],
@@ -102,26 +103,27 @@
         NSString *filePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:self.currentFileModel.name];
         if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
             [self.downloadView removeFromSuperview];
-            return;
+        } else {
+            //  请求下载文件
+            [YGHttpTool downloadFile:genDownloadUrl progress:^(NSProgress * _Nonnull downloadProgress) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.progressView setProgress:downloadProgress.fractionCompleted animated:YES];
+                });
+                
+            } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+                NSURL *cacheDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSCachesDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+                return [cacheDirectoryURL URLByAppendingPathComponent:response.suggestedFilename];
+            } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+                [self.downloadView removeFromSuperview];
+                [self refreshCurrentPreviewItem];
+            }];
         }
-        //  请求下载文件
-        [YGHttpTool downloadFile:genDownloadUrl progress:^(NSProgress * _Nonnull downloadProgress) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.progressView setProgress:downloadProgress.fractionCompleted animated:YES];
-            });
-            
-        } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
-            NSURL *cacheDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSCachesDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
-            return [cacheDirectoryURL URLByAppendingPathComponent:response.suggestedFilename];
-        } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-            [self.downloadView removeFromSuperview];
-            [self refreshCurrentPreviewItem];
-        }];
-
+        
     } failure:^(NSError *error) {
         YGLog(@"--downloadFile--%@", error);
     }];
 }
+
 
 - (void)viewDidLayoutSubviews
 {

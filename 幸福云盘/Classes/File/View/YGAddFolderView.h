@@ -16,5 +16,6 @@
 @end
 
 @interface YGAddFolderView : UIView
+@property (nonatomic, assign, getter=isEmptyDirName) BOOL emptyDirName;
 @property (nonatomic, weak) id<YGAddFolderViewDelegate> delegate;
 @end

@@ -28,6 +28,7 @@
 @interface YGAddFolderView () <UITextFieldDelegate>
 @property (nonatomic, weak) UIView *bgView;
 @property (nonatomic, weak) UILabel *titleLabel;
+@property (nonatomic, weak) UILabel *alertLabel;
 @property (nonatomic, weak) UITextField *inputField;
 @property (nonatomic, weak) UIButton *okBtn;
 @property (nonatomic, weak) UIButton *cancelBtn;
@@ -53,6 +54,15 @@
         titleLabel.textAlignment = NSTextAlignmentCenter;
         [self.bgView addSubview:titleLabel];
         self.titleLabel = titleLabel;
+        
+        UILabel *alertLabel = [[UILabel alloc] init];
+        alertLabel.textColor = [UIColor redColor];
+        alertLabel.font = [UIFont systemFontOfSize:12];
+        alertLabel.text = @"名字不允许为空";
+        alertLabel.hidden = YES;
+        alertLabel.textAlignment = NSTextAlignmentCenter;
+        [self.bgView addSubview:alertLabel];
+        self.alertLabel = alertLabel;
         
         UITextField *inputField = [[UITextField alloc] init];
         inputField.backgroundColor = YGColorRGB(247, 247, 247);
@@ -87,6 +97,7 @@
 {
     if ([self.delegate respondsToSelector:@selector(addFolderViewDidClickOkBtn:)]) {
         [self.delegate addFolderViewDidClickOkBtn:self];
+        self.alertLabel.hidden = !self.isEmptyDirName;
     }
 }
 
@@ -105,7 +116,7 @@
         make.centerX.equalTo(self);
         make.centerY.equalTo(self).multipliedBy(0.8);
         make.width.equalTo(@240);
-        make.height.equalTo(@150);
+        make.height.equalTo(@160);
     }];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -115,9 +126,16 @@
         make.height.equalTo(@15);
     }];
     
+    [self.alertLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.bgView);
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(10.0);
+        make.width.equalTo(self.bgView);
+        make.height.equalTo(@12);
+    }];
+    
     [self.inputField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.bgView);
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(20.0);
+        make.top.equalTo(self.alertLabel.mas_bottom).offset(10.0);
         make.width.equalTo(self.bgView).offset(-40.0);
         make.height.equalTo(@30);
     }];

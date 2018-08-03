@@ -22,14 +22,14 @@
 
 + (NSString *)dir
 {
-    if (![[NSFileManager defaultManager] fileExistsAtPath:YGDirPath]) return @"";
+    NSString *nilPath = @"";
+    if (![[NSFileManager defaultManager] fileExistsAtPath:YGDirPath]) return nilPath;
     NSMutableArray *dirArray = [NSKeyedUnarchiver unarchiveObjectWithFile:YGDirPath];
-    NSString *dirPath = @"/";
+    NSString *currentPath = nilPath;
     for (YGFileModel *dirModel in dirArray) {
-        NSString *currentDirPath = [NSString stringWithFormat:@"%@/", dirModel.name];
-        dirPath = [dirPath stringByAppendingString:currentDirPath];
+        currentPath = [currentPath stringByAppendingString:[NSString stringWithFormat:@"/%@", dirModel.name]];
     }
-    return dirPath;
+    return currentPath;
 }
 
 + (void)backToParentDir
