@@ -89,6 +89,63 @@
         [cancelBtn addTarget:self action:@selector(cancelBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.bgView addSubview:cancelBtn];
         self.cancelBtn = cancelBtn;
+        
+        [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self);
+            make.centerY.equalTo(self).multipliedBy(0.8);
+            make.width.equalTo(@0);
+            make.height.equalTo(@0);
+        }];
+        
+        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.bgView);
+            make.top.equalTo(self.bgView).offset(20.0);
+            make.width.equalTo(self.bgView);
+            make.height.equalTo(@15);
+        }];
+        
+        [self.alertLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.bgView);
+            make.top.equalTo(self.titleLabel.mas_bottom).offset(10.0);
+            make.width.equalTo(self.bgView);
+            make.height.equalTo(@12);
+        }];
+        
+        [self.inputField mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.bgView);
+            make.top.equalTo(self.alertLabel.mas_bottom).offset(10.0);
+            make.width.equalTo(self.bgView).offset(-40.0);
+            make.height.equalTo(@30);
+        }];
+        
+        [self.cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.bgView).offset(-1.0);
+            make.top.equalTo(self.inputField.mas_bottom).offset(20.0);
+            make.width.equalTo(@121);
+            make.height.equalTo(@50);
+        }];
+        
+        [self.okBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.cancelBtn.mas_right);
+            make.top.equalTo(self.cancelBtn);
+            make.width.equalTo(self.cancelBtn);
+            make.height.equalTo(self.cancelBtn);
+        }];
+        
+        [self.bgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self);
+            make.centerY.equalTo(self).multipliedBy(0.8);
+            make.width.equalTo(@240);
+            make.height.equalTo(@160);
+        }];
+        
+        [self needsUpdateConstraints];
+        
+        [self updateConstraints];
+        
+        [UIView animateWithDuration:0.33 animations:^{
+            [self layoutIfNeeded];
+        }];
     }
     return self;
 }
@@ -108,50 +165,50 @@
     }
 }
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
-    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self);
-        make.centerY.equalTo(self).multipliedBy(0.8);
-        make.width.equalTo(@240);
-        make.height.equalTo(@160);
-    }];
-    
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.bgView);
-        make.top.equalTo(self.bgView).offset(20.0);
-        make.width.equalTo(self.bgView);
-        make.height.equalTo(@15);
-    }];
-    
-    [self.alertLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.bgView);
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(10.0);
-        make.width.equalTo(self.bgView);
-        make.height.equalTo(@12);
-    }];
-    
-    [self.inputField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.bgView);
-        make.top.equalTo(self.alertLabel.mas_bottom).offset(10.0);
-        make.width.equalTo(self.bgView).offset(-40.0);
-        make.height.equalTo(@30);
-    }];
-    
-    [self.cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.bgView).offset(-1.0);
-        make.top.equalTo(self.inputField.mas_bottom).offset(20.0);
-        make.width.equalTo(@121);
-        make.height.equalTo(@50);
-    }];
-    
-    [self.okBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.cancelBtn.mas_right);
-        make.top.equalTo(self.cancelBtn);
-        make.width.equalTo(self.cancelBtn);
-        make.height.equalTo(self.cancelBtn);
-    }];
-}
+//- (void)layoutSubviews
+//{
+//    [super layoutSubviews];
+//
+//    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(self);
+//        make.centerY.equalTo(self).multipliedBy(0.8);
+//        make.width.equalTo(@240);
+//        make.height.equalTo(@160);
+//    }];
+
+//    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(self.bgView);
+//        make.top.equalTo(self.bgView).offset(20.0);
+//        make.width.equalTo(self.bgView);
+//        make.height.equalTo(@15);
+//    }];
+//
+//    [self.alertLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(self.bgView);
+//        make.top.equalTo(self.titleLabel.mas_bottom).offset(10.0);
+//        make.width.equalTo(self.bgView);
+//        make.height.equalTo(@12);
+//    }];
+//
+//    [self.inputField mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(self.bgView);
+//        make.top.equalTo(self.alertLabel.mas_bottom).offset(10.0);
+//        make.width.equalTo(self.bgView).offset(-40.0);
+//        make.height.equalTo(@30);
+//    }];
+//
+//    [self.cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.bgView).offset(-1.0);
+//        make.top.equalTo(self.inputField.mas_bottom).offset(20.0);
+//        make.width.equalTo(@121);
+//        make.height.equalTo(@50);
+//    }];
+//
+//    [self.okBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.cancelBtn.mas_right);
+//        make.top.equalTo(self.cancelBtn);
+//        make.width.equalTo(self.cancelBtn);
+//        make.height.equalTo(self.cancelBtn);
+//    }];
+//}
 @end

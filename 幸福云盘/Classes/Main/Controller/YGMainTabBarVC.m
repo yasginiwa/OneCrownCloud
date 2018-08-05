@@ -34,7 +34,7 @@
     [self addOneChildVC:starVC title:@"分享" image:@"tab_share_normal" selectedImage:@"tab_share_pressed"];
     
     YGTansferVC *transferVC = [[YGTansferVC alloc] init];
-    [self addOneChildVC:transferVC title:@"传输" image:@"tab_transfer_normal" selectedImage:@"tab_transfer_pressed"];
+    [self addOneChildVC:transferVC title:@"传输列表" image:@"tab_transfer_normal" selectedImage:@"tab_transfer_pressed"];
     
     YGProfileVC *profileVC = [[YGProfileVC alloc] init];
     [self addOneChildVC:profileVC title:@"我" image:@"tab_profile_normal" selectedImage:@"tab_profile_pressed"];

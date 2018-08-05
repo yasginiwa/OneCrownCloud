@@ -16,5 +16,5 @@
 + (void)showError:(NSString *)error;
 + (void)showSuccessFace:(NSString *)success;
 + (void)showFailureFace:(NSString *)failure;
-+ (void)hideHud;
++ (void)hide;
 @end

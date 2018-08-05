@@ -90,15 +90,15 @@
 {
     if (indexPath.row == 0) {
         YGFileFirstCell *cell = [[YGFileFirstCell alloc] init];
+        cell.delegate = self;
         self.tableView.allowsSelection = NO;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.delegate = self;
         return cell;
     } else {
         YGFileCell *cell = [YGFileCell fileCell];
+        cell.delegate = self;
         self.tableView.allowsSelection = YES;
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
-        cell.delegate = self;
         cell.fileModel = self.libraries[indexPath.row];
         return cell;
     }
@@ -174,6 +174,5 @@
 {
     return 1;
 }
-
 
 @end

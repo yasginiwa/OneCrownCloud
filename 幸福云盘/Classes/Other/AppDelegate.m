@@ -10,18 +10,46 @@
 #import "YGMainTabBarVC.h"
 #import "YGMainNavVC.h"
 #import "YGLoginVC.h"
+#import <Photos/Photos.h>
+#import <CoreTelephony/CTCellularData.h>
 
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
-
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    //  检查相册权限
+    PHAuthorizationStatus photoAuthorStatus = [PHPhotoLibrary authorizationStatus];
+    switch (photoAuthorStatus) {
+        case PHAuthorizationStatusAuthorized:
+            YGLog(@"Authorized");
+            break;
+        case PHAuthorizationStatusDenied:
+            YGLog(@"Denied");
+            break;
+        case PHAuthorizationStatusNotDetermined:
+            YGLog(@"not Determined");
+            break;
+        case PHAuthorizationStatusRestricted:
+            break;
+        default:
+            break;
+    }
+    
+    //  申请相册权限
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+        if (status == PHAuthorizationStatusAuthorized) {
+            YGLog(@"Authorized");
+        }else{
+            YGLog(@"Denied or Restricted");
+        }
+    }];
+    
     // 启动界面停留3秒
 //    [NSThread sleepForTimeInterval:3.0];
-    
+
     [self chooseRootVC];
     return YES;
 }

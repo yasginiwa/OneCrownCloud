@@ -93,7 +93,7 @@
     
     // 请求文件下载地址
     NSDictionary *params = @{
-                               @"p" : [NSString stringWithFormat:@"%@%@", dirPath, self.currentFileModel.name],
+                               @"p" : [NSString stringWithFormat:@"%@/%@", dirPath, self.currentFileModel.name],
                                @"reuse" : @1
                                };
 
@@ -143,5 +143,4 @@
     self.progressView.width = 240;
     self.progressView.height = 10;
 }
-
 @end

@@ -25,6 +25,7 @@
         
         //  添加图片上传按钮
         UIButton *picUploadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        picUploadBtn.adjustsImageWhenHighlighted = NO;
         [picUploadBtn setBackgroundImage:[UIImage imageNamed:@"file_upload_pic"] forState:UIControlStateNormal];
         [picUploadBtn addTarget:self action:@selector(picUploadClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:picUploadBtn];
@@ -40,6 +41,7 @@
         
         //  添加视频上传按钮
         UIButton *videoUploadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        videoUploadBtn.adjustsImageWhenHighlighted = NO;
         [videoUploadBtn setBackgroundImage:[UIImage imageNamed:@"file_upload_video"] forState:UIControlStateNormal];
         [videoUploadBtn addTarget:self action:@selector(videoUploadClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:videoUploadBtn];
@@ -107,7 +109,7 @@
     
     [self updateConstraints];
     
-    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:0.33 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [self layoutIfNeeded];
     } completion:^(BOOL finished) {
         [self getDownButtons];
@@ -118,7 +120,7 @@
 {
     [self.picUploadBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
-        make.centerY.equalTo(self).multipliedBy(0.8).offset(20);
+        make.centerY.equalTo(self).multipliedBy(0.7).offset(20);
         make.height.width.equalTo(@73);
     }];
     
@@ -126,7 +128,7 @@
     
     [self updateConstraints];
     
-    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:0.33 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [self layoutIfNeeded];
     } completion:nil];
 }

@@ -68,7 +68,7 @@
     [SVProgressHUD dismissWithDelay:1.0];
 }
 
-+ (void)hideHud
++ (void)hide
 {
     [SVProgressHUD dismissWithDelay:0.0];
 }

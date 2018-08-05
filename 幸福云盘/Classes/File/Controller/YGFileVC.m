@@ -19,7 +19,7 @@
 #import "YGFileUploadView.h"
 #import <QBImagePickerController.h>
 
-@interface YGFileVC () <YGFileCellDelegate, YGFileFirstCellDelegate, YGAddFolderViewDelegate, YGFileUploadDelegate, QBImagePickerControllerDelegate>
+@interface YGFileVC () <YGFileCellDelegate, YGFileFirstCellDelegate, YGAddFolderViewDelegate>
 @property (nonatomic, copy) NSString *addRepoName;
 @end
 
@@ -58,6 +58,12 @@
 {
     UITextField *textField = note.object;
     self.addRepoName = textField.text;
+}
+
+/** 覆盖父类方法 去掉上传item 因为repo跟路径下不允许上传文件*/
+- (void)setupNavBar
+{
+    
 }
 
 /** 请求repo */
@@ -108,7 +114,7 @@
         [self.tableView reloadData];
         [self.tableView.mj_header endRefreshing];
     } failure:^(NSError * _Nonnull error) {
-        if (error.code == - 1001) {
+        if (error.code == -1001) {
             [self setupNetworkFailedView];
         }
         [self.tableView.mj_header endRefreshing];
@@ -147,6 +153,8 @@
     }
     
     [addFolderView endEditing:YES];
+    
+    [SVProgressHUD showWaiting];
 
     NSDictionary *params = @{
                              @"name" : self.addRepoName,
@@ -154,6 +162,7 @@
                              };
 
     [YGHttpTool createLibraryParams:params success:^(id  _Nonnull responseObject) {
+        [SVProgressHUD hide];
         [addFolderView removeFromSuperview];
         [SVProgressHUD showSuccessFace:@"创建成功"];
         [self refreshLibrary];
@@ -171,80 +180,6 @@
     [addFolderView removeFromSuperview];
 }
 
-/** 文件上传 */
-- (void)fileUpload
-{
-    YGFileUploadView *fileUploadView = [[YGFileUploadView alloc] init];
-    fileUploadView.uploadDelegate = self;
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    [keyWindow addSubview:fileUploadView];
-    fileUploadView.frame = [UIScreen mainScreen].bounds;
-    
-    fileUploadView.alpha = 0.0;
-    [UIView animateWithDuration:0.5 animations:^{
-        fileUploadView.alpha = 0.9;
-    } completion:^(BOOL finished) {
-        [fileUploadView popUpButtons];
-    }];
-}
-
-#pragma mark - YGFileUploadDelegate
-- (void)fileUploadDidClickPicUploadBtn:(YGFileUploadView *)fileUploadView
-{
-    QBImagePickerController *imagePickerVC = [[QBImagePickerController alloc] init];
-    imagePickerVC.delegate = self;
-    imagePickerVC.allowsMultipleSelection = YES;
-    imagePickerVC.maximumNumberOfSelection = 9;
-    imagePickerVC.showsNumberOfSelectedAssets = YES;
-    imagePickerVC.numberOfColumnsInPortrait = 4;
-    imagePickerVC.showsNumberOfSelectedAssets = YES;
-    imagePickerVC.mediaType = QBImagePickerMediaTypeImage;
-    imagePickerVC.assetCollectionSubtypes = @[
-                                              @(PHAssetCollectionSubtypeSmartAlbumUserLibrary), // Camera Roll
-                                              ];
-    
-    [fileUploadView dismiss];
-    [fileUploadView removeFromSuperview];
-    
-    [self presentViewController:imagePickerVC animated:YES completion:nil];
-}
-
-- (void)fileUploadDidClickVideoUploadBtn:(YGFileUploadView *)fileUploadView
-{
-    QBImagePickerController *imagePickerVC = [[QBImagePickerController alloc] init];
-    imagePickerVC.delegate = self;
-    imagePickerVC.allowsMultipleSelection = YES;
-    imagePickerVC.maximumNumberOfSelection = 9;
-    imagePickerVC.showsNumberOfSelectedAssets = YES;
-    imagePickerVC.numberOfColumnsInPortrait = 4;
-    imagePickerVC.showsNumberOfSelectedAssets = YES;
-    imagePickerVC.mediaType = QBImagePickerMediaTypeVideo;
-    imagePickerVC.assetCollectionSubtypes = @[
-                                              @(PHAssetCollectionSubtypeSmartAlbumVideos), // Videos
-                                              ];
-    
-    [fileUploadView dismiss];
-    [fileUploadView removeFromSuperview];
-    
-    [self presentViewController:imagePickerVC animated:YES completion:nil];
-}
-
-#pragma mark - QBImagePickerControllerDelegate
-- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets
-{
-    
-}
-
-- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController
-{
-    [imagePickerController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (BOOL)qb_imagePickerController:(QBImagePickerController *)imagePickerController shouldSelectAsset:(PHAsset *)asset
-{
-    return YES;
-}
-
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -252,11 +187,13 @@
     self.currentFileModel = currentFileModel;
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
+        [SVProgressHUD showWaiting];
         [YGHttpTool deleteLibrary:currentFileModel.ID success:^(id  _Nonnull responseObject) {
+            [SVProgressHUD hide];
             [SVProgressHUD showSuccessFace:@"删除成功"];
             [self refreshLibrary];
         } failure:^(NSError * _Nonnull error) {
+            [SVProgressHUD hide];
             [SVProgressHUD showFailureFace:@"删除失败"];
         }];
     }

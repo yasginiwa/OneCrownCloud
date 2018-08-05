@@ -16,8 +16,10 @@
 #import "YGFileCell.h"
 #import "YGAddFolderView.h"
 #import "YGFileFirstCell.h"
+#import "YGFileUploadView.h"
+#import <QBImagePickerController.h>
 
-@interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGFileFirstCellDelegate>
+@interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGFileFirstCellDelegate, YGFileUploadDelegate, QBImagePickerControllerDelegate>
 @property (nonatomic, copy) NSString *addDirName;
 @end
 
@@ -56,8 +58,9 @@
     if ([YGFileTypeTool isRepo:self.currentFileModel]) {
         params = nil;
     }
+    
     //  如果当前点击的是dir 则请求列出目录时param的参数是目录的名字
-    if ([YGFileTypeTool isDir:self.currentFileModel]) {
+    if ([YGFileTypeTool isDir:self.currentFileModel] || [YGFileTypeTool isFile:self.currentFileModel]) {
         
         NSString *currentDir = [YGDirTool dir];
         
@@ -122,13 +125,14 @@
     }
     
     [addFolderView endEditing:YES];
-
+    [SVProgressHUD showWaiting];
     self.addDirName = [NSString stringWithFormat:@"/%@", self.addDirName];
     NSDictionary *params = @{
                              @"operation" : @"mkdir"
                              };
 
     [YGHttpTool createDirectoryWithRepoID:repoID dir:self.addDirName params:params success:^(id  _Nonnull responseObject) {
+        [SVProgressHUD hide];
         [addFolderView removeFromSuperview];
         self.addDirName = nil;
         [SVProgressHUD showSuccessFace:@"创建成功"];
@@ -145,6 +149,78 @@
 {
     [addFolderView endEditing:YES];
     [addFolderView removeFromSuperview];
+}
+
+/** 文件上传 */
+- (void)fileUpload
+{
+    YGFileUploadView *fileUploadView = [[YGFileUploadView alloc] init];
+    fileUploadView.uploadDelegate = self;
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    [keyWindow addSubview:fileUploadView];
+    fileUploadView.frame = [UIScreen mainScreen].bounds;
+    
+    fileUploadView.alpha = 0.0;
+    [UIView animateWithDuration:0.5 animations:^{
+        fileUploadView.alpha = 0.9;
+    } completion:^(BOOL finished) {
+        [fileUploadView popUpButtons];
+    }];
+}
+
+#pragma mark - YGFileUploadDelegate
+- (void)fileUploadDidClickPicUploadBtn:(YGFileUploadView *)fileUploadView
+{
+    QBImagePickerController *imagePickerVC = [[QBImagePickerController alloc] init];
+    imagePickerVC.delegate = self;
+    imagePickerVC.allowsMultipleSelection = YES;
+    imagePickerVC.maximumNumberOfSelection = 9;
+    imagePickerVC.showsNumberOfSelectedAssets = YES;
+    imagePickerVC.numberOfColumnsInPortrait = 4;
+    imagePickerVC.showsNumberOfSelectedAssets = YES;
+    imagePickerVC.mediaType = QBImagePickerMediaTypeImage;
+    imagePickerVC.assetCollectionSubtypes = @[
+                                              @(PHAssetCollectionSubtypeSmartAlbumUserLibrary), // Camera Roll
+                                              ];
+    
+    [fileUploadView dismiss];
+    [fileUploadView removeFromSuperview];
+    
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
+}
+
+- (void)fileUploadDidClickVideoUploadBtn:(YGFileUploadView *)fileUploadView
+{
+    QBImagePickerController *imagePickerVC = [[QBImagePickerController alloc] init];
+    imagePickerVC.delegate = self;
+    imagePickerVC.allowsMultipleSelection = YES;
+    imagePickerVC.maximumNumberOfSelection = 9;
+    imagePickerVC.showsNumberOfSelectedAssets = YES;
+    imagePickerVC.numberOfColumnsInPortrait = 4;
+    imagePickerVC.showsNumberOfSelectedAssets = YES;
+    imagePickerVC.mediaType = QBImagePickerMediaTypeVideo;
+    imagePickerVC.assetCollectionSubtypes = @[
+                                              @(PHAssetCollectionSubtypeSmartAlbumVideos), // Videos
+                                              ];
+    
+    [fileUploadView dismiss];
+    [fileUploadView removeFromSuperview];
+    
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
+}
+
+#pragma mark - QBImagePickerControllerDelegate
+- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets
+{
+    PHAsset *asset = [assets firstObject];
+    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        YGLog(@"%@-%@", result, info);
+    }];
+}
+
+- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController
+{
+    [imagePickerController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - YGFileCellDelegate
@@ -168,6 +244,7 @@
     [YGDirTool saveDir:currentFileModel];
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [SVProgressHUD showWaiting];
         
         NSString *repoID = [YGRepoTool repo].ID;
         NSString *dirName = [YGDirTool dir];
@@ -176,6 +253,7 @@
                                  };
         
         [YGHttpTool deleteDirectoryWithRepoID:repoID params:params success:^(id  _Nonnull responseObject) {
+            [SVProgressHUD hide];
             [SVProgressHUD showSuccessFace:@"删除成功"];
             if ([YGFileTypeTool isDir:currentFileModel]) {
                 [YGDirTool backToParentDir];
@@ -183,8 +261,8 @@
             [self refreshLibrary];
             [self.tableView reloadData];
         } failure:^(NSError * _Nonnull error) {
+            [SVProgressHUD hide];
             [SVProgressHUD showFailureFace:@"删除失败"];
-            YGLog(@"%@",error);
         }];
     }
 }
@@ -195,4 +273,5 @@
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
 @end

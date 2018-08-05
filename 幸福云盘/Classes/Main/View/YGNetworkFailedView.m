@@ -27,7 +27,7 @@
         tipsLabel.textAlignment = NSTextAlignmentCenter;
         tipsLabel.font = [UIFont systemFontOfSize:15];
         tipsLabel.textColor = YGColorRGB(230, 230, 230);
-        tipsLabel.text = @"请下拉重新加载...";
+        tipsLabel.text = @"下拉重新加载...";
         [self addSubview:tipsLabel];
         self.tipsLabel = tipsLabel;
     }
