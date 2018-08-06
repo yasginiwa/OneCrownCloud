@@ -8,39 +8,26 @@
 
 #import "YGTansferVC.h"
 #import "YGMenuView.h"
+#import "YGDownloadListVC.h"
+#import "YGUploadListVC.h"
 
 @interface YGTansferVC () <YGMenuViewDelegate>
 @property (nonatomic, weak) YGMenuView *menuView;
-@property (nonatomic, strong) UITableView *downloadTableView;
-@property (nonatomic, strong) UITableView *uploadTableView;
-@property (nonatomic, assign) BOOL showingView;
+@property (nonatomic, weak) UIViewController *showingVC;
+@property (nonatomic, weak) YGDownloadListVC *downloadListVC;
+@property (nonatomic, weak) YGUploadListVC *uploadListVC;
 @end
 
 @implementation YGTansferVC
 
-#pragma mark - 懒加载
-- (UITableView *)downloadTableView
-{
-    if (_downloadTableView == nil) {
-        _downloadTableView = [[UITableView alloc] init];
-        [self.view insertSubview:_downloadTableView belowSubview:self.menuView];
-    }
-    return _downloadTableView;
-}
-
-- (UITableView *)uploadTableView
-{
-    if (_uploadTableView == nil) {
-        _uploadTableView = [[UITableView alloc] init];
-        [self.view insertSubview:_uploadTableView belowSubview:self.menuView];
-    }
-    return _uploadTableView;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupChildVC];
+    
     [self setupMenuView];
+    
+    [self setupNavBar];
 }
 
 - (void)setupMenuView
@@ -58,28 +45,46 @@
     }];
 }
 
+- (void)setupChildVC
+{
+    YGDownloadListVC *downloadListVC = [[YGDownloadListVC alloc] init];
+    downloadListVC.view.backgroundColor = [UIColor redColor];
+    [self addChildViewController:downloadListVC];
+    [self.view addSubview:downloadListVC.view];
+    downloadListVC.view.frame = self.view.bounds;
+    downloadListVC.view.y = 104;
+    self.downloadListVC = downloadListVC;
+    
+    YGUploadListVC *uploadListVC = [[YGUploadListVC alloc] init];
+    uploadListVC.view.backgroundColor = [UIColor greenColor];
+    [self addChildViewController:uploadListVC];
+    [self.view addSubview:uploadListVC.view];
+    uploadListVC.view.frame = self.view.bounds;
+    uploadListVC.view.y = 104;
+    self.uploadListVC = uploadListVC;
+}
+
+- (void)setupNavBar
+{
+    UIBarButtonItem *mutiSelectItem = [UIBarButtonItem itemWithImage:@"navbar_duoxuan" highImage:@"navbar_duoxuan_press" target:self action:@selector(mutiSelect)];
+    self.navigationItem.rightBarButtonItems = @[mutiSelectItem];
+}
+
+#pragma mark - YGMenuViewDelegate
 - (void)menuViewDidClickDownloadListBtn:(YGMenuView *)menuView
 {
-//    [self.view bringSubviewToFront:self.downloadTableView];
+    [self.uploadListVC.view removeFromSuperview];
+    [self.view addSubview:self.downloadListVC.view];
 }
 
 - (void)menuViewDidClickUploadListBtn:(YGMenuView *)menuView
 {
-//    [self.view bringSubviewToFront:self.uploadTableView];
+    [self.downloadListVC.view removeFromSuperview];
+    [self.view addSubview:self.uploadListVC.view];
 }
 
-- (void)viewDidLayoutSubviews
+- (void)mutiSelect
 {
-    [super viewDidLayoutSubviews];
-    
-    [self.downloadTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.equalTo(self.view);
-        make.top.equalTo(self.menuView.mas_bottom);
-    }];
-    
-    [self.uploadTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
-        make.top.equalTo(self.menuView.mas_bottom);
-    }];
+    YGLog(@"--mutiSelect--");
 }
 @end
