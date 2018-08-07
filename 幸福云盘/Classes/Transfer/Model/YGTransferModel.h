@@ -14,4 +14,5 @@
 @property (nonatomic, strong) YGFileModel *fileModel;
 @property (nonatomic, copy) NSString *downloadTime;
 @property (nonatomic, assign) float progress;
+@property (nonatomic, assign, getter=isFinished) BOOL finished;
 @end

@@ -12,4 +12,5 @@
 
 @interface YGDownloadCell : UITableViewCell
 @property (nonatomic, strong) YGTransferModel *transferModel;
++(instancetype)downloadCell;
 @end

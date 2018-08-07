@@ -226,7 +226,7 @@
 #pragma mark - YGFileCellDelegate
 - (void)fileCellDidSelectCheckBtn:(YGFileCell *)fileCell
 {
-    YGLog(@"--fileCellDidSelectCheckBtn--");
+
 }
 
 

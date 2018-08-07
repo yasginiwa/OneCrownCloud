@@ -48,15 +48,14 @@
 - (void)setupChildVC
 {
     YGDownloadListVC *downloadListVC = [[YGDownloadListVC alloc] init];
-    downloadListVC.view.backgroundColor = [UIColor redColor];
     [self addChildViewController:downloadListVC];
     [self.view addSubview:downloadListVC.view];
+    [downloadListVC.tableView reloadData];
     downloadListVC.view.frame = self.view.bounds;
     downloadListVC.view.y = 104;
     self.downloadListVC = downloadListVC;
     
     YGUploadListVC *uploadListVC = [[YGUploadListVC alloc] init];
-    uploadListVC.view.backgroundColor = [UIColor greenColor];
     [self addChildViewController:uploadListVC];
     [self.view addSubview:uploadListVC.view];
     uploadListVC.view.frame = self.view.bounds;

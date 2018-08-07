@@ -7,18 +7,18 @@
 //
 
 #import "YGDownloadCell.h"
-#import "YGTransferProgressView.h"
 #import "YGFileTypeTool.h"
 #import "YGTransferModel.h"
 #import "YGFileModel.h"
 #import "YGMimeType.h"
+#import "YGTransferDownloadBtn.h"
 
 @interface YGDownloadCell ()
 @property (nonatomic, weak) IBOutlet UIImageView *iconView;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *downloadTimeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *sizeLabel;
-@property (nonatomic, weak) IBOutlet YGTransferProgressView *progressView;
+@property (nonatomic, weak) IBOutlet YGTransferDownloadBtn *transferDownloadBtn;
 @end
 
 
@@ -64,6 +64,6 @@
         self.sizeLabel.text = nil;
     }
     
-    self.progressView.progress = transferModel.progress;
+    self.transferDownloadBtn.progress = transferModel.progress;
 }
 @end
