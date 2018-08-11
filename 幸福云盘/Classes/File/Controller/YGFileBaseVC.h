@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class YGFileModel, YGFileEmptyView, YGNetworkFailedView;
+@class YGFileModel, YGFileEmptyView, YGNetworkFailedView, YGFileOperationView;
 
 @interface YGFileBaseVC : UITableViewController
 @property (nonatomic, strong) NSMutableArray *libraries;

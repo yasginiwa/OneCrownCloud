@@ -65,12 +65,15 @@
             }
         }];
     }
+    
+    self.checkBtn.selected = fileModel.isChecked;
 }
 
 - (IBAction)checkRepoFile:(UIButton *)sender {
-    sender.selected = !sender.isSelected;
-    if ([self.delegate respondsToSelector:@selector(fileCellDidSelectCheckBtn:)]) {
-        [self.delegate fileCellDidSelectCheckBtn:self];
+    self.fileModel.checked = !sender.isSelected;
+    sender.selected = self.fileModel.isChecked;
+    if ([self.delegate respondsToSelector:@selector(fileCell:didSelectCheckBtn:fileModel:)]) {
+        [self.delegate fileCell:self didSelectCheckBtn:sender fileModel:self.fileModel];
     }
 }
 @end

@@ -40,6 +40,7 @@
 		B641A1D620FE0BB400FCA501 /* YGFileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B641A1D520FE0BB400FCA501 /* YGFileCell.xib */; };
 		B650EAA320FCCEA90025D1E0 /* YGApiToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B650EAA220FCCEA90025D1E0 /* YGApiToken.m */; };
 		B6595AFF2111DA9300B9D71E /* YGFileUploadView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6595AFE2111DA9300B9D71E /* YGFileUploadView.m */; };
+		B65DBDD72119F01800123E57 /* YGFileOperationView.m in Sources */ = {isa = PBXBuildFile; fileRef = B65DBDD62119F01800123E57 /* YGFileOperationView.m */; };
 		B66644FE2110A504007F1630 /* YGNetworkFailedView.m in Sources */ = {isa = PBXBuildFile; fileRef = B66644FD2110A504007F1630 /* YGNetworkFailedView.m */; };
 		B676793B20F629BC00945627 /* YGMainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793A20F629BC00945627 /* YGMainTabBarVC.m */; };
 		B676793E20F629D900945627 /* YGMainNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B676793D20F629D900945627 /* YGMainNavVC.m */; };
@@ -132,6 +133,8 @@
 		B650EAA220FCCEA90025D1E0 /* YGApiToken.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGApiToken.m; sourceTree = "<group>"; };
 		B6595AFD2111DA9300B9D71E /* YGFileUploadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileUploadView.h; sourceTree = "<group>"; };
 		B6595AFE2111DA9300B9D71E /* YGFileUploadView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileUploadView.m; sourceTree = "<group>"; };
+		B65DBDD52119F01800123E57 /* YGFileOperationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileOperationView.h; sourceTree = "<group>"; };
+		B65DBDD62119F01800123E57 /* YGFileOperationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileOperationView.m; sourceTree = "<group>"; };
 		B66644FC2110A504007F1630 /* YGNetworkFailedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGNetworkFailedView.h; sourceTree = "<group>"; };
 		B66644FD2110A504007F1630 /* YGNetworkFailedView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGNetworkFailedView.m; sourceTree = "<group>"; };
 		B676793920F629BC00945627 /* YGMainTabBarVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGMainTabBarVC.h; sourceTree = "<group>"; };
@@ -351,6 +354,8 @@
 				B6A7C4F2210F561D00C0A929 /* YGAddFolderView.m */,
 				B6595AFD2111DA9300B9D71E /* YGFileUploadView.h */,
 				B6595AFE2111DA9300B9D71E /* YGFileUploadView.m */,
+				B65DBDD52119F01800123E57 /* YGFileOperationView.h */,
+				B65DBDD62119F01800123E57 /* YGFileOperationView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -715,6 +720,7 @@
 				73D6120821102736006F209E /* SVProgressHUD+Extension.m in Sources */,
 				B6B39B8D211682F20024682A /* YGMenuView.m in Sources */,
 				B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */,
+				B65DBDD72119F01800123E57 /* YGFileOperationView.m in Sources */,
 				B6AD7A91211735C3007B6C25 /* YGTransferListBtn.m in Sources */,
 				B6AA69EA21037B05006C1BAB /* YGFileEmptyView.m in Sources */,
 				73716C2221059C2500706C51 /* YGHttpTool.m in Sources */,

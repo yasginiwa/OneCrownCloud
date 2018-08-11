@@ -10,5 +10,4 @@
 
 @interface YGTransferDownloadBtn : UIButton
 @property (nonatomic, assign) float progress;
-@property (nonatomic, assign) float width;
 @end

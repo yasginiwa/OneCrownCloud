@@ -18,12 +18,10 @@
 
 + (void)initialize
 {
+    //  统一设置bar的外观
     UINavigationBar *barAppearace = [UINavigationBar appearance];
-    NSDictionary *attrs = @{
-                            NSFontAttributeName : [UIFont boldSystemFontOfSize:18]
-                            };
+    NSDictionary *attrs = @{NSFontAttributeName : [UIFont boldSystemFontOfSize:18]};
     [barAppearace setTitleTextAttributes:attrs];
-    
     
     UIImage *backImage = [UIImage imageNamed:@"back_icon"];
     backImage = [backImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -34,6 +32,12 @@
     UIOffset offset;
     offset.vertical = -0.5;
     [barButtonItem setBackButtonTitlePositionAdjustment:offset forBarMetrics:UIBarMetricsDefault];
+    
+    //   统一设置item的外观
+    UIBarButtonItem *appearance = [UIBarButtonItem appearance];
+    NSDictionary *itemAttrs = @{NSFontAttributeName : [UIFont systemFontOfSize:15]};
+    [appearance setTitleTextAttributes:itemAttrs  forState:UIControlStateNormal];
+    [appearance setTitleTextAttributes:itemAttrs forState:UIControlStateHighlighted];
 }
 
 @end

@@ -12,7 +12,7 @@
 
 @protocol YGFileCellDelegate <NSObject>
 @optional
-- (void)fileCellDidSelectCheckBtn:(YGFileCell *)fileCell;
+- (void)fileCell:(YGFileCell *)fileCell didSelectCheckBtn:(UIButton *)checkBtn fileModel:(YGFileModel *)fileModel;
 @end
 
 @interface YGFileCell : UITableViewCell

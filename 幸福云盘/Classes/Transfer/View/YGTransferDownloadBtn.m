@@ -17,7 +17,6 @@
 {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
-        self.progress = 0.0;
     }
     return self;
 }
@@ -27,8 +26,6 @@
     _progress = progress;
     
     [self setNeedsDisplay];
-    
-    YGLog(@"%f", progress);
 }
 
 - (void)drawRect:(CGRect)rect
@@ -38,7 +35,7 @@
     CGFloat radius = rect.size.width * 0.5 - 2.5;
     CGPoint center = CGPointMake(rect.size.width * 0.5, rect.size.height * 0.5);
 
-    CGContextAddArc(ctx, center.x, center.y, radius, 0, 2 * M_PI * self.progress, 1);
+    CGContextAddArc(ctx, center.x, center.y, radius, -M_PI_2, self.progress * M_PI * 2 - M_PI_2, 0);
 
     CGContextSetLineWidth(ctx, 3.0);
 
@@ -48,13 +45,12 @@
 
     CGContextStrokePath(ctx);
 }
+
 @end
 
 
 @interface YGTransferDownloadBtn ()
 @property (nonatomic, weak) YGProgressView *progressView;
-@property (nonatomic, weak) UIView *coverView;
-@property (nonatomic, strong) NSTimer *timer;
 @end
 
 @implementation YGTransferDownloadBtn
@@ -65,26 +61,14 @@
         YGProgressView *progressView = [[YGProgressView alloc] init];
         [self addSubview:progressView];
         self.progressView = progressView;
-        
-        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(test) userInfo:nil repeats:NO];
-        [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-        self.timer = timer;
     }
     return self;
 }
 
-- (void)test
+- (void)setProgress:(float)progress
 {
-    if (self.progress <= 0) {
-        self.progress += 0.1;
-    }
-    if (self.progress > 1.0) {
-        self.progress = 0.0;
-    }
-    
-    self.progressView.progress = self.progress;
-    
-    YGLog(@"%f", self.progress);
+    _progress = progress;
+    self.progressView.progress = progress;
 }
 
 //- (void)addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents
@@ -102,11 +86,5 @@
     [super layoutSubviews];
 
     self.progressView.frame = self.bounds;
-}
-
-- (void)dealloc
-{
-    [self.timer invalidate];
-    self.timer = nil;
 }
 @end

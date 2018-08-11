@@ -18,8 +18,8 @@
 @end
 
 @implementation AppDelegate
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
+- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
     //  检查相册权限
     PHAuthorizationStatus photoAuthorStatus = [PHPhotoLibrary authorizationStatus];
     switch (photoAuthorStatus) {
@@ -46,6 +46,11 @@
             YGLog(@"Denied or Restricted");
         }
     }];
+    
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     // 启动界面停留3秒
 //    [NSThread sleepForTimeInterval:3.0];
