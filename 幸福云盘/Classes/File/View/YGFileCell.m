@@ -66,12 +66,10 @@
         }];
     }
     
-    self.checkBtn.selected = fileModel.isChecked;
+    self.checkBtn.selected = fileModel.isSelected;
 }
 
 - (IBAction)checkRepoFile:(UIButton *)sender {
-    self.fileModel.checked = !sender.isSelected;
-    sender.selected = self.fileModel.isChecked;
     if ([self.delegate respondsToSelector:@selector(fileCell:didSelectCheckBtn:fileModel:)]) {
         [self.delegate fileCell:self didSelectCheckBtn:sender fileModel:self.fileModel];
     }

@@ -114,7 +114,9 @@
 #pragma mark - YGFileCellDelegate
 - (void)fileCell:(YGFileCell *)fileCell didSelectCheckBtn:(UIButton *)checkBtn fileModel:(YGFileModel *)fileModel
 {
-    if (checkBtn.isSelected) {
+    if (!checkBtn.isSelected) {
+        fileModel.selected = YES;
+        if (!fileModel) return;
         [self.selectedRepos addObject:fileModel];
         [UIView animateWithDuration:0.1 animations:^{
             self.fileOperationView.transform = CGAffineTransformMakeTranslation(0, -self.fileOperationView.height);
@@ -125,6 +127,7 @@
         self.navigationItem.rightBarButtonItem = cancelItem;
         self.navigationItem.title = [NSString stringWithFormat:@"已选择了%lu个资料夹", self.selectedRepos.count];
     } else {
+        fileModel.selected = NO;
         [self.selectedRepos removeObject:fileModel];
         self.navigationItem.title = [NSString stringWithFormat:@"已选择了%lu个资料夹", self.selectedRepos.count];
     }
@@ -137,22 +140,30 @@
         self.navigationItem.leftBarButtonItem = nil;
         self.navigationItem.rightBarButtonItem = nil;
     }
+    YGLog(@"%lu", self.selectedRepos.count);
+    [self.tableView reloadData];
 }
 
 - (void)cancelSelect
 {
-    [self.selectedRepos makeObjectsPerformSelector:@selector(setChecked:) withObject:@(NO)];
+    YGLog(@"%lu", self.selectedRepos.count);
+    for (YGFileModel *fileModel in self.selectedRepos) {
+        fileModel.selected = NO;
+    }
     [self.selectedRepos removeAllObjects];
     [self fileCell:nil didSelectCheckBtn:nil fileModel:nil];
-    YGLog(@"%lu", self.selectedRepos.count);
+    [self.tableView reloadData];
 }
 
 - (void)selectAll
 {
     [self.selectedRepos removeAllObjects];
     [self.selectedRepos addObjectsFromArray:self.libraries];
-    [self.selectedRepos makeObjectsPerformSelector:@selector(setChecked:) withObject:@(YES)];
+    for (YGFileModel *fileModel in self.selectedRepos) {
+        fileModel.selected = YES;
+    }
     [self fileCell:nil didSelectCheckBtn:nil fileModel:nil];
+    [self.tableView reloadData];
     YGLog(@"%lu", self.selectedRepos.count);
 }
 

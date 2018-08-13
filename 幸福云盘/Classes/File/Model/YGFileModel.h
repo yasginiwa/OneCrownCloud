@@ -64,5 +64,5 @@
 
 @property (nonatomic, assign) BOOL VIRTUAL;
 
-@property (nonatomic, assign, getter=isChecked) BOOL checked;
+@property (nonatomic, assign, getter=isSelected) BOOL selected;
 @end
