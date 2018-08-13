@@ -34,10 +34,10 @@
 		B6209E8C20F4EE7E0075497C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6209E8B20F4EE7E0075497C /* main.m */; };
 		B63EF38D2100A50000C562DF /* YGFileBaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B63EF38C2100A50000C562DF /* YGFileBaseVC.m */; };
 		B63EF3962100D68D00C562DF /* UIButton+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B63EF3952100D68D00C562DF /* UIButton+Extension.m */; };
-		B63EF39A2100DF4600C562DF /* YGFileFirstCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B63EF3982100DF4600C562DF /* YGFileFirstCell.m */; };
 		B641A1D120FDF69800FCA501 /* YGLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B641A1CF20FDF69700FCA501 /* YGLoadingView.m */; };
 		B641A1D420FE0A0C00FCA501 /* YGActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = B641A1D320FE0A0C00FCA501 /* YGActivityIndicator.m */; };
 		B641A1D620FE0BB400FCA501 /* YGFileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B641A1D520FE0BB400FCA501 /* YGFileCell.xib */; };
+		B64B3FAF2121C7810066EBE8 /* YGHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B64B3FAE2121C7810066EBE8 /* YGHeaderView.m */; };
 		B650EAA320FCCEA90025D1E0 /* YGApiToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B650EAA220FCCEA90025D1E0 /* YGApiToken.m */; };
 		B6595AFF2111DA9300B9D71E /* YGFileUploadView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6595AFE2111DA9300B9D71E /* YGFileUploadView.m */; };
 		B65DBDD72119F01800123E57 /* YGFileOperationView.m in Sources */ = {isa = PBXBuildFile; fileRef = B65DBDD62119F01800123E57 /* YGFileOperationView.m */; };
@@ -122,13 +122,13 @@
 		B63EF38C2100A50000C562DF /* YGFileBaseVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileBaseVC.m; sourceTree = "<group>"; };
 		B63EF3942100D68D00C562DF /* UIButton+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+Extension.h"; sourceTree = "<group>"; };
 		B63EF3952100D68D00C562DF /* UIButton+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Extension.m"; sourceTree = "<group>"; };
-		B63EF3972100DF4600C562DF /* YGFileFirstCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileFirstCell.h; sourceTree = "<group>"; };
-		B63EF3982100DF4600C562DF /* YGFileFirstCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileFirstCell.m; sourceTree = "<group>"; };
 		B641A1CF20FDF69700FCA501 /* YGLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YGLoadingView.m; sourceTree = "<group>"; };
 		B641A1D020FDF69700FCA501 /* YGLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YGLoadingView.h; sourceTree = "<group>"; };
 		B641A1D220FE0A0C00FCA501 /* YGActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YGActivityIndicator.h; sourceTree = "<group>"; };
 		B641A1D320FE0A0C00FCA501 /* YGActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YGActivityIndicator.m; sourceTree = "<group>"; };
 		B641A1D520FE0BB400FCA501 /* YGFileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YGFileCell.xib; sourceTree = "<group>"; };
+		B64B3FAD2121C7810066EBE8 /* YGHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGHeaderView.h; sourceTree = "<group>"; };
+		B64B3FAE2121C7810066EBE8 /* YGHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGHeaderView.m; sourceTree = "<group>"; };
 		B650EAA120FCCEA90025D1E0 /* YGApiToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGApiToken.h; sourceTree = "<group>"; };
 		B650EAA220FCCEA90025D1E0 /* YGApiToken.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGApiToken.m; sourceTree = "<group>"; };
 		B6595AFD2111DA9300B9D71E /* YGFileUploadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileUploadView.h; sourceTree = "<group>"; };
@@ -338,8 +338,8 @@
 				7335A0A320FD922F00F5ECF5 /* YGFileCell.h */,
 				7335A0A420FD922F00F5ECF5 /* YGFileCell.m */,
 				B641A1D520FE0BB400FCA501 /* YGFileCell.xib */,
-				B63EF3972100DF4600C562DF /* YGFileFirstCell.h */,
-				B63EF3982100DF4600C562DF /* YGFileFirstCell.m */,
+				B64B3FAD2121C7810066EBE8 /* YGHeaderView.h */,
+				B64B3FAE2121C7810066EBE8 /* YGHeaderView.m */,
 				B641A1D020FDF69700FCA501 /* YGLoadingView.h */,
 				B641A1CF20FDF69700FCA501 /* YGLoadingView.m */,
 				B641A1D220FE0A0C00FCA501 /* YGActivityIndicator.h */,
@@ -722,6 +722,7 @@
 				B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */,
 				B65DBDD72119F01800123E57 /* YGFileOperationView.m in Sources */,
 				B6AD7A91211735C3007B6C25 /* YGTransferListBtn.m in Sources */,
+				B64B3FAF2121C7810066EBE8 /* YGHeaderView.m in Sources */,
 				B6AA69EA21037B05006C1BAB /* YGFileEmptyView.m in Sources */,
 				73716C2221059C2500706C51 /* YGHttpTool.m in Sources */,
 				B676794820F62B1400945627 /* YGLoginVC.m in Sources */,
@@ -734,7 +735,6 @@
 				B6C4040E20F7719000E95598 /* YGLoginTopView.m in Sources */,
 				73F3E7FF211806200054623F /* YGDownloadCell.m in Sources */,
 				73F3E8042118062E0054623F /* YGUploadCell.m in Sources */,
-				B63EF39A2100DF4600C562DF /* YGFileFirstCell.m in Sources */,
 				B6A8E243210DF39600E5117C /* YGDirTool.m in Sources */,
 				73374F8D2101B4E1005BA2E9 /* YGSubFileVC.m in Sources */,
 				B6FBA01420F62D240012EFD0 /* YGTansferVC.m in Sources */,

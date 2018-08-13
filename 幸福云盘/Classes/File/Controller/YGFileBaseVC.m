@@ -12,7 +12,8 @@
 #import "YGApiTokenTool.h"
 #import "YGFileModel.h"
 #import "YGHttpTool.h"
-#import "YGFileFirstCell.h"
+//#import "YGFileFirstCell.h"
+#import "YGHeaderView.h"
 #import "YGSubFileVC.h"
 #import "YGFileEmptyView.h"
 #import "YGFilePreviewVC.h"
@@ -31,8 +32,6 @@
 {
     if (_libraries == nil) {
         _libraries = [NSMutableArray array];
-        YGFileModel *firstFileModel = [[YGFileModel alloc] init];
-        [_libraries addObject:firstFileModel];
     }
     return _libraries;
 }
@@ -57,11 +56,14 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
     // 添加下拉刷新
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshLibrary)];
-    header.lastUpdatedTimeLabel.hidden = YES;
-    header.arrowView.image = [UIImage imageNamed:@"blueArrow"];
-    self.tableView.mj_header = header;
+    MJRefreshNormalHeader *refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshLibrary)];
+    refreshHeader.lastUpdatedTimeLabel.hidden = YES;
+    refreshHeader.arrowView.image = [UIImage imageNamed:@"blueArrow"];
+    self.tableView.mj_header = refreshHeader;
     
+    YGHeaderView *headerView = [[YGHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.width, 50)];\
+    headerView.delegate = self;
+    self.tableView.tableHeaderView = headerView;
 }
 
 /** 初始化loadingView */
@@ -88,27 +90,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        YGFileFirstCell *cell = [[YGFileFirstCell alloc] init];
-        cell.delegate = self;
-        self.tableView.allowsSelection = NO;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
-    } else {
         YGFileCell *cell = [YGFileCell fileCell];
         cell.delegate = self;
         self.tableView.allowsSelection = YES;
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell.fileModel = self.libraries[indexPath.row];
         return cell;
-    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        return 50.f;
-    }
     return 60.f;
 }
 
@@ -119,9 +110,6 @@
     
     //  选中的是repo
     if ([YGFileTypeTool isRepo:currentFileModel]) {
-        
-        //  第0列为文件操作菜单 不允许点击
-        if (indexPath.row == 0) return;
         //  保存当前repo到沙盒
         [YGRepoTool saveRepo:currentFileModel];
         YGSubFileVC *repoVC = [[YGSubFileVC alloc] init];
@@ -135,8 +123,6 @@
     
     //  选中的是dir
     if ([YGFileTypeTool isDir:currentFileModel]) {
-        if (indexPath.row == 0) return;
-        
         //  保存dir路径到沙盒
         [YGDirTool saveDir:currentFileModel];
 

@@ -15,11 +15,11 @@
 #import "YGDirTool.h"
 #import "YGFileCell.h"
 #import "YGAddFolderView.h"
-#import "YGFileFirstCell.h"
 #import "YGFileUploadView.h"
+#import "YGHeaderView.h"
 #import <QBImagePickerController.h>
 
-@interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGFileFirstCellDelegate, YGFileUploadDelegate, QBImagePickerControllerDelegate>
+@interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGHeaderViewDelegate, YGFileUploadDelegate, QBImagePickerControllerDelegate>
 @property (nonatomic, copy) NSString *addDirName;
 @end
 
@@ -42,12 +42,7 @@
 }
 
 - (void)requestDir
-{
-    // 添加一个实例化的fileModel作为第一行的占位
-    YGFileModel *firstModel = self.libraries[0];
-    [self.libraries removeAllObjects];
-    [self.libraries addObject:firstModel];
-    
+{ 
     // 从沙盒中取出当前repo
     YGFileModel *repo = [YGRepoTool repo];
     NSString *repoID = repo.ID;
@@ -74,7 +69,7 @@
             NSArray *repos = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObject];
             [self.libraries addObjectsFromArray:repos];
             [self.loadingView removeFromSuperview];
-            if (self.libraries.count < 2) {
+            if (self.libraries.count < 1) {
                 YGFileEmptyView *fileEmptyView = [[YGFileEmptyView alloc] init];
                 [self.view addSubview:fileEmptyView];
                 fileEmptyView.frame = CGRectMake(0, 50, self.tableView.width, self.tableView.height);
@@ -100,7 +95,7 @@
 }
 
 #pragma mark - YGFileFirstCellDelegate
-- (void)fileFirstCellDidClickAddFolderBtn:(YGFileFirstCell *)cell
+- (void)headerViewDidClickAddFolderBtn:(YGHeaderView *)headerView
 {
     YGAddFolderView *addFolderView = [[YGAddFolderView alloc] init];
     addFolderView.delegate = self;
@@ -109,9 +104,9 @@
     addFolderView.frame = keyWindow.bounds;
 }
 
-- (void)fileFirstCellDidClickOrderBtn:(YGFileFirstCell *)cell
+- (void)headerViewDidClickOrderBtn:(YGHeaderView *)headerView
 {
-    
+    YGLog(@"subFile--headerViewDidClickOrderBtn--");
 }
 
 #pragma mark - YGAddFolderViewDelegate

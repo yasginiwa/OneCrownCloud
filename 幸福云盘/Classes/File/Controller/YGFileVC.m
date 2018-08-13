@@ -14,13 +14,14 @@
 #import "YGLoadingView.h"
 #import "YGFileEmptyView.h"
 #import "YGNetworkFailedView.h"
-#import "YGFileFirstCell.h"
 #import "YGAddFolderView.h"
 #import "YGFileUploadView.h"
+#import "YGHeaderView.h"
+#import "YGFileOperationView.h"
 #import <QBImagePickerController.h>
 #import "YGFileOperationView.h"
 
-@interface YGFileVC () <YGFileCellDelegate, YGFileFirstCellDelegate, YGAddFolderViewDelegate>
+@interface YGFileVC () <YGFileCellDelegate, YGHeaderViewDelegate, YGAddFolderViewDelegate, YGFileOperationViewDelegate>
 @property (nonatomic, copy) NSString *addRepoName;
 @property (nonatomic, strong) YGFileOperationView *fileOperationView;
 @property (nonatomic, strong) NSMutableArray *selectedRepos;
@@ -33,6 +34,7 @@
 {
     if (_fileOperationView == nil) {
         _fileOperationView = [[YGFileOperationView alloc] init];
+        _fileOperationView.delegate = self;
         [self.tabBarController.view addSubview:_fileOperationView];
         [self.tabBarController.view bringSubviewToFront:_fileOperationView];
     }
@@ -96,7 +98,7 @@
         NSArray *libs = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObject];
         [self.libraries addObjectsFromArray:libs];
         [self.loadingView removeFromSuperview];
-        if (self.libraries.count < 2) {
+        if (self.libraries.count < 1) {
             YGFileEmptyView *fileEmptyView = [[YGFileEmptyView alloc] init];
             [self.view addSubview:fileEmptyView];
             self.fileEmptyView = fileEmptyView;
@@ -132,6 +134,12 @@
         self.navigationItem.title = [NSString stringWithFormat:@"已选择了%lu个资料夹", self.selectedRepos.count];
     }
     
+    [self selectNothing];
+    [self.tableView reloadData];
+}
+
+- (void)selectNothing
+{
     if (self.selectedRepos.count == 0) {
         [UIView animateWithDuration:0.1 animations:^{
             self.fileOperationView.transform = CGAffineTransformIdentity;
@@ -140,41 +148,38 @@
         self.navigationItem.leftBarButtonItem = nil;
         self.navigationItem.rightBarButtonItem = nil;
     }
-    YGLog(@"%lu", self.selectedRepos.count);
-    [self.tableView reloadData];
+    
 }
 
+//  取消选择
 - (void)cancelSelect
 {
-    YGLog(@"%lu", self.selectedRepos.count);
     for (YGFileModel *fileModel in self.selectedRepos) {
         fileModel.selected = NO;
     }
     [self.selectedRepos removeAllObjects];
     [self fileCell:nil didSelectCheckBtn:nil fileModel:nil];
+    [self selectNothing];
     [self.tableView reloadData];
 }
 
+//  全选
 - (void)selectAll
 {
     [self.selectedRepos removeAllObjects];
+
     [self.selectedRepos addObjectsFromArray:self.libraries];
     for (YGFileModel *fileModel in self.selectedRepos) {
         fileModel.selected = YES;
     }
     [self fileCell:nil didSelectCheckBtn:nil fileModel:nil];
+    self.navigationItem.title = [NSString stringWithFormat:@"已选择了%lu个资料夹", self.selectedRepos.count];
     [self.tableView reloadData];
-    YGLog(@"%lu", self.selectedRepos.count);
 }
 
 /** 刷新网盘根repo */
 - (void)refreshLibrary
-{
-    // 添加一个实例化的fileModel作为第一行的占位
-    YGFileModel *firstModel = self.libraries[0];
-    [self.libraries removeAllObjects];
-    [self.libraries addObject:firstModel];
-    
+{    
     NSDictionary *params = @{@"type" : @"mine"};
     [YGHttpTool listLibrariesParams:params success:^(id  _Nonnull responseObject) {
         
@@ -202,7 +207,7 @@
 }
 
 #pragma mark - YGFileFirstCellDelegate
-- (void)fileFirstCellDidClickAddFolderBtn:(YGFileFirstCell *)cell
+- (void)headerViewDidClickAddFolderBtn:(YGHeaderView *)headerView
 {
     YGAddFolderView *addFolderView = [[YGAddFolderView alloc] init];
     addFolderView.delegate = self;
@@ -211,9 +216,9 @@
     addFolderView.frame = keyWindow.bounds;
 }
 
-- (void)fileFirstCellDidClickOrderBtn:(YGFileFirstCell *)cell
+- (void)headerViewDidClickOrderBtn:(YGHeaderView *)headerView
 {
-    YGLog(@"-fileFirstCellDidClickOrderBtn--");
+    YGLog(@"File--headerViewDidClickOrderBtn--");
 }
 
 #pragma mark - YGAddFolderViewDelegate
@@ -250,6 +255,32 @@
 {
     [addFolderView endEditing:YES];
     [addFolderView removeFromSuperview];
+}
+
+#pragma mark - YGFileOperationViewDelegate
+- (void)fileOperationViewDidClickDownloadBtn:(YGFileOperationView *)headerView
+{
+    YGLog(@"fileOperationViewDidClickDownloadBtn---");
+}
+
+- (void)fileOperationViewDidClickCopyBtn:(YGFileOperationView *)headerView
+{
+    YGLog(@"fileOperationViewDidClickCopyBtn---");
+}
+
+- (void)fileOperationViewDidClickMoveBtn:(YGFileOperationView *)headerView
+{
+    YGLog(@"fileOperationViewDidClickMoveBtn---");
+}
+
+- (void)fileOperationViewDidClickRenameBtn:(YGFileOperationView *)headerView
+{
+    YGLog(@"fileOperationViewDidClickRenameBtn---");
+}
+
+- (void)fileOperationViewDidClickDeleteBtn:(YGFileOperationView *)headerView
+{
+    YGLog(@"fileOperationViewDidClickDeleteBtn---");
 }
 
 #pragma mark - UITableViewDelegate

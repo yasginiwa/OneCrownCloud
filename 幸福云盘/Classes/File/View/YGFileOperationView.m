@@ -77,7 +77,39 @@ typedef enum {
     [btn setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
     [btn setImage:[UIImage imageNamed:highImage] forState:UIControlStateHighlighted];
     btn.tag = operationType;
+    [btn addTarget:self action:@selector(operationClick:) forControlEvents:UIControlEventTouchDown];
     [self addSubview:btn];
+}
+
+- (void)operationClick:(YGFileOperationBtn *)button
+{
+    switch (button.tag) {
+        case YGFileOperationTypeDownload:
+            if ([self.delegate respondsToSelector:@selector(fileOperationViewDidClickDownloadBtn:)]) {
+                [self.delegate fileOperationViewDidClickDownloadBtn:self];
+            }
+            break;
+        case YGFileOperationTypeCopy:
+            if ([self.delegate respondsToSelector:@selector(fileOperationViewDidClickCopyBtn:)]) {
+                [self.delegate fileOperationViewDidClickCopyBtn:self];
+            }
+            break;
+        case YGFileOperationTypeMove:
+            if ([self.delegate respondsToSelector:@selector(fileOperationViewDidClickMoveBtn:)]) {
+                [self.delegate fileOperationViewDidClickMoveBtn:self];
+            }
+            break;
+        case YGFileOperationTypeRename:
+            if ([self.delegate respondsToSelector:@selector(fileOperationViewDidClickRenameBtn:)]) {
+                [self.delegate fileOperationViewDidClickRenameBtn:self];
+            }
+            break;
+        case YGFileOperationTypeDelete:
+            if ([self.delegate respondsToSelector:@selector(fileOperationViewDidClickDeleteBtn:)]) {
+                [self.delegate fileOperationViewDidClickDeleteBtn:self];
+            }
+            break;
+    }
 }
 
 - (void)layoutSubviews
