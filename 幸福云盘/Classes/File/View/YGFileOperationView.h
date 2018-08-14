@@ -13,7 +13,7 @@
 @protocol YGFileOperationViewDelegate <NSObject>
 @optional
 - (void)fileOperationViewDidClickDownloadBtn:(YGFileOperationView *)headerView;
-- (void)fileOperationViewDidClickCopyBtn:(YGFileOperationView *)headerView;
+- (void)fileOperationViewDidClickShareBtn:(YGFileOperationView *)headerView;
 - (void)fileOperationViewDidClickMoveBtn:(YGFileOperationView *)headerView;
 - (void)fileOperationViewDidClickRenameBtn:(YGFileOperationView *)headerView;
 - (void)fileOperationViewDidClickDeleteBtn:(YGFileOperationView *)headerView;

@@ -16,7 +16,7 @@
 
 typedef enum {
     YGFileOperationTypeDownload,
-    YGFileOperationTypeCopy,
+    YGFileOperationTypeShare,
     YGFileOperationTypeMove,
     YGFileOperationTypeRename,
     YGFileOperationTypeDelete
@@ -44,7 +44,7 @@ typedef enum {
 - (CGRect)titleRectForContentRect:(CGRect)contentRect
 {
     CGFloat titleX = 0;
-    CGFloat titleY = contentRect.size.height * 0.6;
+    CGFloat titleY = contentRect.size.height * 0.65;
     CGFloat titleW = contentRect.size.width;
     CGFloat titleH = contentRect.size.height * 0.3;
     return CGRectMake(titleX, titleY, titleW, titleH);
@@ -60,7 +60,7 @@ typedef enum {
         self.backgroundColor = YGColorRGB(28, 28, 28);
         
         [self addButtonsWithTitle:@"下载" image:@"prevrew_down_normal" highImage:@"prevrew_down_pressed" operationType:YGFileOperationTypeDownload];
-        [self addButtonsWithTitle:@"复制" image:@"prevrew_copy_normal" highImage:@"prevrew_copy_pressed" operationType:YGFileOperationTypeCopy];
+        [self addButtonsWithTitle:@"分享" image:@"prevrew_share_normal" highImage:@"prevrew_share_pressed" operationType:YGFileOperationTypeShare];
         [self addButtonsWithTitle:@"移动" image:@"prevrew_move_normal" highImage:@"prevrew_move_pressed" operationType:YGFileOperationTypeMove];
         [self addButtonsWithTitle:@"重命名" image:@"prevrew_rename_normal" highImage:@"prevrew_rename_pressed" operationType:YGFileOperationTypeRename];
         [self addButtonsWithTitle:@"删除" image:@"prevrew_delete_normal" highImage:@"prevrew_delete_pressed" operationType:YGFileOperationTypeDelete];
@@ -89,9 +89,9 @@ typedef enum {
                 [self.delegate fileOperationViewDidClickDownloadBtn:self];
             }
             break;
-        case YGFileOperationTypeCopy:
-            if ([self.delegate respondsToSelector:@selector(fileOperationViewDidClickCopyBtn:)]) {
-                [self.delegate fileOperationViewDidClickCopyBtn:self];
+        case YGFileOperationTypeShare:
+            if ([self.delegate respondsToSelector:@selector(fileOperationViewDidClickShareBtn:)]) {
+                [self.delegate fileOperationViewDidClickShareBtn:self];
             }
             break;
         case YGFileOperationTypeMove:

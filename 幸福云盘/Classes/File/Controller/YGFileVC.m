@@ -148,7 +148,6 @@
         self.navigationItem.leftBarButtonItem = nil;
         self.navigationItem.rightBarButtonItem = nil;
     }
-    
 }
 
 //  取消选择
@@ -187,6 +186,7 @@
         [self.loadingView removeFromSuperview];
         
         NSArray *newFileModels = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObject];
+        [self.libraries removeAllObjects];
         [self.libraries addObjectsFromArray:newFileModels];
         [self.tableView reloadData];
         [self.tableView.mj_header endRefreshing];
@@ -263,9 +263,9 @@
     YGLog(@"fileOperationViewDidClickDownloadBtn---");
 }
 
-- (void)fileOperationViewDidClickCopyBtn:(YGFileOperationView *)headerView
+- (void)fileOperationViewDidClickShareBtn:(YGFileOperationView *)headerView
 {
-    YGLog(@"fileOperationViewDidClickCopyBtn---");
+    YGLog(@"fileOperationViewDidClickShareBtn---");
 }
 
 - (void)fileOperationViewDidClickMoveBtn:(YGFileOperationView *)headerView
