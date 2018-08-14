@@ -21,19 +21,40 @@
 #import "YGRepoTool.h"
 #import "YGDirTool.h"
 #import "YGAddFolderView.h"
+#import "YGFileOperationView.h"
 
-@interface YGFileBaseVC () <UIScrollViewDelegate, QLPreviewControllerDataSource>
+@interface YGFileBaseVC () <UIScrollViewDelegate, QLPreviewControllerDataSource, YGFileOperationViewDelegate>
+@property (nonatomic, strong) YGFileOperationView *fileOperationView;
 @end
 
 @implementation YGFileBaseVC
 
-/** 懒加载 */
+#pragma mark - 懒加载
+- (YGFileOperationView *)fileOperationView
+{
+    if (_fileOperationView == nil) {
+        _fileOperationView = [[YGFileOperationView alloc] init];
+        _fileOperationView.delegate = self;
+        [self.tabBarController.view addSubview:_fileOperationView];
+        [self.tabBarController.view bringSubviewToFront:_fileOperationView];
+    }
+    return _fileOperationView;
+}
+
 - (NSMutableArray *)libraries
 {
     if (_libraries == nil) {
         _libraries = [NSMutableArray array];
     }
     return _libraries;
+}
+
+- (NSMutableArray *)selectedRepos
+{
+    if (_selectedRepos == nil) {
+        _selectedRepos = [NSMutableArray array];
+    }
+    return _selectedRepos;
 }
 
 - (void)viewDidLoad {
@@ -107,6 +128,14 @@
 {
     YGFileModel *currentFileModel = self.libraries[indexPath.row];
     self.currentFileModel = currentFileModel;
+    if (currentFileModel.isSelected) {
+        [self cancelSelect];
+        return;
+    } else {
+        currentFileModel.selected = YES;
+        [self.tableView reloadData];
+        return;
+    }
     
     //  选中的是repo
     if ([YGFileTypeTool isRepo:currentFileModel]) {
@@ -143,6 +172,70 @@
 }
 
 
+#pragma mark - YGFileCellDelegate
+- (void)fileCell:(YGFileCell *)fileCell didSelectCheckBtn:(UIButton *)checkBtn fileModel:(YGFileModel *)fileModel
+{
+    if (!checkBtn.isSelected) {
+        fileModel.selected = YES;
+        if (!fileModel) return;
+        [self.selectedRepos addObject:fileModel];
+        [UIView animateWithDuration:0.1 animations:^{
+            self.fileOperationView.transform = CGAffineTransformMakeTranslation(0, -self.fileOperationView.height);
+        }];
+        UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancelSelect)];
+        UIBarButtonItem *selectAllItem = [[UIBarButtonItem alloc] initWithTitle:@"全选" style:UIBarButtonItemStyleDone target:self action:@selector(selectAll)];
+        self.navigationItem.leftBarButtonItem = selectAllItem;
+        self.navigationItem.rightBarButtonItem = cancelItem;
+        self.navigationItem.title = [NSString stringWithFormat:@"已选择了%lu个资料夹", self.selectedRepos.count];
+    } else {
+        fileModel.selected = NO;
+        [self.selectedRepos removeObject:fileModel];
+        self.navigationItem.title = [NSString stringWithFormat:@"已选择了%lu个资料夹", self.selectedRepos.count];
+    }
+    
+    [self selectNothing];
+    [self.tableView reloadData];
+}
+
+- (void)selectNothing
+{
+    if (self.selectedRepos.count == 0) {
+        [UIView animateWithDuration:0.1 animations:^{
+            self.fileOperationView.transform = CGAffineTransformIdentity;
+        }];
+        self.navigationItem.title = @"幸福网盘";
+        self.navigationItem.leftBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+}
+
+//  取消选择
+- (void)cancelSelect
+{
+    for (YGFileModel *fileModel in self.selectedRepos) {
+        fileModel.selected = NO;
+    }
+    [self.selectedRepos removeAllObjects];
+    [self fileCell:nil didSelectCheckBtn:nil fileModel:nil];
+    [self selectNothing];
+    [self.tableView reloadData];
+}
+
+//  全选
+- (void)selectAll
+{
+    [self.selectedRepos removeAllObjects];
+    
+    [self.selectedRepos addObjectsFromArray:self.libraries];
+    for (YGFileModel *fileModel in self.selectedRepos) {
+        fileModel.selected = YES;
+    }
+    [self fileCell:nil didSelectCheckBtn:nil fileModel:nil];
+    self.navigationItem.title = [NSString stringWithFormat:@"已选择了%lu个资料夹", self.selectedRepos.count];
+    [self.tableView reloadData];
+}
+
+
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -161,4 +254,14 @@
     return 1;
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    [self.fileOperationView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.tabBarController.view);
+        make.top.equalTo(self.tabBarController.view.mas_bottom);
+        make.height.equalTo(@49);
+    }];
+}
 @end

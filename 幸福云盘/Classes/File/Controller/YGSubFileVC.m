@@ -235,6 +235,10 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     YGFileModel *currentFileModel = self.libraries[indexPath.row];
+    if (currentFileModel.isSelected) {
+        [self cancelSelect];
+        return;
+    }
     self.currentFileModel = currentFileModel;
     [YGDirTool saveDir:currentFileModel];
     
@@ -260,6 +264,33 @@
             [SVProgressHUD showFailureFace:@"删除失败"];
         }];
     }
+}
+
+
+#pragma mark - YGFileOperationViewDelegate
+- (void)fileOperationViewDidClickDownloadBtn:(YGFileOperationView *)headerView
+{
+    YGLog(@"subFileOperationViewDidClickDownloadBtn---");
+}
+
+- (void)fileOperationViewDidClickShareBtn:(YGFileOperationView *)headerView
+{
+    YGLog(@"subFileOperationViewDidClickShareBtn---");
+}
+
+- (void)fileOperationViewDidClickMoveBtn:(YGFileOperationView *)headerView
+{
+    YGLog(@"subFileOperationViewDidClickMoveBtn---");
+}
+
+- (void)fileOperationViewDidClickRenameBtn:(YGFileOperationView *)headerView
+{
+    YGLog(@"subFileOperationViewDidClickRenameBtn---");
+}
+
+- (void)fileOperationViewDidClickDeleteBtn:(YGFileOperationView *)headerView
+{
+    YGLog(@"subFileOperationViewDidClickDeleteBtn---");
 }
 
 - (void)dealloc
