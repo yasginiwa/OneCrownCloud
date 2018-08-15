@@ -19,7 +19,8 @@ typedef enum {
     YGFileOperationTypeShare,
     YGFileOperationTypeMove,
     YGFileOperationTypeRename,
-    YGFileOperationTypeDelete
+    YGFileOperationTypeDelete,
+    YGFileOperationTypeDetail
 } YGFileOperationType;
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -54,6 +55,13 @@ typedef enum {
 
 @implementation YGFileOperationView
 
++ (instancetype)fileOperationViewWithStyle:(YGFileOperationViewStyle)fileOperationViewStyle
+{
+    YGFileOperationView *fileOperationView = [[YGFileOperationView alloc] init];
+    fileOperationView.style = fileOperationViewStyle;
+    return fileOperationView;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
@@ -64,6 +72,7 @@ typedef enum {
         [self addButtonsWithTitle:@"移动" image:@"prevrew_move_normal" highImage:@"prevrew_move_pressed" operationType:YGFileOperationTypeMove];
         [self addButtonsWithTitle:@"重命名" image:@"prevrew_rename_normal" highImage:@"prevrew_rename_pressed" operationType:YGFileOperationTypeRename];
         [self addButtonsWithTitle:@"删除" image:@"prevrew_delete_normal" highImage:@"prevrew_delete_pressed" operationType:YGFileOperationTypeDelete];
+        [self addButtonsWithTitle:@"详情" image:@"prevrew_detail_normal" highImage:@"prevrew_detail_pressed" operationType:YGFileOperationTypeDetail];
     }
     return self;
 }
@@ -89,24 +98,34 @@ typedef enum {
                 [self.delegate fileOperationViewDidClickDownloadBtn:self];
             }
             break;
+            
         case YGFileOperationTypeShare:
             if ([self.delegate respondsToSelector:@selector(fileOperationViewDidClickShareBtn:)]) {
                 [self.delegate fileOperationViewDidClickShareBtn:self];
             }
             break;
+            
         case YGFileOperationTypeMove:
             if ([self.delegate respondsToSelector:@selector(fileOperationViewDidClickMoveBtn:)]) {
                 [self.delegate fileOperationViewDidClickMoveBtn:self];
             }
             break;
+            
         case YGFileOperationTypeRename:
             if ([self.delegate respondsToSelector:@selector(fileOperationViewDidClickRenameBtn:)]) {
                 [self.delegate fileOperationViewDidClickRenameBtn:self];
             }
             break;
+            
         case YGFileOperationTypeDelete:
             if ([self.delegate respondsToSelector:@selector(fileOperationViewDidClickDeleteBtn:)]) {
                 [self.delegate fileOperationViewDidClickDeleteBtn:self];
+            }
+            break;
+            
+        case YGFileOperationTypeDetail:
+            if ([self.delegate respondsToSelector:@selector(fileOperationViewDidClickDetailBtn:)]) {
+                [self.delegate fileOperationViewDidClickDetailBtn:self];
             }
             break;
     }
@@ -116,16 +135,27 @@ typedef enum {
 {
     [super layoutSubviews];
     
+    //  判断view的样式 显示不同的布局
+    for (YGFileOperationBtn *btn in self.subviews) {
+        if (self.style == YGFileOperationViewStyleDefault && btn.tag == YGFileOperationTypeDetail) {
+            [btn removeFromSuperview];
+        } else if (self.style == YGFileOperationViewStyleRepo && btn.tag == YGFileOperationTypeDownload) {
+            [btn removeFromSuperview];
+        }
+    }
+
+    //  布局子控件
     NSUInteger count = self.subviews.count;
-    
     CGFloat btnW = self.width / count;
     CGFloat btnH = self.height;
     CGFloat btnY = 0;
     
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < self.subviews.count; i++) {
         YGFileOperationBtn *btn = self.subviews[i];
         CGFloat btnX = btnW * i;
         btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
     }
 }
+
+
 @end

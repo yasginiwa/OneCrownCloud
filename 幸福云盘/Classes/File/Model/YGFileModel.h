@@ -36,6 +36,8 @@
 
 @property (nonatomic, copy) NSString *ID;
 
+@property (nonatomic, copy) NSString *oid;
+
 @property (nonatomic, copy) NSString *modifier_contact_email;
 
 @property (nonatomic, copy) NSString *modifier_email;

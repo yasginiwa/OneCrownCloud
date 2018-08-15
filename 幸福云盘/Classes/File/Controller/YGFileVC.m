@@ -27,6 +27,7 @@
 @end
 
 @implementation YGFileVC
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -95,7 +96,17 @@
 
 /** 刷新网盘根repo */
 - (void)refreshLibrary
-{    
+{
+    //  如果有选中的文件 不刷新
+    if (self.selectedRepos.count) {
+        [self.tableView.mj_header endRefreshing];
+        return;
+    }
+    
+    //  刷新前先清空数组
+    [self.libraries removeAllObjects];
+    
+    //  请求最新数据
     NSDictionary *params = @{@"type" : @"mine"};
     [YGHttpTool listLibrariesParams:params success:^(id  _Nonnull responseObject) {
         
@@ -103,7 +114,7 @@
         [self.loadingView removeFromSuperview];
         
         NSArray *newFileModels = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObject];
-        [self.libraries removeAllObjects];
+ 
         [self.libraries addObjectsFromArray:newFileModels];
         [self.tableView reloadData];
         [self.tableView.mj_header endRefreshing];
@@ -175,11 +186,6 @@
 }
 
 #pragma mark - YGFileOperationViewDelegate
-- (void)fileOperationViewDidClickDownloadBtn:(YGFileOperationView *)headerView
-{
-    YGLog(@"fileOperationViewDidClickDownloadBtn---");
-}
-
 - (void)fileOperationViewDidClickShareBtn:(YGFileOperationView *)headerView
 {
     YGLog(@"fileOperationViewDidClickShareBtn---");
@@ -198,6 +204,11 @@
 - (void)fileOperationViewDidClickDeleteBtn:(YGFileOperationView *)headerView
 {
     YGLog(@"fileOperationViewDidClickDeleteBtn---");
+}
+
+- (void)fileOperationViewDidClickDetailBtn:(YGFileOperationView *)headerView
+{
+    YGLog(@"fileOperationViewDidClickDetailBtn---");
 }
 
 #pragma mark - UITableViewDelegate

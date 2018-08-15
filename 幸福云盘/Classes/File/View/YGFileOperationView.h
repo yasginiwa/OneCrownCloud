@@ -17,8 +17,17 @@
 - (void)fileOperationViewDidClickMoveBtn:(YGFileOperationView *)headerView;
 - (void)fileOperationViewDidClickRenameBtn:(YGFileOperationView *)headerView;
 - (void)fileOperationViewDidClickDeleteBtn:(YGFileOperationView *)headerView;
+- (void)fileOperationViewDidClickDetailBtn:(YGFileOperationView *)headerView;
 @end
 
 @interface YGFileOperationView : UIView
+
+typedef enum {
+    YGFileOperationViewStyleDefault,
+    YGFileOperationViewStyleRepo
+}YGFileOperationViewStyle;
+
 @property (nonatomic, weak) id<YGFileOperationViewDelegate> delegate;
+@property (nonatomic, assign) YGFileOperationViewStyle style;
++ (instancetype)fileOperationViewWithStyle:(YGFileOperationViewStyle)fileOperationViewStyle;
 @end

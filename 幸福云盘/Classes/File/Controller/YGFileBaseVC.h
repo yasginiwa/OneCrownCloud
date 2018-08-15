@@ -17,6 +17,8 @@
 @property (nonatomic, weak) YGNetworkFailedView *networkFailedView;
 @property (nonatomic, strong) YGFileModel *currentFileModel;
 @property (nonatomic, strong) NSMutableArray *selectedRepos;
+@property (nonatomic, strong) YGFileOperationView *fileOperationView;
 - (void)fileUpload;
 - (void)cancelSelect;
+- (void)setupNavBar;
 @end

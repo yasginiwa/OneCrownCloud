@@ -22,9 +22,13 @@
 #import "YGDirTool.h"
 #import "YGAddFolderView.h"
 #import "YGFileOperationView.h"
+#import "YGFileVC.h"
+#import "YGSubFileVC.h"
 
 @interface YGFileBaseVC () <UIScrollViewDelegate, QLPreviewControllerDataSource, YGFileOperationViewDelegate>
-@property (nonatomic, strong) YGFileOperationView *fileOperationView;
+
+@property (nonatomic, copy) NSString *showTitle;
+@property (nonatomic, strong) UIBarButtonItem *uploadItem;
 @end
 
 @implementation YGFileBaseVC
@@ -33,12 +37,20 @@
 - (YGFileOperationView *)fileOperationView
 {
     if (_fileOperationView == nil) {
-        _fileOperationView = [[YGFileOperationView alloc] init];
+        _fileOperationView = [self isRootViewController] ? [YGFileOperationView fileOperationViewWithStyle:YGFileOperationViewStyleRepo] : [YGFileOperationView fileOperationViewWithStyle:YGFileOperationViewStyleDefault];
         _fileOperationView.delegate = self;
         [self.tabBarController.view addSubview:_fileOperationView];
         [self.tabBarController.view bringSubviewToFront:_fileOperationView];
     }
     return _fileOperationView;
+}
+
+- (UIBarButtonItem *)uploadItem
+{
+    if (_uploadItem == nil) {
+        _uploadItem = [UIBarButtonItem itemWithImage:@"file_upload" highImage:@"file_upload_pressed" target:self action:@selector(fileUpload)];
+    }
+    return _uploadItem;
 }
 
 - (NSMutableArray *)libraries
@@ -65,6 +77,25 @@
     [self setupLoadingView];
     
     [self setupNavBar];
+    
+    [self setupShowTitle];
+}
+
+- (void)setupShowTitle
+{
+    self.showTitle = [self isRootViewController] ? @"幸福网盘" : self.currentFileModel.name;
+}
+
+/** 判断是否是push的栈底控制器 */
+- (BOOL)isRootViewController
+{
+//    for (UIViewController *subVC in self.navigationController.childViewControllers) {
+//        if ([subVC isKindOfClass:[YGFileVC class]]) return YES;
+//    }
+    if (self.navigationController.childViewControllers.count == 1) {
+        return YES;
+    }
+    return NO;
 }
 
 /** 初始化tableView */
@@ -82,7 +113,7 @@
     refreshHeader.arrowView.image = [UIImage imageNamed:@"blueArrow"];
     self.tableView.mj_header = refreshHeader;
     
-    YGHeaderView *headerView = [[YGHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.width, 50)];\
+    YGHeaderView *headerView = [[YGHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.width, 50)];
     headerView.delegate = self;
     self.tableView.tableHeaderView = headerView;
 }
@@ -99,24 +130,22 @@
 /** 初始化navBar */
 - (void)setupNavBar
 {
-    UIBarButtonItem *uploadItem = [UIBarButtonItem itemWithImage:@"file_upload" highImage:@"file_upload_pressed" target:self action:@selector(fileUpload)];
-    self.navigationItem.rightBarButtonItem = uploadItem;
+    self.navigationItem.rightBarButtonItem = self.uploadItem;
 }
 
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return self.libraries.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        YGFileCell *cell = [YGFileCell fileCell];
-        cell.delegate = self;
-        self.tableView.allowsSelection = YES;
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
-        cell.fileModel = self.libraries[indexPath.row];
-        return cell;
+    YGFileCell *cell = [YGFileCell fileCell];
+    cell.delegate = self;
+    self.tableView.allowsSelection = YES;
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
+    cell.fileModel = self.libraries[indexPath.row];
+    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -131,12 +160,8 @@
     if (currentFileModel.isSelected) {
         [self cancelSelect];
         return;
-    } else {
-        currentFileModel.selected = YES;
-        [self.tableView reloadData];
-        return;
     }
-    
+    [self cancelSelect];
     //  选中的是repo
     if ([YGFileTypeTool isRepo:currentFileModel]) {
         //  保存当前repo到沙盒
@@ -197,19 +222,7 @@
     [self.tableView reloadData];
 }
 
-- (void)selectNothing
-{
-    if (self.selectedRepos.count == 0) {
-        [UIView animateWithDuration:0.1 animations:^{
-            self.fileOperationView.transform = CGAffineTransformIdentity;
-        }];
-        self.navigationItem.title = @"幸福网盘";
-        self.navigationItem.leftBarButtonItem = nil;
-        self.navigationItem.rightBarButtonItem = nil;
-    }
-}
-
-//  取消选择
+/** 取消选择 */
 - (void)cancelSelect
 {
     for (YGFileModel *fileModel in self.selectedRepos) {
@@ -221,7 +234,7 @@
     [self.tableView reloadData];
 }
 
-//  全选
+/** 全选文件 */
 - (void)selectAll
 {
     [self.selectedRepos removeAllObjects];
@@ -235,6 +248,20 @@
     [self.tableView reloadData];
 }
 
+/** 未选择任何文件 */
+- (void)selectNothing
+{
+    if (self.selectedRepos.count == 0) {
+        [UIView animateWithDuration:0.1 animations:^{
+            self.fileOperationView.transform = CGAffineTransformIdentity;
+        }];
+        
+        self.navigationItem.rightBarButtonItem = [self isRootViewController] ? nil : self.uploadItem;
+
+        self.navigationItem.title = self.showTitle;
+        self.navigationItem.leftBarButtonItem = nil;
+    }
+}
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

@@ -28,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = self.currentFileModel.name;
+    self.navigationItem.title = self.currentFileModel.name;
 
     [self setupObserv];
     
@@ -42,7 +42,7 @@
 }
 
 - (void)requestDir
-{ 
+{
     // 从沙盒中取出当前repo
     YGFileModel *repo = [YGRepoTool repo];
     NSString *repoID = repo.ID;
@@ -83,14 +83,22 @@
             [self.tableView.mj_header endRefreshing];
             
         } failure:^(NSError * _Nonnull error) {
-            
             YGLog(@"%@", error);
-            
         }];
 }
 
 - (void)refreshLibrary
 {
+    //  如果有选中的文件 不刷新
+    if (self.selectedRepos.count) {
+        [self.tableView.mj_header endRefreshing];
+        return;
+    }
+    
+    //  刷新前先清空数组
+    [self.libraries removeAllObjects];
+    
+    //  请求最新数据
     [self requestDir];
 }
 
