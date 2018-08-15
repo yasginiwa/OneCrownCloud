@@ -24,7 +24,6 @@
 @end
 
 @implementation YGSubFileVC
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -215,10 +214,31 @@
 #pragma mark - QBImagePickerControllerDelegate
 - (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets
 {
-    PHAsset *asset = [assets firstObject];
-    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-        YGLog(@"%@-%@", result, info);
-    }];
+    for (PHAsset *asset in assets) {
+        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+            NSString *imagePath = info[@"PHImageFileURLKey"];
+            NSURL *imagePathUrl = [NSURL URLWithString:imagePath];
+            NSDictionary *params = @{@"p" : [YGDirTool dir]};
+            [YGHttpTool getUploadUrlWithRepoID:[YGRepoTool repo].ID params:params success:^(id  _Nonnull responseObj) {
+                
+                [YGHttpTool POST:responseObj params:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+//                    formData appendPartWithFileURL:imagePathUrl name:<#(nonnull NSString *)#> error:<#(NSError *__autoreleasing  _Nullable * _Nullable)#>
+                } progress:^(NSProgress * _Nonnull uploadProgress) {
+                    double progress = uploadProgress.fractionCompleted;
+                    YGLog(@"%f", progress);
+                } success:^(id  _Nonnull responseObject) {
+                    YGLog(@"上传完毕");
+                } failure:^(NSError * _Nonnull error) {
+                    
+                }];
+                
+            } failure:^(NSError * _Nonnull error) {
+                if (error.code == -1011) {
+                    [SVProgressHUD showError:@"网络不给力..."];
+                }
+            }];
+        }];
+    }
 }
 
 - (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController

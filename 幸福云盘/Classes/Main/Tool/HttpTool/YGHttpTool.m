@@ -111,21 +111,25 @@
     [downloadTask resume];
 }
 
-/** upload方法封装 */
-+ (void)UPLOAD:(NSString *)url progress:(void (^)(NSProgress *uploadProgress))progress fromFile:(NSURL *)fromFile completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler
+/** POST上传方法封装 */
++ (void)POST:(NSString *)url params:(id)params constructingBodyWithBlock:(void (^)(id<AFMultipartFormData> formData))block progress:(void (^)(NSProgress *uploadProgress))progress success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFURLSessionManager *mgr = [[AFURLSessionManager alloc] initWithSessionConfiguration:config];
+    YGApiToken *token = [YGApiTokenTool apiToken];
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
+    [mgr.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token.token] forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionUploadTask *uploadTask = [mgr uploadTaskWithStreamedRequest:request progress:^(NSProgress * _Nonnull uploadProgress) {
+    [mgr POST:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        block(formData);
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
         progress(uploadProgress);
-    } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-        completionHandler(response, responseObject, error);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        success(responseObject);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
     }];
-
-    [uploadTask resume];
 }
+
 
 /** DELETE方法封装 */
 + (void)DELETE:(NSString *)url params:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure
@@ -349,12 +353,12 @@
     }];
 }
 
-+ (void)uploadFileWithUrl:(NSString *)url progress:(void (^)(NSProgress *uploadProgress))progress fromFile:(NSURL *)fromFile completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler
-{
-    [YGHttpTool UPLOAD:url progress:^(NSProgress * _Nonnull uploadProgress) {
-        progress(uploadProgress);
-    } fromFile:fromFile completionHandler:^(NSURLResponse * _Nonnull response, id  _Nonnull responseObject, NSError * _Nonnull error) {
-        completionHandler(response, responseObject, error);
-    }];
-}
+//+ (void)uploadFileWithUrl:(NSString *)url progress:(void (^)(NSProgress *uploadProgress))progress fromFile:(NSURL *)fromFile completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler
+//{
+//    [YGHttpTool UPLOAD:url progress:^(NSProgress * _Nonnull uploadProgress) {
+//        progress(uploadProgress);
+//    } fromFile:fromFile completionHandler:^(NSURLResponse * _Nonnull response, id  _Nonnull responseObject, NSError * _Nonnull error) {
+//        completionHandler(response, responseObject, error);
+//    }];
+//}
 @end

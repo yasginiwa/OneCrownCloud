@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)DOWNLOAD:(NSString *)url progress:(void (^)(NSProgress *downloadProgress))progress destination:(NSURL *(^)(NSURL *targetPath, NSURLResponse *response))destination completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
 
 /** upload方法封装 */
-+ (void)UPLOAD:(NSString *)url progress:(void (^)(NSProgress *progress))progress fromFile:(NSURL *)fromFile completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler;
++ (void)POST:(NSString *)url params:(id)params constructingBodyWithBlock:(void (^)(id<AFMultipartFormData> formData))block progress:(void (^)(NSProgress *uploadProgress))progress success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
 
 /** DELETE方法封装 */
 + (void)DELETE:(NSString *)url params:(id)params success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;

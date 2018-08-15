@@ -30,7 +30,7 @@
     [barAppearace setBackIndicatorTransitionMaskImage:backImage];
     UIBarButtonItem *barButtonItem = [UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil];
     UIOffset offset;
-    offset.vertical = -0.5;
+    offset.vertical = -0.8;
     [barButtonItem setBackButtonTitlePositionAdjustment:offset forBarMetrics:UIBarMetricsDefault];
     
     //   统一设置item的外观

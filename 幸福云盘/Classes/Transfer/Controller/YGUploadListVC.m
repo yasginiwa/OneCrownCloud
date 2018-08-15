@@ -14,6 +14,15 @@
 
 @implementation YGUploadListVC
 
+#pragma mark - 懒加载
+- (NSMutableArray *)uploadTasks
+{
+    if (_uploadTasks == nil) {
+        _uploadTasks = [NSMutableArray array];
+    }
+    return _uploadTasks;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
