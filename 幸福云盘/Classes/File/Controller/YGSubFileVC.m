@@ -216,29 +216,33 @@
 {
     for (PHAsset *asset in assets) {
         [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-            NSString *imagePath = info[@"PHImageFileURLKey"];
-            NSURL *imagePathUrl = [NSURL URLWithString:imagePath];
-            NSDictionary *params = @{@"p" : [YGDirTool dir]};
+            NSString *folderPath = [NSString stringWithFormat:@"%@/", [YGDirTool dir]];
+            NSURL *imageUrl = info[@"PHImageFileURLKey"];
+            NSDictionary *params = @{@"p" : folderPath};
             [YGHttpTool getUploadUrlWithRepoID:[YGRepoTool repo].ID params:params success:^(id  _Nonnull responseObj) {
-                
-                [YGHttpTool POST:responseObj params:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-//                    formData appendPartWithFileURL:imagePathUrl name:<#(nonnull NSString *)#> error:<#(NSError *__autoreleasing  _Nullable * _Nullable)#>
+                NSString *uploadUrl = [NSString stringWithFormat:@"%@?ret-json=1", responseObj];
+                [YGHttpTool POST:uploadUrl params:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+                    [formData appendPartWithFormData:[folderPath dataUsingEncoding:NSUTF8StringEncoding] name:@"parent_dir"];
+                    [formData appendPartWithFileURL:imageUrl name:@"file" error:nil];
                 } progress:^(NSProgress * _Nonnull uploadProgress) {
                     double progress = uploadProgress.fractionCompleted;
                     YGLog(@"%f", progress);
                 } success:^(id  _Nonnull responseObject) {
-                    YGLog(@"上传完毕");
+                    [self refreshLibrary];
+                    [SVProgressHUD showSuccessFace:@"添加至传输列表"];
+                    YGLog(@"%@", responseObject);
                 } failure:^(NSError * _Nonnull error) {
-                    
+                    if (error.code == -1001) {
+                        [SVProgressHUD showFailureFace:@"网络超时..."];
+                    }
                 }];
                 
             } failure:^(NSError * _Nonnull error) {
-                if (error.code == -1011) {
-                    [SVProgressHUD showError:@"网络不给力..."];
-                }
+                [SVProgressHUD showFailureFace:@"上传失败"];
             }];
         }];
     }
+    [imagePickerController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController
