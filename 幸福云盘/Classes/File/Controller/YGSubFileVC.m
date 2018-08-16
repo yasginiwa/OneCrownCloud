@@ -18,12 +18,24 @@
 #import "YGFileUploadView.h"
 #import "YGHeaderView.h"
 #import <QBImagePickerController.h>
+#import <TZImagePickerController.h>
 
-@interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGHeaderViewDelegate, YGFileUploadDelegate, QBImagePickerControllerDelegate>
+@interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGHeaderViewDelegate, YGFileUploadDelegate, QBImagePickerControllerDelegate, TZImagePickerControllerDelegate>
 @property (nonatomic, copy) NSString *addDirName;
+@property (nonatomic, strong) TZImagePickerController *imagePickerVC;
 @end
 
 @implementation YGSubFileVC
+
+#pragma mark - 懒加载
+- (TZImagePickerController *)imagePickerVC
+{
+    if (_imagePickerVC == nil) {
+        _imagePickerVC = [[TZImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
+    }
+    return _imagePickerVC;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -173,49 +185,61 @@
 #pragma mark - YGFileUploadDelegate
 - (void)fileUploadDidClickPicUploadBtn:(YGFileUploadView *)fileUploadView
 {
-    QBImagePickerController *imagePickerVC = [[QBImagePickerController alloc] init];
-    imagePickerVC.delegate = self;
-    imagePickerVC.allowsMultipleSelection = YES;
-    imagePickerVC.maximumNumberOfSelection = 9;
-    imagePickerVC.showsNumberOfSelectedAssets = YES;
-    imagePickerVC.numberOfColumnsInPortrait = 4;
-    imagePickerVC.showsNumberOfSelectedAssets = YES;
-    imagePickerVC.mediaType = QBImagePickerMediaTypeImage;
-    imagePickerVC.assetCollectionSubtypes = @[
-                                              @(PHAssetCollectionSubtypeSmartAlbumUserLibrary), // Camera Roll
-                                              ];
+    self.imagePickerVC.naviBgColor = [UIColor whiteColor];
+    self.imagePickerVC.naviTitleColor = [UIColor blackColor];
+    self.imagePickerVC.allowPickingVideo = NO;
+    self.imagePickerVC.allowPreview = NO;
+    self.imagePickerVC.barItemTextColor = [UIColor blackColor];
+    self.imagePickerVC.statusBarStyle = UIStatusBarStyleDefault;
+    self.imagePickerVC.doneBtnTitleStr = @"上传";
     
     [fileUploadView dismiss];
     [fileUploadView removeFromSuperview];
-    
-    [self presentViewController:imagePickerVC animated:YES completion:nil];
+    [self presentViewController:self.imagePickerVC animated:YES completion:nil];
 }
 
 - (void)fileUploadDidClickVideoUploadBtn:(YGFileUploadView *)fileUploadView
 {
-    QBImagePickerController *imagePickerVC = [[QBImagePickerController alloc] init];
-    imagePickerVC.delegate = self;
-    imagePickerVC.allowsMultipleSelection = YES;
-    imagePickerVC.maximumNumberOfSelection = 9;
-    imagePickerVC.showsNumberOfSelectedAssets = YES;
-    imagePickerVC.numberOfColumnsInPortrait = 4;
-    imagePickerVC.showsNumberOfSelectedAssets = YES;
-    imagePickerVC.mediaType = QBImagePickerMediaTypeVideo;
-    imagePickerVC.assetCollectionSubtypes = @[
-                                              @(PHAssetCollectionSubtypeSmartAlbumVideos), // Videos
-                                              ];
+    self.imagePickerVC.naviBgColor = [UIColor whiteColor];
+    self.imagePickerVC.naviTitleColor = [UIColor blackColor];
+    self.imagePickerVC.allowPickingImage = NO;
+    self.imagePickerVC.allowPreview = NO;
+    self.imagePickerVC.barItemTextColor = [UIColor blackColor];
+    self.imagePickerVC.statusBarStyle = UIStatusBarStyleDefault;
+    self.imagePickerVC.doneBtnTitleStr = @"上传";
     
     [fileUploadView dismiss];
     [fileUploadView removeFromSuperview];
-    
-    [self presentViewController:imagePickerVC animated:YES completion:nil];
+    [self presentViewController:self.imagePickerVC animated:YES completion:nil];
+}
+
+#pragma mark - TZImagePickerControllerDelegate
+- (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingVideo:(UIImage *)coverImage sourceAssets:(id)asset
+{
+    YGLog(@"%@", asset);
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingGifImage:(UIImage *)animatedImage sourceAssets:(id)asset
+{
+    YGLog(@"%@", asset);
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto
+{
+    YGLog(@"%@", photos);
 }
 
 #pragma mark - QBImagePickerControllerDelegate
 - (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets
 {
     for (PHAsset *asset in assets) {
-        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        
+        PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+        options.networkAccessAllowed = YES;
+
+        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
             NSString *folderPath = [NSString stringWithFormat:@"%@/", [YGDirTool dir]];
             NSURL *imageUrl = info[@"PHImageFileURLKey"];
             NSDictionary *params = @{@"p" : folderPath};
