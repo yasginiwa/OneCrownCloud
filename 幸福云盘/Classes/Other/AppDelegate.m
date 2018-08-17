@@ -53,7 +53,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     // 启动界面停留3秒
-//    [NSThread sleepForTimeInterval:3.0];
+    [NSThread sleepForTimeInterval:3.0];
 
     [self chooseRootVC];
     return YES;

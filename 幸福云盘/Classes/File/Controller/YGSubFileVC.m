@@ -224,6 +224,9 @@
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.networkAccessAllowed = YES;
     options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    options.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
+        YGLog(@"%f-%@", progress, info);
+    };
     
     //  初始化PHImageManager 通过是否存在PHImageResultIsInCloudKey键判断是否在icloud中
     PHImageManager *photoMgr = [PHImageManager defaultManager];
@@ -234,8 +237,12 @@
             if ([[info allKeys] containsObject:@"PHImageResultIsInCloudKey"]) {
                 [photoMgr requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
                     NSURL *imageUrl = info[@"PHImageFileURLKey"];
-                    [self uploadImage:imageUrl];
-                    YGLog(@"%lu", imageData.length);
+                    NSString *imagePath = [imageUrl absoluteString];
+                    NSString *imageName = [[imagePath componentsSeparatedByString:@"/"] lastObject];
+                    NSString *cacheDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+                    NSString *imageNewPath = [cacheDir stringByAppendingPathComponent:imageName];
+                    [imageData writeToFile:imageNewPath atomically:YES];
+                    [self uploadImage:[NSURL URLWithString:[NSString stringWithFormat:@"file://,%@",imageNewPath]]];
                 }];
             } else {    //  在本手机上
                 NSURL *imageUrl = info[@"PHImageFileURLKey"];
@@ -259,7 +266,6 @@
             [SVProgressHUD showSuccessFace:@"添加至传输列表"];
         } progress:^(NSProgress * _Nonnull uploadProgress) {
             double progress = uploadProgress.fractionCompleted;
-            YGLog(@"%f", progress);
         } success:^(id  _Nonnull responseObject) {
             [self refreshLibrary];
             YGLog(@"%@", responseObject);
