@@ -18,7 +18,6 @@
 #import "YGFileUploadView.h"
 #import "YGHeaderView.h"
 #import "YGFileOperationView.h"
-#import <QBImagePickerController.h>
 
 
 @interface YGFileVC () <YGFileCellDelegate, YGHeaderViewDelegate, YGAddFolderViewDelegate>

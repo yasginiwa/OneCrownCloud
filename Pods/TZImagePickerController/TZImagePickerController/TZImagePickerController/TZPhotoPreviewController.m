@@ -51,6 +51,7 @@
     if (!self.models.count) {
         self.models = [NSMutableArray arrayWithArray:_tzImagePickerVc.selectedModels];
         _assetsTemp = [NSMutableArray arrayWithArray:_tzImagePickerVc.selectedAssets];
+        self.isSelectOriginalPhoto = _tzImagePickerVc.isSelectOriginalPhoto;
     }
     [self configCollectionView];
     [self configCustomNaviBar];
@@ -181,7 +182,7 @@
 
 - (void)configCropView {
     TZImagePickerController *_tzImagePickerVc = (TZImagePickerController *)self.navigationController;
-    if (_tzImagePickerVc.maxImagesCount <= 1 && _tzImagePickerVc.allowCrop) {
+    if (!_tzImagePickerVc.showSelectBtn && _tzImagePickerVc.allowCrop) {
         [_cropView removeFromSuperview];
         [_cropBgView removeFromSuperview];
         
@@ -426,17 +427,13 @@
         __weak typeof(_collectionView) weakCollectionView = _collectionView;
         __weak typeof(photoPreviewCell) weakCell = photoPreviewCell;
         [photoPreviewCell setImageProgressUpdateBlock:^(double progress) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            __strong typeof(weakTzImagePickerVc) strongTzImagePickerVc = weakTzImagePickerVc;
-            __strong typeof(weakCollectionView) strongCollectionView = weakCollectionView;
-            __strong typeof(weakCell) strongCell = weakCell;
-            strongSelf.progress = progress;
+            weakSelf.progress = progress;
             if (progress >= 1) {
-                if (strongSelf.isSelectOriginalPhoto) [strongSelf showPhotoBytes];
-                if (strongSelf.alertView && [strongCollectionView.visibleCells containsObject:strongCell]) {
-                    [strongTzImagePickerVc hideAlertView:strongSelf.alertView];
-                    strongSelf.alertView = nil;
-                    [strongSelf doneButtonClick];
+                if (weakSelf.isSelectOriginalPhoto) [weakSelf showPhotoBytes];
+                if (weakSelf.alertView && [weakCollectionView.visibleCells containsObject:weakCell]) {
+                    [weakTzImagePickerVc hideAlertView:weakSelf.alertView];
+                    weakSelf.alertView = nil;
+                    [weakSelf doneButtonClick];
                 }
             }
         }];
@@ -444,8 +441,7 @@
     
     cell.model = model;
     [cell setSingleTapGestureBlock:^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf didTapPreviewCell];
+        [weakSelf didTapPreviewCell];
     }];
     return cell;
 }

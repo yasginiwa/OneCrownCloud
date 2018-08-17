@@ -17,25 +17,14 @@
 #import "YGAddFolderView.h"
 #import "YGFileUploadView.h"
 #import "YGHeaderView.h"
-#import <QBImagePickerController.h>
+#import <TZImageManager.h>
 #import <TZImagePickerController.h>
 
-@interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGHeaderViewDelegate, YGFileUploadDelegate, QBImagePickerControllerDelegate, TZImagePickerControllerDelegate>
+@interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGHeaderViewDelegate, YGFileUploadDelegate, TZImagePickerControllerDelegate>
 @property (nonatomic, copy) NSString *addDirName;
-@property (nonatomic, strong) TZImagePickerController *imagePickerVC;
 @end
 
 @implementation YGSubFileVC
-
-#pragma mark - 懒加载
-- (TZImagePickerController *)imagePickerVC
-{
-    if (_imagePickerVC == nil) {
-        _imagePickerVC = [[TZImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
-    }
-    return _imagePickerVC;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -185,93 +174,109 @@
 #pragma mark - YGFileUploadDelegate
 - (void)fileUploadDidClickPicUploadBtn:(YGFileUploadView *)fileUploadView
 {
-    self.imagePickerVC.naviBgColor = [UIColor whiteColor];
-    self.imagePickerVC.naviTitleColor = [UIColor blackColor];
-    self.imagePickerVC.allowPickingVideo = NO;
-    self.imagePickerVC.allowPreview = NO;
-    self.imagePickerVC.barItemTextColor = [UIColor blackColor];
-    self.imagePickerVC.statusBarStyle = UIStatusBarStyleDefault;
-    self.imagePickerVC.doneBtnTitleStr = @"上传";
+    TZImagePickerController *imagePickerVC = [[TZImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
+    imagePickerVC.allowTakePicture = NO;
+    imagePickerVC.naviBgColor = [UIColor whiteColor];
+    imagePickerVC.naviTitleColor = [UIColor blackColor];
+    imagePickerVC.allowPreview = NO;
+    imagePickerVC.barItemTextColor = [UIColor blackColor];
+    imagePickerVC.title = @"选择要上传照片";
+    imagePickerVC.allowPickingImage = YES;
+    imagePickerVC.allowPickingVideo = NO;
+    imagePickerVC.doneBtnTitleStr = @"上传";
+    imagePickerVC.allowPickingOriginalPhoto = YES;
     
     [fileUploadView dismiss];
     [fileUploadView removeFromSuperview];
-    [self presentViewController:self.imagePickerVC animated:YES completion:nil];
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
 }
 
 - (void)fileUploadDidClickVideoUploadBtn:(YGFileUploadView *)fileUploadView
 {
-    self.imagePickerVC.naviBgColor = [UIColor whiteColor];
-    self.imagePickerVC.naviTitleColor = [UIColor blackColor];
-    self.imagePickerVC.allowPickingImage = NO;
-    self.imagePickerVC.allowPreview = NO;
-    self.imagePickerVC.barItemTextColor = [UIColor blackColor];
-    self.imagePickerVC.statusBarStyle = UIStatusBarStyleDefault;
-    self.imagePickerVC.doneBtnTitleStr = @"上传";
+    TZImagePickerController *imagePickerVC = [[TZImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
+    imagePickerVC.allowTakePicture = NO;
+    imagePickerVC.naviBgColor = [UIColor whiteColor];
+    imagePickerVC.naviTitleColor = [UIColor blackColor];
+    imagePickerVC.allowPreview = NO;
+    imagePickerVC.barItemTextColor = [UIColor blackColor];
+    imagePickerVC.title = @"选择要上传视频";
+    imagePickerVC.allowPickingImage = NO;
+    imagePickerVC.allowPickingVideo = YES;
+    imagePickerVC.doneBtnTitleStr = @"上传";
+    imagePickerVC.allowPickingOriginalPhoto = YES;
     
     [fileUploadView dismiss];
     [fileUploadView removeFromSuperview];
-    [self presentViewController:self.imagePickerVC animated:YES completion:nil];
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
 }
 
 #pragma mark - TZImagePickerControllerDelegate
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingVideo:(UIImage *)coverImage sourceAssets:(id)asset
 {
-    YGLog(@"%@", asset);
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingGifImage:(UIImage *)animatedImage sourceAssets:(id)asset
-{
-    YGLog(@"%@", asset);
+    
+    
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto
 {
-    YGLog(@"%@", photos);
-}
-
-#pragma mark - QBImagePickerControllerDelegate
-- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets
-{
+    //  设置options 允许从icloud下载高质量的照片
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.networkAccessAllowed = YES;
+    options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    
+    //  初始化PHImageManager 通过是否存在PHImageResultIsInCloudKey键判断是否在icloud中
+    PHImageManager *photoMgr = [PHImageManager defaultManager];
     for (PHAsset *asset in assets) {
-        
-        PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
-        options.networkAccessAllowed = YES;
-
-        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-            NSString *folderPath = [NSString stringWithFormat:@"%@/", [YGDirTool dir]];
-            NSURL *imageUrl = info[@"PHImageFileURLKey"];
-            NSDictionary *params = @{@"p" : folderPath};
-            [YGHttpTool getUploadUrlWithRepoID:[YGRepoTool repo].ID params:params success:^(id  _Nonnull responseObj) {
-                NSString *uploadUrl = [NSString stringWithFormat:@"%@?ret-json=1", responseObj];
-                [YGHttpTool POST:uploadUrl params:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-                    [formData appendPartWithFormData:[folderPath dataUsingEncoding:NSUTF8StringEncoding] name:@"parent_dir"];
-                    [formData appendPartWithFileURL:imageUrl name:@"file" error:nil];
-                } progress:^(NSProgress * _Nonnull uploadProgress) {
-                    double progress = uploadProgress.fractionCompleted;
-                    YGLog(@"%f", progress);
-                } success:^(id  _Nonnull responseObject) {
-                    [self refreshLibrary];
-                    [SVProgressHUD showSuccessFace:@"添加至传输列表"];
-                    YGLog(@"%@", responseObject);
-                } failure:^(NSError * _Nonnull error) {
-                    if (error.code == -1001) {
-                        [SVProgressHUD showFailureFace:@"网络超时..."];
-                    }
+        [photoMgr requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+            
+            //  在icloud上
+            if ([[info allKeys] containsObject:@"PHImageResultIsInCloudKey"]) {
+                [photoMgr requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+                    NSURL *imageUrl = info[@"PHImageFileURLKey"];
+                    [self uploadImage:imageUrl];
+                    YGLog(@"%lu", imageData.length);
                 }];
-                
-            } failure:^(NSError * _Nonnull error) {
-                [SVProgressHUD showFailureFace:@"上传失败"];
-            }];
+            } else {    //  在本手机上
+                NSURL *imageUrl = info[@"PHImageFileURLKey"];
+                [self uploadImage:imageUrl];
+            }
         }];
     }
-    [imagePickerController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController
+- (void)uploadImage:(NSURL *)imageUrl
 {
-    [imagePickerController dismissViewControllerAnimated:YES completion:nil];
+    //  初始化网络上传相关参数
+    NSString *folderPath = [NSString stringWithFormat:@"%@/", [YGDirTool dir]];
+    NSDictionary *params = @{@"p" : folderPath};
+    
+    [YGHttpTool getUploadUrlWithRepoID:[YGRepoTool repo].ID params:params success:^(id  _Nonnull responseObj) {
+        NSString *uploadUrl = [NSString stringWithFormat:@"%@?ret-json=1", responseObj];
+        [YGHttpTool POST:uploadUrl params:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+            [formData appendPartWithFormData:[folderPath dataUsingEncoding:NSUTF8StringEncoding] name:@"parent_dir"];
+            [formData appendPartWithFileURL:imageUrl name:@"file" error:nil];
+            [SVProgressHUD showSuccessFace:@"添加至传输列表"];
+        } progress:^(NSProgress * _Nonnull uploadProgress) {
+            double progress = uploadProgress.fractionCompleted;
+            YGLog(@"%f", progress);
+        } success:^(id  _Nonnull responseObject) {
+            [self refreshLibrary];
+            YGLog(@"%@", responseObject);
+        } failure:^(NSError * _Nonnull error) {
+            if (error.code == -1001) {
+                [SVProgressHUD showFailureFace:@"网络超时..."];
+            }
+        }];
+        
+    } failure:^(NSError * _Nonnull error) {
+        [SVProgressHUD showFailureFace:@"上传失败"];
+    }];
+}
+
+- (void)tz_imagePickerControllerDidCancel:(TZImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - YGFileCellDelegate
@@ -307,18 +312,24 @@
                                  @"p" : dirName
                                  };
         
-        [YGHttpTool deleteDirectoryWithRepoID:repoID params:params success:^(id  _Nonnull responseObject) {
-            [SVProgressHUD hide];
-            [SVProgressHUD showSuccessFace:@"删除成功"];
-            if ([YGFileTypeTool isDir:currentFileModel]) {
-                [YGDirTool backToParentDir];
-            }             
-            [self refreshLibrary];
-            [self.tableView reloadData];
-        } failure:^(NSError * _Nonnull error) {
-            [SVProgressHUD hide];
-            [SVProgressHUD showFailureFace:@"删除失败"];
-        }];
+      if ([YGFileTypeTool isDir:self.currentFileModel]) {
+            [YGHttpTool deleteDirectoryWithRepoID:repoID params:params success:^(id  _Nonnull responseObject) {
+                [SVProgressHUD hide];
+                [SVProgressHUD showSuccessFace:@"删除成功"];
+                if ([YGFileTypeTool isDir:currentFileModel]) {
+                    [YGDirTool backToParentDir];
+                }
+                [self refreshLibrary];
+                [self.tableView reloadData];
+            } failure:^(NSError * _Nonnull error) {
+                [SVProgressHUD hide];
+                [SVProgressHUD showFailureFace:@"删除失败"];
+            }];
+        } else {
+            
+        }
+        
+
     }
 }
 

@@ -17,33 +17,40 @@ PODS:
   - Masonry (1.1.0)
   - MJExtension (3.0.13)
   - MJRefresh (3.1.15.1)
-  - QBImagePickerController (3.4.0)
   - SDWebImage (4.2.2):
     - SDWebImage/Core (= 4.2.2)
   - SDWebImage/Core (4.2.2)
   - SVProgressHUD (2.2.2)
-  - TZImagePickerController (2.0.0.2)
+  - TZImagePickerController (1.9.8)
 
 DEPENDENCIES:
   - AFNetworking
   - Masonry
   - MJExtension
   - MJRefresh
-  - QBImagePickerController
   - SDWebImage
   - SVProgressHUD
   - TZImagePickerController
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AFNetworking
+    - Masonry
+    - MJExtension
+    - MJRefresh
+    - SDWebImage
+    - SVProgressHUD
+    - TZImagePickerController
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 5932755f451458eefa24239358817f8d291240c7
   MJRefresh: 5f8552bc25ca8751c010f621c1098dbdaacbccd6
-  QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   SDWebImage: 89a9d32cd520bbb46eb14e541d5109b3564af198
   SVProgressHUD: 59b2d3dabacbd051576d21d32293ca7228dc18b0
-  TZImagePickerController: 650200f696e6d0b6b8f0cc4429b68be872ad0aa3
+  TZImagePickerController: 3b9413ae5d049b1fdc5b0c720ad283f35b679a50
 
-PODFILE CHECKSUM: 38323955747a5f284cc326f01dd5f563a9f9a870
+PODFILE CHECKSUM: f42cb15016fa66bbf864af73588c563dc4855ca0
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3

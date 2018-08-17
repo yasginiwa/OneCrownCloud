@@ -4,7 +4,7 @@
 //
 //  Created by 谭真 on 15/12/24.
 //  Copyright © 2015年 谭真. All rights reserved.
-//  version 2.0.0.2 - 2018.01.26
+//  version 1.9.8 - 2017.12.19
 //  更多信息，请前往项目的github地址：https://github.com/banchichen/TZImagePickerController
 
 #import "TZImagePickerController.h"
@@ -14,7 +14,8 @@
 #import "TZAssetCell.h"
 #import "UIView+Layout.h"
 #import "TZImageManager.h"
-#import <sys/utsname.h>
+#import "math.h"
+#import "sys/utsname.h"
 
 @interface TZImagePickerController () {
     NSTimer *_timer;
@@ -106,19 +107,9 @@
     [self configBarButtonItemAppearance];
 }
 
-- (void)setIsStatusBarDefault:(BOOL)isStatusBarDefault {
-    _isStatusBarDefault = isStatusBarDefault;
-    
-    if (isStatusBarDefault) {
-        self.statusBarStyle = iOS7Later ? UIStatusBarStyleDefault : UIStatusBarStyleBlackOpaque;
-    } else {
-        self.statusBarStyle = iOS7Later ? UIStatusBarStyleLightContent : UIStatusBarStyleBlackOpaque;
-    }
-}
-
 - (void)configBarButtonItemAppearance {
     UIBarButtonItem *barItem;
-    if (@available(iOS 9.0, *)) {
+    if (iOS9Later) {
         barItem = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[TZImagePickerController class]]];
     } else {
         barItem = [UIBarButtonItem appearanceWhenContainedIn:[TZImagePickerController class], nil];
@@ -132,17 +123,18 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     _originStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
-    [UIApplication sharedApplication].statusBarStyle = self.statusBarStyle;
+    
+    if (self.isStatusBarDefault) {
+        [UIApplication sharedApplication].statusBarStyle = iOS7Later ? UIStatusBarStyleDefault : UIStatusBarStyleBlackOpaque;
+    } else {
+        [UIApplication sharedApplication].statusBarStyle = iOS7Later ? UIStatusBarStyleLightContent : UIStatusBarStyleBlackOpaque;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [UIApplication sharedApplication].statusBarStyle = _originStatusBarStyle;
     [self hideProgressHUD];
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return self.statusBarStyle;
 }
 
 - (instancetype)initWithMaxImagesCount:(NSInteger)maxImagesCount delegate:(id<TZImagePickerControllerDelegate>)delegate {
@@ -182,7 +174,7 @@
             _tipLabel.font = [UIFont systemFontOfSize:16];
             _tipLabel.textColor = [UIColor blackColor];
             NSDictionary *infoDict = [NSBundle mainBundle].localizedInfoDictionary;
-            if (!infoDict || !infoDict.count) {
+            if (!infoDict) {
                 infoDict = [NSBundle mainBundle].infoDictionary;
             }
             NSString *appName = [infoDict valueForKey:@"CFBundleDisplayName"];
@@ -221,11 +213,9 @@
         previewVc.currentIndex = index;
         __weak typeof(self) weakSelf = self;
         [previewVc setDoneButtonClickBlockWithPreviewType:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf dismissViewControllerAnimated:YES completion:^{
-                if (!strongSelf) return;
-                if (strongSelf.didFinishPickingPhotosHandle) {
-                    strongSelf.didFinishPickingPhotosHandle(photos,assets,isSelectOriginalPhoto);
+            [weakSelf dismissViewControllerAnimated:YES completion:^{
+                if (weakSelf.didFinishPickingPhotosHandle) {
+                    weakSelf.didFinishPickingPhotosHandle(photos,assets,isSelectOriginalPhoto);
                 }
             }];
         }];
@@ -248,8 +238,7 @@
         previewVc.currentIndex = 0;
         __weak typeof(self) weakSelf = self;
         [previewVc setDoneButtonClickBlockCropMode:^(UIImage *cropImage, id asset) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf dismissViewControllerAnimated:YES completion:^{
+            [weakSelf dismissViewControllerAnimated:YES completion:^{
                 if (completion) {
                     completion(cropImage,asset);
                 }
@@ -257,6 +246,11 @@
         }];
     }
     return self;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
 }
 
 - (void)configDefaultSetting {
@@ -268,7 +262,8 @@
     self.barItemTextFont = [UIFont systemFontOfSize:15];
     self.barItemTextColor = [UIColor whiteColor];
     self.allowPreview = YES;
-    self.statusBarStyle = UIStatusBarStyleLightContent;
+    self.needShowStatusBar = YES;
+    self.isStatusBarDefault = YES;
     
     [self configDefaultImageName];
     [self configDefaultBtnTitle];
@@ -379,8 +374,7 @@
     // if over time, dismiss HUD automatic
     __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.timeout * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf hideProgressHUD];
+        [weakSelf hideProgressHUD];
     });
 }
 
@@ -496,18 +490,16 @@
 
 - (void)setAllowPickingImage:(BOOL)allowPickingImage {
     _allowPickingImage = allowPickingImage;
-    [TZImagePickerConfig sharedInstance].allowPickingImage = allowPickingImage;
+    NSString *allowPickingImageStr = _allowPickingImage ? @"1" : @"0";
+    [[NSUserDefaults standardUserDefaults] setObject:allowPickingImageStr forKey:@"tz_allowPickingImage"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)setAllowPickingVideo:(BOOL)allowPickingVideo {
     _allowPickingVideo = allowPickingVideo;
-    [TZImagePickerConfig sharedInstance].allowPickingVideo = allowPickingVideo;
-}
-
-- (void)setPreferredLanguage:(NSString *)preferredLanguage {
-    _preferredLanguage = preferredLanguage;
-    [TZImagePickerConfig sharedInstance].preferredLanguage = preferredLanguage;
-    [self configDefaultBtnTitle];
+    NSString *allowPickingVideoStr = _allowPickingVideo ? @"1" : @"0";
+    [[NSUserDefaults standardUserDefaults] setObject:allowPickingVideoStr forKey:@"tz_allowPickingVideo"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)setSortAscendingByModificationDate:(BOOL)sortAscendingByModificationDate {
@@ -767,39 +759,6 @@
 
 + (CGFloat)tz_statusBarHeight {
     return [self tz_isIPhoneX] ? 44 : 20;
-}
-
-@end
-
-
-@implementation TZImagePickerConfig
-
-+ (instancetype)sharedInstance {
-    static dispatch_once_t onceToken;
-    static TZImagePickerConfig *config = nil;
-    dispatch_once(&onceToken, ^{
-        if (config == nil) {
-            config = [[TZImagePickerConfig alloc] init];
-            config.preferredLanguage = nil;
-        }
-    });
-    return config;
-}
-
-- (void)setPreferredLanguage:(NSString *)preferredLanguage {
-    _preferredLanguage = preferredLanguage;
-    
-    if (!preferredLanguage || !preferredLanguage.length) {
-        preferredLanguage = [NSLocale preferredLanguages].firstObject;
-    }
-    if ([preferredLanguage rangeOfString:@"zh-Hans"].location != NSNotFound) {
-        preferredLanguage = @"zh-Hans";
-    } else if ([preferredLanguage rangeOfString:@"zh-Hant"].location != NSNotFound) {
-        preferredLanguage = @"zh-Hant";
-    } else {
-        preferredLanguage = @"en";
-    }
-    _languageBundle = [NSBundle bundleWithPath:[[NSBundle tz_imagePickerBundle] pathForResource:preferredLanguage ofType:@"lproj"]];
 }
 
 @end

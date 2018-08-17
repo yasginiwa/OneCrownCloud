@@ -59,7 +59,7 @@ static CGFloat itemMargin = 5;
         }
         _imagePickerVc.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
         UIBarButtonItem *tzBarItem, *BarItem;
-        if (@available(iOS 9.0, *)) {
+        if (iOS9Later) {
             tzBarItem = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[TZImagePickerController class]]];
             BarItem = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UIImagePickerController class]]];
         } else {
@@ -105,7 +105,7 @@ static CGFloat itemMargin = 5;
             }];
         } else {
             if (_showTakePhotoBtn || !iOS8Later || _isFirstAppear) {
-                [[TZImageManager manager] getAssetsFromFetchResult:_model.result completion:^(NSArray<TZAssetModel *> *models) {
+                [[TZImageManager manager] getAssetsFromFetchResult:_model.result allowPickingVideo:tzImagePickerVc.allowPickingVideo allowPickingImage:tzImagePickerVc.allowPickingImage completion:^(NSArray<TZAssetModel *> *models) {
                     _models = [NSMutableArray arrayWithArray:models];
                     [self initSubviews];
                 }];
@@ -460,13 +460,10 @@ static CGFloat itemMargin = 5;
     __weak typeof(self) weakSelf = self;
     __weak typeof(_numberImageView.layer) weakLayer = _numberImageView.layer;
     cell.didSelectPhotoBlock = ^(BOOL isSelected) {
-        __strong typeof(weakCell) strongCell = weakCell;
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        __strong typeof(weakLayer) strongLayer = weakLayer;
-        TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)strongSelf.navigationController;
+        TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)weakSelf.navigationController;
         // 1. cancel select / 取消选择
         if (isSelected) {
-            strongCell.selectPhotoButton.selected = NO;
+            weakCell.selectPhotoButton.selected = NO;
             model.isSelected = NO;
             NSArray *selectedModels = [NSArray arrayWithArray:tzImagePickerVc.selectedModels];
             for (TZAssetModel *model_item in selectedModels) {
@@ -475,20 +472,20 @@ static CGFloat itemMargin = 5;
                     break;
                 }
             }
-            [strongSelf refreshBottomToolBarStatus];
+            [weakSelf refreshBottomToolBarStatus];
         } else {
             // 2. select:check if over the maxImagesCount / 选择照片,检查是否超过了最大个数的限制
             if (tzImagePickerVc.selectedModels.count < tzImagePickerVc.maxImagesCount) {
-                strongCell.selectPhotoButton.selected = YES;
+                weakCell.selectPhotoButton.selected = YES;
                 model.isSelected = YES;
                 [tzImagePickerVc.selectedModels addObject:model];
-                [strongSelf refreshBottomToolBarStatus];
+                [weakSelf refreshBottomToolBarStatus];
             } else {
                 NSString *title = [NSString stringWithFormat:[NSBundle tz_localizedStringForKey:@"Select a maximum of %zd photos"], tzImagePickerVc.maxImagesCount];
                 [tzImagePickerVc showAlertWithTitle:title];
             }
         }
-        [UIView showOscillatoryAnimationWithLayer:strongLayer type:TZOscillatoryAnimationToSmaller];
+        [UIView showOscillatoryAnimationWithLayer:weakLayer type:TZOscillatoryAnimationToSmaller];
     };
     return cell;
 }
@@ -579,11 +576,9 @@ static CGFloat itemMargin = 5;
     // 提前定位
     __weak typeof(self) weakSelf = self;
     [[TZLocationManager manager] startLocationWithSuccessBlock:^(CLLocation *location, CLLocation *oldLocation) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        strongSelf.location = location;
+        weakSelf.location = location;
     } failureBlock:^(NSError *error) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        strongSelf.location = nil;
+        weakSelf.location = nil;
     }];
     
     UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -618,19 +613,16 @@ static CGFloat itemMargin = 5;
     __weak typeof(self) weakSelf = self;
     photoPreviewVc.isSelectOriginalPhoto = _isSelectOriginalPhoto;
     [photoPreviewVc setBackButtonClickBlock:^(BOOL isSelectOriginalPhoto) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        strongSelf.isSelectOriginalPhoto = isSelectOriginalPhoto;
-        [strongSelf.collectionView reloadData];
-        [strongSelf refreshBottomToolBarStatus];
+        weakSelf.isSelectOriginalPhoto = isSelectOriginalPhoto;
+        [weakSelf.collectionView reloadData];
+        [weakSelf refreshBottomToolBarStatus];
     }];
     [photoPreviewVc setDoneButtonClickBlock:^(BOOL isSelectOriginalPhoto) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        strongSelf.isSelectOriginalPhoto = isSelectOriginalPhoto;
-        [strongSelf doneButtonClick];
+        weakSelf.isSelectOriginalPhoto = isSelectOriginalPhoto;
+        [weakSelf doneButtonClick];
     }];
     [photoPreviewVc setDoneButtonClickBlockCropMode:^(UIImage *cropedImage, id asset) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf didGetAllPhotos:@[cropedImage] assets:@[asset] infoArr:nil];
+        [weakSelf didGetAllPhotos:@[cropedImage] assets:@[asset] infoArr:nil];
     }];
     [self.navigationController pushViewController:photoPreviewVc animated:YES];
 }
@@ -725,7 +717,7 @@ static CGFloat itemMargin = 5;
     TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
     [[TZImageManager manager] getCameraRollAlbum:tzImagePickerVc.allowPickingVideo allowPickingImage:tzImagePickerVc.allowPickingImage completion:^(TZAlbumModel *model) {
         _model = model;
-        [[TZImageManager manager] getAssetsFromFetchResult:_model.result completion:^(NSArray<TZAssetModel *> *models) {
+        [[TZImageManager manager] getAssetsFromFetchResult:_model.result allowPickingVideo:tzImagePickerVc.allowPickingVideo allowPickingImage:tzImagePickerVc.allowPickingImage completion:^(NSArray<TZAssetModel *> *models) {
             [tzImagePickerVc hideProgressHUD];
             
             TZAssetModel *assetModel;

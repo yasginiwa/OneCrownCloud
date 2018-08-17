@@ -6,7 +6,7 @@
 //  Copyright © 2018年 YGLEE. All rights reserved.
 //
 
-#import "SVProgressHUD.h"
+#import <SVProgressHUD.h>
 
 @interface SVProgressHUD (Extension)
 + (void)showWaiting;

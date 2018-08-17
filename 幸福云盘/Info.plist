@@ -41,6 +41,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>系统需要访问你的相册</string>
+	<string>访问相册以选择照片</string>
 </dict>
 </plist>

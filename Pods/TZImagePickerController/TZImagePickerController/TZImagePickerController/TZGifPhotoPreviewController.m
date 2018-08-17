@@ -56,8 +56,7 @@
     _previewView.model = self.model;
     __weak typeof(self) weakSelf = self;
     [_previewView setSingleTapGestureBlock:^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf signleTapAction];
+        [weakSelf signleTapAction];
     }];
     [self.view addSubview:_previewView];
 }

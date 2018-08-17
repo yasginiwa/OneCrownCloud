@@ -4,7 +4,7 @@
 //
 //  Created by 谭真 on 15/12/24.
 //  Copyright © 2015年 谭真. All rights reserved.
-//  version 2.0.0.2 - 2018.01.26
+//  version 1.9.8 - 2017.12.19
 //  更多信息，请前往项目的github地址：https://github.com/banchichen/TZImagePickerController
 
 /*
@@ -28,7 +28,6 @@
 @protocol TZImagePickerControllerDelegate;
 @interface TZImagePickerController : UINavigationController
 
-#pragma mark -
 /// Use this init method / 用这个初始化方法
 - (instancetype)initWithMaxImagesCount:(NSInteger)maxImagesCount delegate:(id<TZImagePickerControllerDelegate>)delegate;
 - (instancetype)initWithMaxImagesCount:(NSInteger)maxImagesCount columnNumber:(NSInteger)columnNumber delegate:(id<TZImagePickerControllerDelegate>)delegate;
@@ -38,7 +37,6 @@
 /// This init method for crop photo / 用这个初始化方法以裁剪图片
 - (instancetype)initCropTypeWithAsset:(id)asset photo:(UIImage *)photo completion:(void (^)(UIImage *cropImage,id asset))completion;
 
-#pragma mark -
 /// Default is 9 / 默认最大可选9张图片
 @property (nonatomic, assign) NSInteger maxImagesCount;
 
@@ -86,10 +84,6 @@
 /// 默认为YES，如果设置为NO,拍照按钮将隐藏,用户将不能选择照片
 @property(nonatomic, assign) BOOL allowTakePicture;
 
-/// 首选语言，如果设置了就用该语言，不设则取当前系统语言。
-/// 由于目前只支持中文、繁体中文、英文。故该属性只支持zh-Hans、zh-Hant、en三种值，其余值无效。
-@property (copy, nonatomic) NSString *preferredLanguage;
-
 /// Default is YES, if set NO, user can't preview photo.
 /// 默认为YES，如果设置为NO,预览按钮将隐藏,用户将不能去预览照片
 @property (nonatomic, assign) BOOL allowPreview;
@@ -110,12 +104,8 @@
 /// Hide the photo what can not be selected, Default is NO
 /// 隐藏不可以选中的图片，默认是NO，不推荐将其设置为YES
 @property (nonatomic, assign) BOOL hideWhenCanNotSelect;
-/// Deprecated, Use statusBarStyle (顶部statusBar 是否为系统默认的黑色，默认为NO)
-@property (nonatomic, assign) BOOL isStatusBarDefault __attribute__((deprecated("Use -statusBarStyle.")));
-/// statusBar的样式，默认为UIStatusBarStyleLightContent
-@property (assign, nonatomic) UIStatusBarStyle statusBarStyle;
-
-#pragma mark -
+/// 顶部statusBar 是否为系统默认的黑色，默认为NO
+@property (nonatomic, assign) BOOL isStatusBarDefault;
 /// Single selection mode, valid when maxImagesCount = 1
 /// 单选模式,maxImagesCount为1时才生效
 @property (nonatomic, assign) BOOL showSelectBtn;        ///< 在单选模式下，照片列表页中，显示选择按钮,默认为NO
@@ -129,7 +119,6 @@
 
 @property (nonatomic, copy) void (^navLeftBarButtonSettingBlock)(UIButton *leftButton);     ///< 自定义返回按钮样式及其属性
 
-#pragma mark -
 - (id)showAlertWithTitle:(NSString *)title;
 - (void)hideAlertView:(id)alertView;
 - (void)showProgressHUD;
@@ -137,7 +126,6 @@
 @property (nonatomic, assign) BOOL isSelectOriginalPhoto;
 @property (assign, nonatomic) BOOL needShowStatusBar;
 
-#pragma mark -
 @property (nonatomic, copy) NSString *takePictureImageName;
 @property (nonatomic, copy) NSString *photoSelImageName;
 @property (nonatomic, copy) NSString *photoDefImageName;
@@ -146,7 +134,6 @@
 @property (nonatomic, copy) NSString *photoPreviewOriginDefImageName;
 @property (nonatomic, copy) NSString *photoNumberIconImageName;
 
-#pragma mark -
 /// Appearance / 外观颜色 + 按钮文字
 @property (nonatomic, strong) UIColor *oKButtonTitleColorNormal;
 @property (nonatomic, strong) UIColor *oKButtonTitleColorDisabled;
@@ -163,7 +150,7 @@
 @property (nonatomic, copy) NSString *settingBtnTitleStr;
 @property (nonatomic, copy) NSString *processHintStr;
 
-#pragma mark -
+/// Public Method
 - (void)cancelButtonClick;
 
 // The picker should dismiss itself; when it dismissed these handle will be called.
@@ -178,7 +165,7 @@
 // photos数组里的UIImage对象，默认是828像素宽，你可以通过设置photoWidth属性的值来改变它
 @property (nonatomic, copy) void (^didFinishPickingPhotosHandle)(NSArray<UIImage *> *photos,NSArray *assets,BOOL isSelectOriginalPhoto);
 @property (nonatomic, copy) void (^didFinishPickingPhotosWithInfosHandle)(NSArray<UIImage *> *photos,NSArray *assets,BOOL isSelectOriginalPhoto,NSArray<NSDictionary *> *infos);
-@property (nonatomic, copy) void (^imagePickerControllerDidCancelHandle)(void);
+@property (nonatomic, copy) void (^imagePickerControllerDidCancelHandle)();
 
 // If user picking a video, this handle will be called.
 // If system version > iOS8,asset is kind of PHAsset class, else is ALAsset class.
@@ -254,14 +241,3 @@
 + (CGFloat)tz_statusBarHeight;
 @end
 
-
-@interface TZImagePickerConfig : NSObject
-+ (instancetype)sharedInstance;
-@property (copy, nonatomic) NSString *preferredLanguage;
-@property(nonatomic, assign) BOOL allowPickingImage;
-@property (nonatomic, assign) BOOL allowPickingVideo;
-
-/// 语言bundle，preferredLanguage变化时languageBundle会变化
-/// 可通过设置bundle，让选择器支持更多的语言。欢迎提交PR把语言文件提交上来~
-@property (strong, nonatomic) NSBundle *languageBundle;
-@end

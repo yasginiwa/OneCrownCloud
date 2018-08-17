@@ -23,9 +23,17 @@
 }
 
 + (NSString *)tz_localizedStringForKey:(NSString *)key value:(NSString *)value {
-    NSBundle *bundle = [TZImagePickerConfig sharedInstance].languageBundle;
+    static NSBundle *bundle = nil;
+    if (bundle == nil) {
+        NSString *language = [NSLocale preferredLanguages].firstObject;
+        if ([language rangeOfString:@"zh-Hans"].location != NSNotFound) {
+            language = @"zh-Hans";
+        } else {
+            language = @"en";
+        }
+        bundle = [NSBundle bundleWithPath:[[NSBundle tz_imagePickerBundle] pathForResource:language ofType:@"lproj"]];
+    }
     NSString *value1 = [bundle localizedStringForKey:key value:value table:nil];
     return value1;
 }
-
 @end

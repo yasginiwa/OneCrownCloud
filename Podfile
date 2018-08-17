@@ -5,6 +5,5 @@ pod 'MJExtension'
 pod 'MJRefresh'
 pod 'SDWebImage'
 pod 'SVProgressHUD'
-pod 'QBImagePickerController'
 pod 'TZImagePickerController'
 end
