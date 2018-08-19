@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YGUploadCell : UITableViewCell
+@class YGFileModel;
 
+@interface YGUploadCell : UITableViewCell
+@property (nonatomic, strong) YGFileModel *uploadFileModel;
++ (instancetype)uploadCell;
 @end

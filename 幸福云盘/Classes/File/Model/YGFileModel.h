@@ -67,4 +67,8 @@
 @property (nonatomic, assign) BOOL VIRTUAL;
 
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
+
+@property (nonatomic, assign) double uploadProgress;
+
+@property (nonatomic, assign) double downloadProgress;
 @end

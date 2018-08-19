@@ -89,9 +89,6 @@
 /** 判断是否是push的栈底控制器 */
 - (BOOL)isRootViewController
 {
-//    for (UIViewController *subVC in self.navigationController.childViewControllers) {
-//        if ([subVC isKindOfClass:[YGFileVC class]]) return YES;
-//    }
     if (self.navigationController.childViewControllers.count == 1) {
         return YES;
     }

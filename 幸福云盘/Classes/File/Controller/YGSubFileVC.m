@@ -19,6 +19,7 @@
 #import "YGHeaderView.h"
 #import <TZImageManager.h>
 #import <TZImagePickerController.h>
+#import "YGTansferVC.h"
 
 @interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGHeaderViewDelegate, YGFileUploadDelegate, TZImagePickerControllerDelegate>
 @property (nonatomic, copy) NSString *addDirName;
@@ -69,7 +70,7 @@
             NSArray *repos = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObject];
             [self.libraries addObjectsFromArray:repos];
             [self.loadingView removeFromSuperview];
-            if (self.libraries.count < 1) {
+            if (self.libraries.count == 0) {
                 YGFileEmptyView *fileEmptyView = [[YGFileEmptyView alloc] init];
                 [self.view addSubview:fileEmptyView];
                 fileEmptyView.frame = CGRectMake(0, 50, self.tableView.width, self.tableView.height);
@@ -213,7 +214,31 @@
 #pragma mark - TZImagePickerControllerDelegate
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingVideo:(UIImage *)coverImage sourceAssets:(id)asset
 {
+    //  设置options 允许从icloud下载高质量的视频
+    PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
+    options.networkAccessAllowed = YES;
+    options.deliveryMode = PHVideoRequestOptionsDeliveryModeFastFormat;
+    __block YGFileModel *uploadFileModel = [[YGFileModel alloc] init];
+    options.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
+        YGLog(@"视频下载进度%f", progress);
+        uploadFileModel.name = @"123.mov";
+        //  传现在的时间 因为在此时才点击的下载
+        uploadFileModel.mtime = @(0);
+        uploadFileModel.uploadProgress = progress;
+        YGTansferVC *transferVC = [[YGTansferVC alloc] init];
+        transferVC.uploadFileModel = uploadFileModel;
+    };
     
+    //  初始化PHImageManager 通过是否存在PHImageResultIsInCloudKey键判断是否在icloud中
+    PHImageManager *photoMgr = [PHImageManager defaultManager];
+    
+    [photoMgr requestAVAssetForVideo:asset options:options resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+        //  在icloud上
+//        if ([[info allKeys] containsObject:@"PHImageResultIsInCloudKey"]) {
+
+            [self uploadImage:((AVURLAsset *)asset).URL];
+//        }
+    }];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
@@ -223,27 +248,29 @@
     //  设置options 允许从icloud下载高质量的照片
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.networkAccessAllowed = YES;
-    options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
     options.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
-        YGLog(@"%f-%@", progress, info);
+        YGLog(@"照片下载进度%f", progress);
+        
     };
     
     //  初始化PHImageManager 通过是否存在PHImageResultIsInCloudKey键判断是否在icloud中
     PHImageManager *photoMgr = [PHImageManager defaultManager];
+
+    
     for (PHAsset *asset in assets) {
-        [photoMgr requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        [photoMgr requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
             
             //  在icloud上
             if ([[info allKeys] containsObject:@"PHImageResultIsInCloudKey"]) {
-                [photoMgr requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-                    NSURL *imageUrl = info[@"PHImageFileURLKey"];
-                    NSString *imagePath = [imageUrl absoluteString];
-                    NSString *imageName = [[imagePath componentsSeparatedByString:@"/"] lastObject];
-                    NSString *cacheDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-                    NSString *imageNewPath = [cacheDir stringByAppendingPathComponent:imageName];
-                    [imageData writeToFile:imageNewPath atomically:YES];
-                    [self uploadImage:[NSURL URLWithString:[NSString stringWithFormat:@"file://,%@",imageNewPath]]];
-                }];
+                NSURL *imageUrl = info[@"PHImageFileURLKey"];
+                NSString *imagePath = [imageUrl absoluteString];
+                NSString *imageName = [[imagePath componentsSeparatedByString:@"/"] lastObject];
+
+                NSString *cacheDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+                NSString *imageNewPath = [cacheDir stringByAppendingPathComponent:imageName];
+                [imageData writeToFile:imageNewPath atomically:YES];
+                [self uploadImage:[NSURL URLWithString:[NSString stringWithFormat:@"file://,%@",imageNewPath]]];
             } else {    //  在本手机上
                 NSURL *imageUrl = info[@"PHImageFileURLKey"];
                 [self uploadImage:imageUrl];
@@ -265,7 +292,7 @@
             [formData appendPartWithFileURL:imageUrl name:@"file" error:nil];
             [SVProgressHUD showSuccessFace:@"添加至传输列表"];
         } progress:^(NSProgress * _Nonnull uploadProgress) {
-            double progress = uploadProgress.fractionCompleted;
+            
         } success:^(id  _Nonnull responseObject) {
             [self refreshLibrary];
             YGLog(@"%@", responseObject);
@@ -288,7 +315,7 @@
 #pragma mark - YGFileCellDelegate
 - (void)fileCellDidSelectCheckBtn:(YGFileCell *)fileCell
 {
-
+    
 }
 
 

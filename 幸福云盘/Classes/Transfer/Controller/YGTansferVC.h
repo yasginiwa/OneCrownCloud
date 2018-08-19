@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YGTansferVC : UIViewController
+@class YGFileModel;
 
+@interface YGTansferVC : UIViewController
+@property (nonatomic, strong) YGFileModel *uploadFileModel;
+@property (nonatomic, strong) YGFileModel *downloadFileModel;
 @end

@@ -19,15 +19,16 @@
 @end
 
 @implementation YGTansferVC
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupChildVC];
+//    [self setupChildVC];
     
     [self setupMenuView];
     
     [self setupNavBar];
+    
+    YGLog(@"viewDidLoad");
 }
 
 - (void)setupMenuView
@@ -47,17 +48,19 @@
 
 - (void)setupChildVC
 {
+    //  设置downloadVC
     YGDownloadListVC *downloadListVC = [[YGDownloadListVC alloc] init];
     [self addChildViewController:downloadListVC];
     [self.view addSubview:downloadListVC.view];
-    [downloadListVC.tableView reloadData];
     downloadListVC.view.frame = self.view.bounds;
     downloadListVC.view.y = 104;
     self.downloadListVC = downloadListVC;
     
+    //  设置uploadVC
     YGUploadListVC *uploadListVC = [[YGUploadListVC alloc] init];
     [self addChildViewController:uploadListVC];
     [self.view addSubview:uploadListVC.view];
+    [uploadListVC.uploadFiles addObject:self.uploadFileModel];
     uploadListVC.view.frame = self.view.bounds;
     uploadListVC.view.y = 104;
     self.uploadListVC = uploadListVC;

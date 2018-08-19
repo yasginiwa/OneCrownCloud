@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="download" id="vN6-Ql-fXa" customClass="YGDownloadCell">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="upload" id="vN6-Ql-fXa" customClass="YGUploadCell">
             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vN6-Ql-fXa" id="CVi-cy-5QN">
@@ -61,8 +61,8 @@
                             <constraint firstAttribute="height" constant="38" id="d0c-Rd-pr5"/>
                             <constraint firstAttribute="width" constant="38" id="dyc-W2-Mf7"/>
                         </constraints>
-                        <state key="normal" image="fav_download_normal"/>
-                        <state key="highlighted" image="fav_download_pressed"/>
+                        <state key="normal" image="fav_up_normal"/>
+                        <state key="highlighted" image="fav_up_pressed"/>
                     </button>
                 </subviews>
                 <constraints>
@@ -80,17 +80,17 @@
             </tableViewCellContentView>
             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
-                <outlet property="downloadTimeLabel" destination="rfn-yj-iEN" id="cG4-xm-Awd"/>
-                <outlet property="iconView" destination="6Jk-QM-eWn" id="UEX-f7-pkB"/>
-                <outlet property="nameLabel" destination="m5v-X5-IXt" id="67d-Hz-TgH"/>
-                <outlet property="sizeLabel" destination="XMb-Nd-9Ll" id="Pdv-eZ-n11"/>
-                <outlet property="transferProgressBtn" destination="N9b-rb-XZ3" id="9Yo-9B-awR"/>
+                <outlet property="iconView" destination="6Jk-QM-eWn" id="r0M-Tb-xPT"/>
+                <outlet property="sizeLabel" destination="XMb-Nd-9Ll" id="pe8-vS-2FL"/>
+                <outlet property="transferProgressBtn" destination="N9b-rb-XZ3" id="mtq-hb-aIe"/>
+                <outlet property="uploadLabel" destination="m5v-X5-IXt" id="tjw-vc-nxd"/>
+                <outlet property="uploadTimeLabel" destination="rfn-yj-iEN" id="XNn-gm-jtn"/>
             </connections>
-            <point key="canvasLocation" x="-83" y="-7"/>
+            <point key="canvasLocation" x="-83.5" y="-7"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="fav_download_normal" width="38" height="38"/>
-        <image name="fav_download_pressed" width="38" height="38"/>
+        <image name="fav_up_normal" width="38" height="38"/>
+        <image name="fav_up_pressed" width="38" height="38"/>
     </resources>
 </document>

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface YGUploadListVC : UITableViewController
-@property (nonatomic, strong) NSMutableArray *uploadTasks;
+@property (nonatomic, strong) NSMutableArray *uploadFiles;
 @end
