@@ -31,12 +31,6 @@
 // 输入用户名密码时发出的通知
 #define YGLoginDidBeginEditNotification @"loginDidBeginEditNotification"
 
-//  上传下载时进度改变是发出通知
-#define YGAddUploadFileNotification @"addUploadFileNotification"
-#define YGUploadProgressDidChangedNotification @"uploadProgressDidChangedNotification"
-#define YGAddDownloadFileNotification @"addDownloadFileNotification"
-#define YGDownloadProgressDidChangedNotification @"downloadProgressDidChangedNotification"
-
 // token已存入沙盒中
 #define YGTokenSavedNotification @"tokenSavedNotificaition"
 

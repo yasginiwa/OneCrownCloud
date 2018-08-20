@@ -11,6 +11,6 @@
 @class YGFileModel;
 
 @interface YGTansferVC : UIViewController
-@property (nonatomic, strong) YGFileModel *uploadFileModel;
-@property (nonatomic, strong) YGFileModel *downloadFileModel;
+@property (nonatomic, copy) void (^downloadFile)(YGFileModel *downloadFileModel);
+@property (nonatomic, copy) void (^uploadFile)(YGFileModel *uploadFileModel);
 @end

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class YGFileModel;
+
 @interface YGDownloadListVC : UITableViewController
 @property (nonatomic, strong) NSMutableArray *downloadFiles;
 @end

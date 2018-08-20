@@ -27,28 +27,11 @@
     [super viewDidLoad];
     
     [self setupAppearance];
-    
-    [self addObsvr];
 }
 
 - (void)setupAppearance
 {
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-}
-
-- (void)addObsvr
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addUploadFileModel:) name:YGAddUploadFileNotification object:nil];
-}
-
-- (void)addUploadFileModel:(NSNotification *)note
-{
-    NSDictionary *userInfo = note.userInfo;
-    YGFileModel *uploadFileModel = userInfo[@"uploadFileModel"];
-    [self.uploadFiles addObject:uploadFileModel];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-    });
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

@@ -12,6 +12,7 @@
 #import "YGFileModel.h"
 
 @interface YGDownloadListVC ()
+
 @property (nonatomic, strong) NSTimer *timer;
 @end
 

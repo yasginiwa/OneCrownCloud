@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class YGFileModel;
+
 @interface YGUploadListVC : UITableViewController
 @property (nonatomic, strong) NSMutableArray *uploadFiles;
 @end

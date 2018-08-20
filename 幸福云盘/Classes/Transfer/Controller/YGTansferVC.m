@@ -14,11 +14,36 @@
 @interface YGTansferVC () <YGMenuViewDelegate>
 @property (nonatomic, weak) YGMenuView *menuView;
 @property (nonatomic, weak) UIViewController *showingVC;
-@property (nonatomic, weak) YGDownloadListVC *downloadListVC;
-@property (nonatomic, weak) YGUploadListVC *uploadListVC;
+@property (nonatomic, strong) YGDownloadListVC *downloadListVC;
+@property (nonatomic, strong) YGUploadListVC *uploadListVC;
 @end
 
 @implementation YGTansferVC
+#pragma mark - 懒加载
+- (YGDownloadListVC *)downloadListVC
+{
+    if (_downloadListVC == nil) {
+        _downloadListVC = [[YGDownloadListVC alloc] init];
+        [self addChildViewController:_downloadListVC];
+        [self.view addSubview:_downloadListVC.view];
+        _downloadListVC.view.frame = self.view.bounds;
+        _downloadListVC.view.y = 104;
+    }
+    return _downloadListVC;
+}
+
+- (YGUploadListVC *)uploadListVC
+{
+    if (_uploadListVC == nil) {
+        _uploadListVC = [[YGUploadListVC alloc] init];
+        [self addChildViewController:_uploadListVC];
+        [self.view addSubview:_uploadListVC.view];
+        _uploadListVC.view.frame = self.view.bounds;
+        _uploadListVC.view.y = 104;
+    }
+    return _uploadListVC;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -27,8 +52,6 @@
     [self setupMenuView];
     
     [self setupNavBar];
-    
-    YGLog(@"-YGTansferVC-viewDidLoad-");
 }
 
 - (void)setupMenuView
@@ -49,20 +72,15 @@
 - (void)setupChildVC
 {
     //  设置downloadVC
-    YGDownloadListVC *downloadListVC = [[YGDownloadListVC alloc] init];
-    [self addChildViewController:downloadListVC];
-    [self.view addSubview:downloadListVC.view];
-    downloadListVC.view.frame = self.view.bounds;
-    downloadListVC.view.y = 104;
-    self.downloadListVC = downloadListVC;
+    __block typeof(self) weakSelf = self;
+    self.downloadFile = ^(YGFileModel *downloadFileModel) {
+        [weakSelf.downloadListVC.downloadFiles addObject:downloadFileModel];
+    };
     
     //  设置uploadVC
-    YGUploadListVC *uploadListVC = [[YGUploadListVC alloc] init];
-    [self addChildViewController:uploadListVC];
-    [self.view addSubview:uploadListVC.view];
-    uploadListVC.view.frame = self.view.bounds;
-    uploadListVC.view.y = 104;
-    self.uploadListVC = uploadListVC;
+    self.uploadFile = ^(YGFileModel *uploadFileModel) {
+        [weakSelf.uploadListVC.uploadFiles addObject:uploadFileModel];
+    };
 }
 
 - (void)setupNavBar
