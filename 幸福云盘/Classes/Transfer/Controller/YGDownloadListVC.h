@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface YGDownloadListVC : UITableViewController
-@property (nonatomic, strong) NSMutableArray *downloadTasks;
+@property (nonatomic, strong) NSMutableArray *downloadFiles;
 @end

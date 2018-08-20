@@ -22,13 +22,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [self setupChildVC];
+    [self setupChildVC];
     
     [self setupMenuView];
     
     [self setupNavBar];
     
-    YGLog(@"viewDidLoad");
+    YGLog(@"-YGTansferVC-viewDidLoad-");
 }
 
 - (void)setupMenuView
@@ -60,7 +60,6 @@
     YGUploadListVC *uploadListVC = [[YGUploadListVC alloc] init];
     [self addChildViewController:uploadListVC];
     [self.view addSubview:uploadListVC.view];
-    [uploadListVC.uploadFiles addObject:self.uploadFileModel];
     uploadListVC.view.frame = self.view.bounds;
     uploadListVC.view.y = 104;
     self.uploadListVC = uploadListVC;

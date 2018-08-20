@@ -20,10 +20,10 @@
 #pragma mark - 懒加载
 - (NSMutableArray *)downloadTasks
 {
-    if (_downloadTasks == nil) {
-        _downloadTasks = [NSMutableArray array];
+    if (_downloadFiles == nil) {
+        _downloadFiles = [NSMutableArray array];
     }
-    return _downloadTasks;
+    return _downloadFiles;
 }
 
 - (void)viewDidLoad {

@@ -11,5 +11,4 @@
 @class YGFileModel;
 
 @interface YGSubFileVC : YGFileBaseVC
-@property (nonatomic, copy) void (^uploadProgress)(double progress);
 @end

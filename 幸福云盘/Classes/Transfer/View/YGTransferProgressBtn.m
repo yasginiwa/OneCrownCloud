@@ -37,7 +37,7 @@
     
     CGContextAddArc(ctx, center.x, center.y, radius, -M_PI_2, self.progress * M_PI * 2 - M_PI_2, 0);
     
-    CGContextSetLineWidth(ctx, 3.0);
+    CGContextSetLineWidth(ctx, 2.0);
     
     CGContextSetLineCap(ctx, kCGLineCapRound);
     
