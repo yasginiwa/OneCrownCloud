@@ -65,6 +65,8 @@
 - (void)setupAppearance
 {
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    [self.tableView reloadData];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

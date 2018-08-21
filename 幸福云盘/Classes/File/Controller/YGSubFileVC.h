@@ -11,4 +11,5 @@
 @class YGFileModel;
 
 @interface YGSubFileVC : YGFileBaseVC
+
 @end

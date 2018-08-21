@@ -10,12 +10,16 @@
 #import "YGMenuView.h"
 #import "YGDownloadListVC.h"
 #import "YGUploadListVC.h"
+#import "YGSubFileVC.h"
+#import "YGFileModel.h"
 
 @interface YGTansferVC () <YGMenuViewDelegate>
 @property (nonatomic, weak) YGMenuView *menuView;
 @property (nonatomic, weak) UIViewController *showingVC;
 @property (nonatomic, strong) YGDownloadListVC *downloadListVC;
 @property (nonatomic, strong) YGUploadListVC *uploadListVC;
+@property (nonatomic, strong) YGFileModel *uploadFileModel;
+@property (nonatomic, strong) YGFileModel *downlaodFileModel;
 @end
 
 @implementation YGTansferVC
@@ -47,11 +51,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupChildVC];
-    
     [self setupMenuView];
     
     [self setupNavBar];
+    
+    [self addObsvr];
 }
 
 - (void)setupMenuView
@@ -69,24 +73,27 @@
     }];
 }
 
-- (void)setupChildVC
-{
-    //  设置downloadVC
-    __block typeof(self) weakSelf = self;
-    self.downloadFile = ^(YGFileModel *downloadFileModel) {
-        [weakSelf.downloadListVC.downloadFiles addObject:downloadFileModel];
-    };
-    
-    //  设置uploadVC
-    self.uploadFile = ^(YGFileModel *uploadFileModel) {
-        [weakSelf.uploadListVC.uploadFiles addObject:uploadFileModel];
-    };
-}
-
 - (void)setupNavBar
 {
     UIBarButtonItem *mutiSelectItem = [UIBarButtonItem itemWithImage:@"navbar_duoxuan" highImage:@"navbar_duoxuan_press" target:self action:@selector(mutiSelect)];
     self.navigationItem.rightBarButtonItems = @[mutiSelectItem];
+}
+
+- (void)addObsvr
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addUploadFile:) name:YGAddUploadFileNotification object:nil];
+}
+
+- (void)addUploadFile:(NSNotification *)note
+{
+    YGFileModel *uploadFileModel = note.userInfo[@"uploadFileModel"];
+    [self.uploadListVC.uploadFiles addObject:uploadFileModel];
+    [self.uploadFileModel addObserver:self forKeyPath:@"uploadProgress" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+    YGLog(@"%@", change[@"new"]);
 }
 
 #pragma mark - YGMenuViewDelegate
@@ -105,5 +112,10 @@
 - (void)mutiSelect
 {
     YGLog(@"--mutiSelect--");
+}
+
+- (void)dealloc
+{
+    [self removeObserver:self.uploadFileModel forKeyPath:@"uploadProgress"];
 }
 @end

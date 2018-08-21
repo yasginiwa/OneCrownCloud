@@ -22,9 +22,11 @@
 #import "YGUploadListVC.h"
 #import "YGDownloadListVC.h"
 #import "YGTansferVC.h"
+#import "YGMainTabBarVC.h"
 
 @interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGHeaderViewDelegate, YGFileUploadDelegate, TZImagePickerControllerDelegate>
 @property (nonatomic, copy) NSString *addDirName;
+@property (nonatomic, copy) void (^uploadProgress)(double progress);
 @end
 
 @implementation YGSubFileVC
@@ -70,26 +72,26 @@
     }
     
     [YGHttpTool listDirectoryWithRepoID:repoID params:params success:^(id  _Nonnull responseObject) {
-            
-            NSArray *repos = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObject];
-            [self.libraries addObjectsFromArray:repos];
-            [self.loadingView removeFromSuperview];
-            if (self.libraries.count == 0) {
-                YGFileEmptyView *fileEmptyView = [[YGFileEmptyView alloc] init];
-                [self.view addSubview:fileEmptyView];
-                fileEmptyView.frame = CGRectMake(0, 50, self.tableView.width, self.tableView.height);
-                self.fileEmptyView = fileEmptyView;
-            } else {
-                [self.fileEmptyView removeFromSuperview];
-            }
-            
-            // 刷新tableView 停止下拉刷新加载菊花
-            [self.tableView reloadData];
-            [self.tableView.mj_header endRefreshing];
-            
-        } failure:^(NSError * _Nonnull error) {
-            YGLog(@"%@", error);
-        }];
+        
+        NSArray *repos = [YGFileModel mj_objectArrayWithKeyValuesArray:responseObject];
+        [self.libraries addObjectsFromArray:repos];
+        [self.loadingView removeFromSuperview];
+        if (self.libraries.count == 0) {
+            YGFileEmptyView *fileEmptyView = [[YGFileEmptyView alloc] init];
+            [self.view addSubview:fileEmptyView];
+            fileEmptyView.frame = CGRectMake(0, 50, self.tableView.width, self.tableView.height);
+            self.fileEmptyView = fileEmptyView;
+        } else {
+            [self.fileEmptyView removeFromSuperview];
+        }
+        
+        // 刷新tableView 停止下拉刷新加载菊花
+        [self.tableView reloadData];
+        [self.tableView.mj_header endRefreshing];
+        
+    } failure:^(NSError * _Nonnull error) {
+        YGLog(@"%@", error);
+    }];
 }
 
 - (void)refreshLibrary
@@ -256,9 +258,21 @@
     [SVProgressHUD showSuccessFace:@"任务已添加至传输列表"];
     NSString *fileName = [asset valueForKey:@"filename"];
     
-    YGFileModel *uploadFileModel = [[YGFileModel alloc] init];
+    __block YGFileModel *uploadFileModel = [[YGFileModel alloc] init];
+    __block NSMutableArray *uploadFiles = [NSMutableArray array];
     uploadFileModel.name = fileName;
     uploadFileModel.mtime = @0;
+    
+    self.uploadProgress = ^(double progress) {
+        uploadFileModel.uploadProgress = progress;
+        [uploadFiles addObject:uploadFileModel];
+        NSDictionary *userInfo = @{@"uploadFiles" : uploadFiles};
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:YGAddUploadFileNotification object:nil userInfo:userInfo];
+            YGMainTabBarVC *tabBarVC = (YGMainTabBarVC *)[UIApplication sharedApplication].keyWindow.rootViewController;
+            [[[[tabBarVC tabBar] items] objectAtIndex:2] setBadgeValue:[NSString stringWithFormat:@"%lu", uploadFiles.count]];
+        });
+    };
     
     //  设置options 允许从icloud下载高质量的视频
     PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
@@ -273,13 +287,13 @@
     
     [photoMgr requestAVAssetForVideo:asset options:options resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
         
-        [self uploadFile:((AVURLAsset *)asset).URL fileModel:uploadFileModel];
+        [self uploadFile:((AVURLAsset *)asset).URL];
     }];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)uploadFile:(NSURL *)uploadFileUrl fileModel:(YGFileModel *)fileModel
+- (void)uploadFile:(NSURL *)uploadFileUrl
 {
     //  初始化网络上传相关参数
     NSString *folderPath = [NSString stringWithFormat:@"%@/", [YGDirTool dir]];
@@ -292,14 +306,8 @@
             [formData appendPartWithFileURL:uploadFileUrl name:@"file" error:nil];
             
         } progress:^(NSProgress * _Nonnull uploadProgress) {
-            fileModel.uploadProgress = uploadProgress.fractionCompleted;
             
-            YGTansferVC *transferVC = [[YGTansferVC alloc] init];
-            if (transferVC.uploadFile) {
-                transferVC.uploadFile(fileModel);
-            }
-            
-            YGLog(@"视频上传进度%f", uploadProgress.fractionCompleted);
+            self.uploadProgress(uploadProgress.fractionCompleted);
             
         } success:^(id  _Nonnull responseObject) {
             
