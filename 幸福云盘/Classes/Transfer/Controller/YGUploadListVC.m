@@ -45,4 +45,9 @@
     cell.uploadFileModel = self.uploadFiles[indexPath.row];
     return cell;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60.0;
+}
 @end

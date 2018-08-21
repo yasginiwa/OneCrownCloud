@@ -259,19 +259,13 @@
     NSString *fileName = [asset valueForKey:@"filename"];
     
     __block YGFileModel *uploadFileModel = [[YGFileModel alloc] init];
-    __block NSMutableArray *uploadFiles = [NSMutableArray array];
     uploadFileModel.name = fileName;
     uploadFileModel.mtime = @0;
     
     self.uploadProgress = ^(double progress) {
         uploadFileModel.uploadProgress = progress;
-        [uploadFiles addObject:uploadFileModel];
-        NSDictionary *userInfo = @{@"uploadFiles" : uploadFiles};
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:YGAddUploadFileNotification object:nil userInfo:userInfo];
-            YGMainTabBarVC *tabBarVC = (YGMainTabBarVC *)[UIApplication sharedApplication].keyWindow.rootViewController;
-            [[[[tabBarVC tabBar] items] objectAtIndex:2] setBadgeValue:[NSString stringWithFormat:@"%lu", uploadFiles.count]];
-        });
+        NSDictionary *userInfo = @{@"uploadFileModel" : uploadFileModel};
+        [[NSNotificationCenter defaultCenter] postNotificationName:YGAddUploadFileNotification object:nil userInfo:userInfo];
     };
     
     //  设置options 允许从icloud下载高质量的视频

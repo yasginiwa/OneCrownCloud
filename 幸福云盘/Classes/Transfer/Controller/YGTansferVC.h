@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class YGFileModel;
-
 @interface YGTansferVC : UIViewController
 
 @end

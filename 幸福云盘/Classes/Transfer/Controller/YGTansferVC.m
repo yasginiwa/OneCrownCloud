@@ -12,6 +12,7 @@
 #import "YGUploadListVC.h"
 #import "YGSubFileVC.h"
 #import "YGFileModel.h"
+#import "YGMainTabBarVC.h"
 
 @interface YGTansferVC () <YGMenuViewDelegate>
 @property (nonatomic, weak) YGMenuView *menuView;
@@ -58,6 +59,8 @@
     [self addObsvr];
 }
 
+
+
 - (void)setupMenuView
 {
     self.view.backgroundColor = [UIColor whiteColor];
@@ -87,13 +90,25 @@
 - (void)addUploadFile:(NSNotification *)note
 {
     YGFileModel *uploadFileModel = note.userInfo[@"uploadFileModel"];
-    [self.uploadListVC.uploadFiles addObject:uploadFileModel];
+    
+    //  因进度不停更改 通知也是不停的接收到 故判断模型的名字 名字不一样才加入uploadFiles数组
+    if (![uploadFileModel.name isEqualToString:self.uploadFileModel.name]) {
+        [self.uploadListVC.uploadFiles addObject:uploadFileModel];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.uploadListVC.tableView reloadData];
+        });
+    }
+    
+    self.uploadFileModel = uploadFileModel;
     [self.uploadFileModel addObserver:self forKeyPath:@"uploadProgress" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
-    YGLog(@"%@", change[@"new"]);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        YGMainTabBarVC *tabBarVC = (YGMainTabBarVC *)[UIApplication sharedApplication].keyWindow.rootViewController;
+        [[[tabBarVC.tabBar items] objectAtIndex:2] setBadgeValue:[NSString stringWithFormat:@"%lu", self.uploadListVC.uploadFiles.count]];
+    });
 }
 
 #pragma mark - YGMenuViewDelegate

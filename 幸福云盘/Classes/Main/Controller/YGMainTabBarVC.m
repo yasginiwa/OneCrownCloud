@@ -23,6 +23,15 @@
     [super viewDidLoad];
     
     [self addAllChildVC];
+    
+    self.selectedIndex = 2;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.selectedIndex = 0;
+    });
 }
 
 - (void)addAllChildVC
