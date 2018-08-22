@@ -19,8 +19,6 @@
 #import "YGHeaderView.h"
 #import <TZImageManager.h>
 #import <TZImagePickerController.h>
-#import "YGUploadListVC.h"
-#import "YGDownloadListVC.h"
 #import "YGTansferVC.h"
 #import "YGMainTabBarVC.h"
 
@@ -261,7 +259,7 @@
     __block YGFileModel *uploadFileModel = [[YGFileModel alloc] init];
     uploadFileModel.name = fileName;
     uploadFileModel.mtime = @0;
-    
+    uploadFileModel.uploading = YES;
     self.uploadProgress = ^(double progress) {
         uploadFileModel.uploadProgress = progress;
         NSDictionary *userInfo = @{@"uploadFileModel" : uploadFileModel};

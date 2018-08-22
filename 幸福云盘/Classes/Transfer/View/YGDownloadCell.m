@@ -8,7 +8,6 @@
 
 #import "YGDownloadCell.h"
 #import "YGFileTypeTool.h"
-#import "YGTransferModel.h"
 #import "YGFileModel.h"
 #import "YGMimeType.h"
 #import "YGTransferProgressBtn.h"
@@ -30,15 +29,15 @@
     return cell;
 }
 
-- (void)setTransferModel:(YGTransferModel *)transferModel
+- (void)setDownloadFileModel:(YGFileModel *)downloadFileModel
 {
-    _transferModel = transferModel;
+    _downloadFileModel = downloadFileModel;
     
     // 文件夹显示默认图标
-    if ([YGFileTypeTool isRepo:transferModel.fileModel] || [YGFileTypeTool isDir:transferModel.fileModel]) {
+    if ([YGFileTypeTool isRepo:downloadFileModel] || [YGFileTypeTool isDir:downloadFileModel]) {
         self.iconView.image = [UIImage imageNamed:@"file_folder_icon"];
     } else {    // 文件显示图标判断
-        NSString *fileExt = [NSString extensionWithFile:transferModel.fileModel.name];
+        NSString *fileExt = [NSString extensionWithFile:downloadFileModel.name];
         
         NSArray *fileMimeTypes = [YGFileTypeTool fileMimeTypes];
         [fileMimeTypes enumerateObjectsUsingBlock:^(YGMimeType *mimeType, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -52,18 +51,18 @@
     }
     
     //  文件名称
-    self.nameLabel.text = transferModel.fileModel.name;
+    self.nameLabel.text = downloadFileModel.name;
     
     //  创建文件下载日期
-    self.downloadTimeLabel.text = transferModel.downloadTime;
+    self.downloadTimeLabel.text = downloadFileModel.mtime;
     
     //  文件大小
-    if (transferModel.fileModel.size) {
-        self.sizeLabel.text = [NSString stringWithSize:transferModel.fileModel.size];
+    if (downloadFileModel.size) {
+        self.sizeLabel.text = [NSString stringWithSize:downloadFileModel.size];
     } else {
         self.sizeLabel.text = nil;
     }
     
-    self.transferProgressBtn.progress = transferModel.progress;
+    self.transferProgressBtn.progress = downloadFileModel.downloadProgress;
 }
 @end

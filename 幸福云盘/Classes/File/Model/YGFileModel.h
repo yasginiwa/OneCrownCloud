@@ -71,4 +71,8 @@
 @property (nonatomic, assign) double uploadProgress;
 
 @property (nonatomic, assign) double downloadProgress;
+
+@property (nonatomic, assign, getter=isDownloading) BOOL downloading;
+
+@property (nonatomic, assign, getter=isUploading) BOOL uploading;
 @end

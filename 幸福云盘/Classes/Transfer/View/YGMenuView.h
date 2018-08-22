@@ -8,14 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class YGMenuView;
-
-@protocol YGMenuViewDelegate <NSObject>
-@optional
-- (void)menuViewDidClickDownloadListBtn:(YGMenuView *)menuView;
-- (void)menuViewDidClickUploadListBtn:(YGMenuView *)menuView;
-@end
-
 @interface YGMenuView : UIView
-@property (nonatomic, weak) id<YGMenuViewDelegate> delegate;
+- (void)downloadAddTarget:(id)target action:(SEL)action;
+- (void)uploadAddTarget:(id)target action:(SEL)action;
 @end

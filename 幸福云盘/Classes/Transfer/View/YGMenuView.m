@@ -36,14 +36,14 @@
         
         YGTransferListBtn *downloadListBtn = [[YGTransferListBtn alloc] initWithTitle:@"下载列表"];
         downloadListBtn.titleLabel.font = titleFont;
-        [downloadListBtn addTarget:self action:@selector(selectDownloadList) forControlEvents:UIControlEventTouchDown];
+        [downloadListBtn addTarget:self action:@selector(clickDownloadBtn) forControlEvents:UIControlEventTouchDown];
         [self addSubview:downloadListBtn];
         self.downloadListBtn = downloadListBtn;
         [self addSubview:downloadListBtn];
         
         YGTransferListBtn *uploadListBtn = [[YGTransferListBtn alloc] initWithTitle:@"上传列表"];
         uploadListBtn.titleLabel.font = titleFont;
-        [uploadListBtn addTarget:self action:@selector(selectUploadList) forControlEvents:UIControlEventTouchDown];
+        [uploadListBtn addTarget:self action:@selector(clickUploadBtn) forControlEvents:UIControlEventTouchDown];
         [self addSubview:uploadListBtn];
         self.uploadListBtn = uploadListBtn;
         [self addSubview:uploadListBtn];
@@ -65,7 +65,7 @@
 
 - (void)didMoveToSuperview
 {
-    [self selectDownloadList];
+    [self clickDownloadBtn];
 }
 
 - (void)setIndicatorPosition:(UIButton *)button font:(UIFont *)font
@@ -81,26 +81,31 @@
     }];
 }
 
-- (void)selectDownloadList
+- (void)downloadAddTarget:(id)target action:(SEL)action
+{
+    [self clickDownloadBtn];
+    
+    [self.downloadListBtn addTarget:target action:action forControlEvents:UIControlEventTouchDown];
+}
+
+- (void)uploadAddTarget:(id)target action:(SEL)action
+{
+    [self clickUploadBtn];
+    
+    [self.uploadListBtn addTarget:target action:action forControlEvents:UIControlEventTouchDown];
+}
+
+- (void)clickDownloadBtn
 {
     self.downloadListBtn.selected = YES;
     self.uploadListBtn.selected = NO;
     [self setIndicatorPosition:self.downloadListBtn font:titleFont];
-    
-    if ([self.delegate respondsToSelector:@selector(menuViewDidClickDownloadListBtn:)]) {
-        [self.delegate menuViewDidClickDownloadListBtn:self];
-    }
 }
 
-- (void)selectUploadList
+- (void)clickUploadBtn
 {
     self.uploadListBtn.selected = YES;
     self.downloadListBtn.selected = NO;
     [self setIndicatorPosition:self.uploadListBtn font:titleFont];
-    
-    if ([self.delegate respondsToSelector:@selector(menuViewDidClickUploadListBtn:)]) {
-        [self.delegate menuViewDidClickUploadListBtn:self];
-    }
 }
-
 @end

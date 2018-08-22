@@ -22,12 +22,9 @@
 		73716C282105AA5400706C51 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 73716C272105AA5400706C51 /* NSString+Extension.m */; };
 		737FDBF120F874A600BF5090 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 737FDBF020F874A600BF5090 /* UIImage+Extension.m */; };
 		73D6120821102736006F209E /* SVProgressHUD+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D6120721102736006F209E /* SVProgressHUD+Extension.m */; };
-		73F3E7F82117E9C80054623F /* YGDownloadListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F3E7F72117E9C80054623F /* YGDownloadListVC.m */; };
-		73F3E7FB2117E9DB0054623F /* YGUploadListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F3E7FA2117E9DB0054623F /* YGUploadListVC.m */; };
 		73F3E7FF211806200054623F /* YGDownloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F3E7FD211806200054623F /* YGDownloadCell.m */; };
 		73F3E8042118062E0054623F /* YGUploadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F3E8022118062E0054623F /* YGUploadCell.m */; };
 		73F3E80D21181A080054623F /* YGDownloadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73F3E80C21181A080054623F /* YGDownloadCell.xib */; };
-		73F3E816211842240054623F /* YGTransferModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F3E815211842240054623F /* YGTransferModel.m */; };
 		B604B4F42129AD8B00A54E67 /* YGUploadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B604B4F32129AD8A00A54E67 /* YGUploadCell.xib */; };
 		B604B4F72129B0C000A54E67 /* YGTransferProgressBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = B604B4F62129B0C000A54E67 /* YGTransferProgressBtn.m */; };
 		B6209E7E20F4EE7E0075497C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B6209E7D20F4EE7E0075497C /* AppDelegate.m */; };
@@ -100,17 +97,11 @@
 		737FDBF020F874A600BF5090 /* UIImage+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
 		73D6120621102736006F209E /* SVProgressHUD+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD+Extension.h"; sourceTree = "<group>"; };
 		73D6120721102736006F209E /* SVProgressHUD+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SVProgressHUD+Extension.m"; sourceTree = "<group>"; };
-		73F3E7F62117E9C80054623F /* YGDownloadListVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGDownloadListVC.h; sourceTree = "<group>"; };
-		73F3E7F72117E9C80054623F /* YGDownloadListVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGDownloadListVC.m; sourceTree = "<group>"; };
-		73F3E7F92117E9DB0054623F /* YGUploadListVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGUploadListVC.h; sourceTree = "<group>"; };
-		73F3E7FA2117E9DB0054623F /* YGUploadListVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGUploadListVC.m; sourceTree = "<group>"; };
 		73F3E7FC211806200054623F /* YGDownloadCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGDownloadCell.h; sourceTree = "<group>"; };
 		73F3E7FD211806200054623F /* YGDownloadCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGDownloadCell.m; sourceTree = "<group>"; };
 		73F3E8012118062E0054623F /* YGUploadCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGUploadCell.h; sourceTree = "<group>"; };
 		73F3E8022118062E0054623F /* YGUploadCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGUploadCell.m; sourceTree = "<group>"; };
 		73F3E80C21181A080054623F /* YGDownloadCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YGDownloadCell.xib; sourceTree = "<group>"; };
-		73F3E814211842240054623F /* YGTransferModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGTransferModel.h; sourceTree = "<group>"; };
-		73F3E815211842240054623F /* YGTransferModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGTransferModel.m; sourceTree = "<group>"; };
 		B604B4F32129AD8A00A54E67 /* YGUploadCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YGUploadCell.xib; sourceTree = "<group>"; };
 		B604B4F52129B0C000A54E67 /* YGTransferProgressBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGTransferProgressBtn.h; sourceTree = "<group>"; };
 		B604B4F62129B0C000A54E67 /* YGTransferProgressBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGTransferProgressBtn.m; sourceTree = "<group>"; };
@@ -487,10 +478,6 @@
 			children = (
 				B6FBA01220F62D240012EFD0 /* YGTansferVC.h */,
 				B6FBA01320F62D240012EFD0 /* YGTansferVC.m */,
-				73F3E7F62117E9C80054623F /* YGDownloadListVC.h */,
-				73F3E7F72117E9C80054623F /* YGDownloadListVC.m */,
-				73F3E7F92117E9DB0054623F /* YGUploadListVC.h */,
-				73F3E7FA2117E9DB0054623F /* YGUploadListVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -498,8 +485,6 @@
 		B676793320F627E500945627 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				73F3E814211842240054623F /* YGTransferModel.h */,
-				73F3E815211842240054623F /* YGTransferModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -720,7 +705,6 @@
 				B6FBA01120F62CE30012EFD0 /* YGStarVC.m in Sources */,
 				73716C2121059C2500706C51 /* YGApiTokenTool.m in Sources */,
 				73484D20210AF54000BA344B /* YGRepoTool.m in Sources */,
-				73F3E7FB2117E9DB0054623F /* YGUploadListVC.m in Sources */,
 				73D6120821102736006F209E /* SVProgressHUD+Extension.m in Sources */,
 				B6B39B8D211682F20024682A /* YGMenuView.m in Sources */,
 				B680BCEC20F8E7D200F8CB98 /* YGURLString.m in Sources */,
@@ -742,7 +726,6 @@
 				B6A8E243210DF39600E5117C /* YGDirTool.m in Sources */,
 				73374F8D2101B4E1005BA2E9 /* YGSubFileVC.m in Sources */,
 				B6FBA01420F62D240012EFD0 /* YGTansferVC.m in Sources */,
-				73F3E7F82117E9C80054623F /* YGDownloadListVC.m in Sources */,
 				B6209E7E20F4EE7E0075497C /* AppDelegate.m in Sources */,
 				735E268A2106B63E000DB123 /* YGFilePreviewVC.m in Sources */,
 				73716C1921059B6B00706C51 /* YGMimeType.m in Sources */,
@@ -761,7 +744,6 @@
 				B66644FE2110A504007F1630 /* YGNetworkFailedView.m in Sources */,
 				B6A1E27820FA31EE009F94DF /* YGAccount.m in Sources */,
 				73716C282105AA5400706C51 /* NSString+Extension.m in Sources */,
-				73F3E816211842240054623F /* YGTransferModel.m in Sources */,
 				B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */,
 				B6A7C4F3210F561D00C0A929 /* YGAddFolderView.m in Sources */,
 				B641A1D120FDF69800FCA501 /* YGLoadingView.m in Sources */,

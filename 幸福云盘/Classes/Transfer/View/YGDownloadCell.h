@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class YGTransferModel;
+@class YGFileModel;
 
 @interface YGDownloadCell : UITableViewCell
-@property (nonatomic, strong) YGTransferModel *transferModel;
+@property (nonatomic, strong) YGFileModel *downloadFileModel;
 +(instancetype)downloadCell;
 @end

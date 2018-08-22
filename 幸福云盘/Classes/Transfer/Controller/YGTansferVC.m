@@ -8,72 +8,87 @@
 
 #import "YGTansferVC.h"
 #import "YGMenuView.h"
-#import "YGDownloadListVC.h"
-#import "YGUploadListVC.h"
 #import "YGSubFileVC.h"
 #import "YGFileModel.h"
 #import "YGMainTabBarVC.h"
+#import "YGUploadCell.h"
+#import "YGDownloadCell.h"
 
-@interface YGTansferVC () <YGMenuViewDelegate>
+@interface YGTansferVC () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) YGMenuView *menuView;
-@property (nonatomic, weak) UIViewController *showingVC;
-@property (nonatomic, strong) YGDownloadListVC *downloadListVC;
-@property (nonatomic, strong) YGUploadListVC *uploadListVC;
 @property (nonatomic, strong) YGFileModel *uploadFileModel;
 @property (nonatomic, strong) YGFileModel *downlaodFileModel;
+@property (nonatomic, weak) UITableView *transferTableView;
+@property (nonatomic, strong) NSMutableArray *downloadFiles;
+@property (nonatomic, strong) NSMutableArray *uploadFiles;
+@property (nonatomic, assign, getter=isShowingDownload) BOOL showDownload;
 @end
 
 @implementation YGTansferVC
 #pragma mark - 懒加载
-- (YGDownloadListVC *)downloadListVC
+- (NSMutableArray *)downloadFiles
 {
-    if (_downloadListVC == nil) {
-        _downloadListVC = [[YGDownloadListVC alloc] init];
-        [self addChildViewController:_downloadListVC];
-        [self.view addSubview:_downloadListVC.view];
-        _downloadListVC.view.frame = self.view.bounds;
-        _downloadListVC.view.y = 104;
+    if (_downloadFiles == nil) {
+        _downloadFiles = [NSMutableArray array];
     }
-    return _downloadListVC;
+    return _downloadFiles;
 }
 
-- (YGUploadListVC *)uploadListVC
+- (NSMutableArray *)uploadFiles
 {
-    if (_uploadListVC == nil) {
-        _uploadListVC = [[YGUploadListVC alloc] init];
-        [self addChildViewController:_uploadListVC];
-        [self.view addSubview:_uploadListVC.view];
-        _uploadListVC.view.frame = self.view.bounds;
-        _uploadListVC.view.y = 104;
+    if (_uploadFiles == nil) {
+        _uploadFiles = [NSMutableArray array];
     }
-    return _uploadListVC;
+    return _uploadFiles;
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
     [self setupMenuView];
+    
+    [self setupTransferTableView];
     
     [self setupNavBar];
     
     [self addObsvr];
 }
 
-
-
 - (void)setupMenuView
 {
     self.view.backgroundColor = [UIColor whiteColor];
     YGMenuView *menuView = [[YGMenuView alloc] init];
-    menuView.delegate = self;
     [self.view addSubview:menuView];
+    [menuView uploadAddTarget:self action:@selector(selectedUploadTableView)];
+    [menuView downloadAddTarget:self action:@selector(selectDownloadTableView)];
     self.menuView = menuView;
     
-    [self.menuView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
-        make.top.equalTo(self.view).offset(64.0);
-        make.height.equalTo(@40);
-    }];
+    [self selectDownloadTableView];
+}
+
+- (void)setupTransferTableView
+{
+    UITableView *transferTableView = [[UITableView alloc] init];
+    transferTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.view addSubview:transferTableView];
+    transferTableView.delegate = self;
+    transferTableView.dataSource = self;
+    self.transferTableView = transferTableView;
+}
+
+- (void)selectDownloadTableView
+{
+    self.showDownload = YES;
+    [self.transferTableView reloadData];
+    YGLog(@"-selectedDownloadTableView-");
+}
+
+- (void)selectedUploadTableView
+{
+    self.showDownload = NO;
+    [self.transferTableView reloadData];
+    YGLog(@"-selectedUploadTableView-");
 }
 
 - (void)setupNavBar
@@ -93,10 +108,7 @@
     
     //  因进度不停更改 通知也是不停的接收到 故判断模型的名字 名字不一样才加入uploadFiles数组
     if (![uploadFileModel.name isEqualToString:self.uploadFileModel.name]) {
-        [self.uploadListVC.uploadFiles addObject:uploadFileModel];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.uploadListVC.tableView reloadData];
-        });
+        [self.uploadFiles addObject:uploadFileModel];
     }
     
     self.uploadFileModel = uploadFileModel;
@@ -107,26 +119,65 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         YGMainTabBarVC *tabBarVC = (YGMainTabBarVC *)[UIApplication sharedApplication].keyWindow.rootViewController;
-        [[[tabBarVC.tabBar items] objectAtIndex:2] setBadgeValue:[NSString stringWithFormat:@"%lu", self.uploadListVC.uploadFiles.count]];
+        [[[tabBarVC.tabBar items] objectAtIndex:2] setBadgeValue:[NSString stringWithFormat:@"%lu", self.uploadFiles.count]];
     });
-}
-
-#pragma mark - YGMenuViewDelegate
-- (void)menuViewDidClickDownloadListBtn:(YGMenuView *)menuView
-{
-    [self.uploadListVC.view removeFromSuperview];
-    [self.view addSubview:self.downloadListVC.view];
-}
-
-- (void)menuViewDidClickUploadListBtn:(YGMenuView *)menuView
-{
-    [self.downloadListVC.view removeFromSuperview];
-    [self.view addSubview:self.uploadListVC.view];
 }
 
 - (void)mutiSelect
 {
     YGLog(@"--mutiSelect--");
+}
+
+#pragma mark - UITableViewDelegate
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.isShowingDownload) {
+        return self.downloadFiles.count;
+    } else {
+        return self.uploadFiles.count;
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.isShowingDownload) {
+        static NSString *ID = @"download";
+        YGUploadCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+        if (cell == nil) {
+            cell = [YGUploadCell uploadCell];
+        }
+        cell.uploadFileModel = self.uploadFiles[indexPath.row];
+        return cell;
+    } else {
+        static NSString *ID = @"upload";
+        YGDownloadCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+        if (cell == nil) {
+            cell = [YGDownloadCell downloadCell];
+        }
+        cell.downloadFileModel = self.downloadFiles[indexPath.row];
+        return cell;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60.0;
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    [self.menuView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.top.equalTo(self.view).offset(64.0);
+        make.height.equalTo(@40);
+    }];
+    
+    [self.transferTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.menuView.mas_bottom);
+        make.left.right.bottom.equalTo(self.view);
+    }];
+    
 }
 
 - (void)dealloc
