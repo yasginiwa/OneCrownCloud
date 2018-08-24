@@ -19,7 +19,7 @@
 #import "YGHeaderView.h"
 #import <TZImageManager.h>
 #import <TZImagePickerController.h>
-#import "YGTansferVC.h"
+#import "YGTransferVC.h"
 #import "YGMainTabBarVC.h"
 
 @interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGHeaderViewDelegate, YGFileUploadDelegate, TZImagePickerControllerDelegate>
@@ -282,6 +282,12 @@
         [self uploadFile:((AVURLAsset *)asset).URL];
     }];
     
+    
+        
+//    if (!transferVC.isViewLoaded) {
+//        [transferVC viewDidLoad];
+//    }
+//    transferVC.contenType = YGTransferShowContenTypeUpload;
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -10,7 +10,7 @@
 #import "YGMainNavVC.h"
 #import "YGFileVC.h"
 #import "YGStarVC.h"
-#import "YGTansferVC.h"
+#import "YGTransferVC.h"
 #import "YGProfileVC.h"
 
 @interface YGMainTabBarVC ()
@@ -23,15 +23,6 @@
     [super viewDidLoad];
     
     [self addAllChildVC];
-    
-    self.selectedIndex = 2;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.selectedIndex = 0;
-    });
 }
 
 - (void)addAllChildVC
@@ -42,7 +33,7 @@
     YGStarVC *starVC = [[YGStarVC alloc] init];
     [self addOneChildVC:starVC title:@"分享" image:@"tab_share_normal" selectedImage:@"tab_share_pressed"];
     
-    YGTansferVC *transferVC = [[YGTansferVC alloc] init];
+    YGTransferVC *transferVC = [[YGTransferVC alloc] init];
     [self addOneChildVC:transferVC title:@"传输列表" image:@"tab_transfer_normal" selectedImage:@"tab_transfer_pressed"];
     
     YGProfileVC *profileVC = [[YGProfileVC alloc] init];

@@ -1,12 +1,12 @@
 //
-//  YGTansferVC.m
+//  YGTransferVC.m
 //  幸福云盘
 //
-//  Created by YGLEE on 2018/7/11.
+//  Created by YGLEE on 2018/8/23.
 //  Copyright © 2018年 YGLEE. All rights reserved.
 //
 
-#import "YGTansferVC.h"
+#import "YGTransferVC.h"
 #import "YGMenuView.h"
 #import "YGSubFileVC.h"
 #import "YGFileModel.h"
@@ -14,7 +14,7 @@
 #import "YGUploadCell.h"
 #import "YGDownloadCell.h"
 
-@interface YGTansferVC () <UITableViewDelegate, UITableViewDataSource>
+@interface YGTransferVC () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) YGMenuView *menuView;
 @property (nonatomic, strong) YGFileModel *uploadFileModel;
 @property (nonatomic, strong) YGFileModel *downlaodFileModel;
@@ -24,7 +24,8 @@
 @property (nonatomic, assign, getter=isShowingDownload) BOOL showDownload;
 @end
 
-@implementation YGTansferVC
+@implementation YGTransferVC
+
 #pragma mark - 懒加载
 - (NSMutableArray *)downloadFiles
 {
@@ -46,13 +47,15 @@
     
     [super viewDidLoad];
     
+    [self addObsvr];
+    
     [self setupMenuView];
     
     [self setupTransferTableView];
     
     [self setupNavBar];
-    
-    [self addObsvr];
+
+    YGLog(@"--transfer--viewDidLoad--");
 }
 
 - (void)setupMenuView
@@ -60,11 +63,14 @@
     self.view.backgroundColor = [UIColor whiteColor];
     YGMenuView *menuView = [[YGMenuView alloc] init];
     [self.view addSubview:menuView];
-    [menuView uploadAddTarget:self action:@selector(selectedUploadTableView)];
-    [menuView downloadAddTarget:self action:@selector(selectDownloadTableView)];
+    if (self.contenType == YGTransferShowContenTypeUpload) {
+        [menuView uploadAddTarget:self action:@selector(selectedUploadTableView)];
+        [self selectedUploadTableView];
+    } else {
+        [menuView downloadAddTarget:self action:@selector(selectDownloadTableView)];
+        [self selectDownloadTableView];
+    }
     self.menuView = menuView;
-    
-    [self selectDownloadTableView];
 }
 
 - (void)setupTransferTableView
@@ -79,14 +85,12 @@
 
 - (void)selectDownloadTableView
 {
-    self.showDownload = YES;
     [self.transferTableView reloadData];
     YGLog(@"-selectedDownloadTableView-");
 }
 
 - (void)selectedUploadTableView
 {
-    self.showDownload = NO;
     [self.transferTableView reloadData];
     YGLog(@"-selectedUploadTableView-");
 }
@@ -130,7 +134,7 @@
 
 #pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.isShowingDownload) {
+    if (self.contenType == YGTransferShowContenTypeDownload) {
         return self.downloadFiles.count;
     } else {
         return self.uploadFiles.count;
@@ -139,7 +143,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.isShowingDownload) {
+    if (self.contenType == YGTransferShowContenTypeDownload) {
         static NSString *ID = @"download";
         YGUploadCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
         if (cell == nil) {
