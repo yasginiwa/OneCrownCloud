@@ -8,8 +8,6 @@
 
 #import "YGFileBaseVC.h"
 
-@class YGFileModel;
-
 @interface YGSubFileVC : YGFileBaseVC
 
 @end

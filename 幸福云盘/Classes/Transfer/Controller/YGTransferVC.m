@@ -10,14 +10,16 @@
 #import "YGMenuView.h"
 #import "YGSubFileVC.h"
 #import "YGFileModel.h"
-#import "YGMainTabBarVC.h"
 #import "YGUploadCell.h"
 #import "YGDownloadCell.h"
+#import "YGFileTransferTool.h"
+#import "YGMainNavVC.h"
+#import "YGSubFileVC.h"
 
 @interface YGTransferVC () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) YGMenuView *menuView;
 @property (nonatomic, strong) YGFileModel *uploadFileModel;
-@property (nonatomic, strong) YGFileModel *downlaodFileModel;
+@property (nonatomic, strong) YGFileModel *downloadFileModel;
 @property (nonatomic, weak) UITableView *transferTableView;
 @property (nonatomic, strong) NSMutableArray *downloadFiles;
 @property (nonatomic, strong) NSMutableArray *uploadFiles;
@@ -43,19 +45,39 @@
     return _uploadFiles;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self refreshTransferTableView];
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
-    [self addObsvr];
     
     [self setupMenuView];
     
     [self setupTransferTableView];
     
     [self setupNavBar];
-
+    
+    [self setupNotification];
+    
     YGLog(@"--transfer--viewDidLoad--");
+}
+
+- (void)setupNotification
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uploadVideoProgress:) name:YGUploadVideoProgressNotification object:nil];
+}
+
+- (void)uploadVideoProgress:(NSNotification *)note
+{
+    NSDictionary *userInfo = note.userInfo;
+    double progress = [[userInfo objectForKey:@"uploadVideoProgress"] doubleValue];
+    self.uploadFileModel.uploadProgress = progress;
+    YGLog(@"---------%f", progress);
 }
 
 - (void)setupMenuView
@@ -63,14 +85,10 @@
     self.view.backgroundColor = [UIColor whiteColor];
     YGMenuView *menuView = [[YGMenuView alloc] init];
     [self.view addSubview:menuView];
-    if (self.contenType == YGTransferShowContenTypeUpload) {
-        [menuView uploadAddTarget:self action:@selector(selectedUploadTableView)];
-        [self selectedUploadTableView];
-    } else {
-        [menuView downloadAddTarget:self action:@selector(selectDownloadTableView)];
-        [self selectDownloadTableView];
-    }
+    [menuView uploadAddTarget:self action:@selector(selectedUploadTableView)];
+    [menuView downloadAddTarget:self action:@selector(selectDownloadTableView)];
     self.menuView = menuView;
+    [self selectDownloadTableView];
 }
 
 - (void)setupTransferTableView
@@ -83,54 +101,44 @@
     self.transferTableView = transferTableView;
 }
 
-- (void)selectDownloadTableView
-{
-    [self.transferTableView reloadData];
-    YGLog(@"-selectedDownloadTableView-");
-}
-
-- (void)selectedUploadTableView
-{
-    [self.transferTableView reloadData];
-    YGLog(@"-selectedUploadTableView-");
-}
-
 - (void)setupNavBar
 {
     UIBarButtonItem *mutiSelectItem = [UIBarButtonItem itemWithImage:@"navbar_duoxuan" highImage:@"navbar_duoxuan_press" target:self action:@selector(mutiSelect)];
     self.navigationItem.rightBarButtonItems = @[mutiSelectItem];
 }
 
-- (void)addObsvr
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addUploadFile:) name:YGAddUploadFileNotification object:nil];
-}
-
-- (void)addUploadFile:(NSNotification *)note
-{
-    YGFileModel *uploadFileModel = note.userInfo[@"uploadFileModel"];
-    
-    //  因进度不停更改 通知也是不停的接收到 故判断模型的名字 名字不一样才加入uploadFiles数组
-    if (![uploadFileModel.name isEqualToString:self.uploadFileModel.name]) {
-        [self.uploadFiles addObject:uploadFileModel];
-    }
-    
-    self.uploadFileModel = uploadFileModel;
-    [self.uploadFileModel addObserver:self forKeyPath:@"uploadProgress" options:NSKeyValueObservingOptionNew context:nil];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        YGMainTabBarVC *tabBarVC = (YGMainTabBarVC *)[UIApplication sharedApplication].keyWindow.rootViewController;
-        [[[tabBarVC.tabBar items] objectAtIndex:2] setBadgeValue:[NSString stringWithFormat:@"%lu", self.uploadFiles.count]];
-    });
-}
-
 - (void)mutiSelect
 {
     YGLog(@"--mutiSelect--");
 }
+
+- (void)selectDownloadTableView
+{
+//    self.contenType = YGTransferShowContenTypeDownload;
+//    YGFileModel *downloadFileModel = [YGFileTransferTool downloadFile];
+//    [self.uploadFiles addObject:downloadFileModel];
+//    self.downloadFileModel = downloadFileModel;
+
+//    [self.transferTableView reloadData];
+    YGLog(@"-selectedDownloadTableView-");
+}
+
+- (void)selectedUploadTableView
+{
+    self.contenType = YGTransferShowContenTypeUpload;
+
+    [self refreshTransferTableView];
+    YGLog(@"-selectedUploadTableView-");
+}
+
+- (void)refreshTransferTableView
+{
+    self.uploadFiles = [YGFileTransferTool uploadFiles];
+    self.uploadFileModel = [self.uploadFiles firstObject];
+    [self.transferTableView reloadData];
+}
+
+
 
 #pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -139,25 +147,26 @@
     } else {
         return self.uploadFiles.count;
     }
+    YGLog(@"download%lu-upload%lu", self.downloadFiles.count, self.uploadFiles.count);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.contenType == YGTransferShowContenTypeDownload) {
         static NSString *ID = @"download";
-        YGUploadCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-        if (cell == nil) {
-            cell = [YGUploadCell uploadCell];
-        }
-        cell.uploadFileModel = self.uploadFiles[indexPath.row];
-        return cell;
-    } else {
-        static NSString *ID = @"upload";
         YGDownloadCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
         if (cell == nil) {
             cell = [YGDownloadCell downloadCell];
         }
         cell.downloadFileModel = self.downloadFiles[indexPath.row];
+        return cell;
+    } else {
+        static NSString *ID = @"upload";
+        YGUploadCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+        if (cell == nil) {
+            cell = [YGUploadCell uploadCell];
+        }
+        cell.uploadFileModel = self.uploadFiles[indexPath.row];
         return cell;
     }
 }
@@ -181,7 +190,6 @@
         make.top.equalTo(self.menuView.mas_bottom);
         make.left.right.bottom.equalTo(self.view);
     }];
-    
 }
 
 - (void)dealloc

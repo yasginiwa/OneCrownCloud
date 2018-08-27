@@ -9,7 +9,7 @@
 #import "YGMainTabBarVC.h"
 #import "YGMainNavVC.h"
 #import "YGFileVC.h"
-#import "YGStarVC.h"
+#import "YGShareVC.h"
 #import "YGTransferVC.h"
 #import "YGProfileVC.h"
 
@@ -30,7 +30,7 @@
     YGFileVC *fileVC = [[YGFileVC alloc] init];
     [self addOneChildVC:fileVC title:@"幸福网盘" image:@"tab_file_normal" selectedImage:@"tab_file_pressed"];
     
-    YGStarVC *starVC = [[YGStarVC alloc] init];
+    YGShareVC *starVC = [[YGShareVC alloc] init];
     [self addOneChildVC:starVC title:@"分享" image:@"tab_share_normal" selectedImage:@"tab_share_pressed"];
     
     YGTransferVC *transferVC = [[YGTransferVC alloc] init];

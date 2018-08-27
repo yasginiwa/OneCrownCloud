@@ -57,9 +57,10 @@
 		B6C4040E20F7719000E95598 /* YGLoginTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4040D20F7719000E95598 /* YGLoginTopView.m */; };
 		B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4041020F7719C00E95598 /* YGLoginMidView.m */; };
 		B6C4041720F78ACF00E95598 /* YGInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4041620F78ACF00E95598 /* YGInputView.m */; };
+		B6C81A6F21301E7200899EB4 /* YGShareVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C81A6E21301E7200899EB4 /* YGShareVC.m */; };
+		B6C81A73213044FE00899EB4 /* YGFileTransferTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C81A72213044FE00899EB4 /* YGFileTransferTool.m */; };
 		B6DACDA2210C20BE008D164E /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B6DACDA1210C20BE008D164E /* NSDate+Extension.m */; };
 		B6FBA00E20F62CD10012EFD0 /* YGFileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FBA00D20F62CD10012EFD0 /* YGFileVC.m */; };
-		B6FBA01120F62CE30012EFD0 /* YGStarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FBA01020F62CE30012EFD0 /* YGStarVC.m */; };
 		B6FBA01720F62D4F0012EFD0 /* YGProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FBA01620F62D4F0012EFD0 /* YGProfileVC.m */; };
 		EA57C0B95943C32B66E999BD /* libPods-幸福云盘.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E200F24AA867E7994FC0ECE /* libPods-幸福云盘.a */; };
 /* End PBXBuildFile section */
@@ -165,12 +166,14 @@
 		B6C4041020F7719C00E95598 /* YGLoginMidView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGLoginMidView.m; sourceTree = "<group>"; };
 		B6C4041520F78ACF00E95598 /* YGInputView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGInputView.h; sourceTree = "<group>"; };
 		B6C4041620F78ACF00E95598 /* YGInputView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGInputView.m; sourceTree = "<group>"; };
+		B6C81A6D21301E7200899EB4 /* YGShareVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGShareVC.h; sourceTree = "<group>"; };
+		B6C81A6E21301E7200899EB4 /* YGShareVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGShareVC.m; sourceTree = "<group>"; };
+		B6C81A71213044FE00899EB4 /* YGFileTransferTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileTransferTool.h; sourceTree = "<group>"; };
+		B6C81A72213044FE00899EB4 /* YGFileTransferTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileTransferTool.m; sourceTree = "<group>"; };
 		B6DACDA0210C20BE008D164E /* NSDate+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
 		B6DACDA1210C20BE008D164E /* NSDate+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
 		B6FBA00C20F62CD10012EFD0 /* YGFileVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileVC.h; sourceTree = "<group>"; };
 		B6FBA00D20F62CD10012EFD0 /* YGFileVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileVC.m; sourceTree = "<group>"; };
-		B6FBA00F20F62CE30012EFD0 /* YGStarVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGStarVC.h; sourceTree = "<group>"; };
-		B6FBA01020F62CE30012EFD0 /* YGStarVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGStarVC.m; sourceTree = "<group>"; };
 		B6FBA01520F62D4F0012EFD0 /* YGProfileVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGProfileVC.h; sourceTree = "<group>"; };
 		B6FBA01620F62D4F0012EFD0 /* YGProfileVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGProfileVC.m; sourceTree = "<group>"; };
 		B84F913ECE58C483A85F0724 /* Pods-幸福云盘.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-幸福云盘.release.xcconfig"; path = "Pods/Target Support Files/Pods-幸福云盘/Pods-幸福云盘.release.xcconfig"; sourceTree = "<group>"; };
@@ -224,6 +227,8 @@
 				73484D1F210AF54000BA344B /* YGRepoTool.m */,
 				B6A8E241210DF39600E5117C /* YGDirTool.h */,
 				B6A8E242210DF39600E5117C /* YGDirTool.m */,
+				B6C81A71213044FE00899EB4 /* YGFileTransferTool.h */,
+				B6C81A72213044FE00899EB4 /* YGFileTransferTool.m */,
 			);
 			path = FileTool;
 			sourceTree = "<group>";
@@ -283,7 +288,7 @@
 				B676792420F627E500945627 /* Main */,
 				B676794220F62AFC00945627 /* Login */,
 				B676792020F627E500945627 /* File */,
-				B676792D20F627E500945627 /* Star */,
+				B6C81A6921301E5500899EB4 /* Share */,
 				B676793120F627E500945627 /* Transfer */,
 				B676792920F627E500945627 /* Profile */,
 				B676792820F627E500945627 /* Other */,
@@ -430,39 +435,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		B676792D20F627E500945627 /* Star */ = {
-			isa = PBXGroup;
-			children = (
-				B676792E20F627E500945627 /* Controller */,
-				B676792F20F627E500945627 /* Model */,
-				B676793020F627E500945627 /* View */,
-			);
-			path = Star;
-			sourceTree = "<group>";
-		};
-		B676792E20F627E500945627 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				B6FBA00F20F62CE30012EFD0 /* YGStarVC.h */,
-				B6FBA01020F62CE30012EFD0 /* YGStarVC.m */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		B676792F20F627E500945627 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		B676793020F627E500945627 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		B676793120F627E500945627 /* Transfer */ = {
 			isa = PBXGroup;
 			children = (
@@ -581,6 +553,39 @@
 				73D6120721102736006F209E /* SVProgressHUD+Extension.m */,
 			);
 			path = Category;
+			sourceTree = "<group>";
+		};
+		B6C81A6921301E5500899EB4 /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				B6C81A6A21301E5500899EB4 /* Controller */,
+				B6C81A6B21301E5500899EB4 /* Model */,
+				B6C81A6C21301E5500899EB4 /* View */,
+			);
+			path = Share;
+			sourceTree = "<group>";
+		};
+		B6C81A6A21301E5500899EB4 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B6C81A6D21301E7200899EB4 /* YGShareVC.h */,
+				B6C81A6E21301E7200899EB4 /* YGShareVC.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B6C81A6B21301E5500899EB4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B6C81A6C21301E5500899EB4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -702,7 +707,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				737FDBF120F874A600BF5090 /* UIImage+Extension.m in Sources */,
-				B6FBA01120F62CE30012EFD0 /* YGStarVC.m in Sources */,
 				73716C2121059C2500706C51 /* YGApiTokenTool.m in Sources */,
 				73484D20210AF54000BA344B /* YGRepoTool.m in Sources */,
 				73D6120821102736006F209E /* SVProgressHUD+Extension.m in Sources */,
@@ -720,6 +724,7 @@
 				B6FBA01720F62D4F0012EFD0 /* YGProfileVC.m in Sources */,
 				B6209E8C20F4EE7E0075497C /* main.m in Sources */,
 				B6FBA00E20F62CD10012EFD0 /* YGFileVC.m in Sources */,
+				B6C81A73213044FE00899EB4 /* YGFileTransferTool.m in Sources */,
 				B63EF3962100D68D00C562DF /* UIButton+Extension.m in Sources */,
 				B6C4040E20F7719000E95598 /* YGLoginTopView.m in Sources */,
 				73F3E7FF211806200054623F /* YGDownloadCell.m in Sources */,
@@ -734,6 +739,7 @@
 				B6A8E240210DBDC800E5117C /* YGFileUnableView.m in Sources */,
 				7335A0A520FD922F00F5ECF5 /* YGFileCell.m in Sources */,
 				B676794120F629F000945627 /* YGTabBar.m in Sources */,
+				B6C81A6F21301E7200899EB4 /* YGShareVC.m in Sources */,
 				B650EAA320FCCEA90025D1E0 /* YGApiToken.m in Sources */,
 				B604B4F72129B0C000A54E67 /* YGTransferProgressBtn.m in Sources */,
 				B63EF38D2100A50000C562DF /* YGFileBaseVC.m in Sources */,

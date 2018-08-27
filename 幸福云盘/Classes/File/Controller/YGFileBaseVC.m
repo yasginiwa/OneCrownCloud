@@ -24,6 +24,8 @@
 #import "YGFileOperationView.h"
 #import "YGFileVC.h"
 #import "YGSubFileVC.h"
+#import "YGMainNavVC.h"
+#import "YGTransferVC.h"
 
 @interface YGFileBaseVC () <UIScrollViewDelegate, QLPreviewControllerDataSource, YGFileOperationViewDelegate>
 

@@ -31,10 +31,6 @@
 // 输入用户名密码时发出的通知
 #define YGLoginDidBeginEditNotification @"loginDidBeginEditNotification"
 
-//  添加上传下载任务发出的通知
-#define YGAddUploadFileNotification @"addUploadFileNotification"
-#define YGAddDownloadFileNotification @"addDownloadFileNotification"
-
 // token已存入沙盒中
 #define YGTokenSavedNotification @"tokenSavedNotificaition"
 
@@ -47,6 +43,17 @@
 // 当前选中repo模型存储到沙盒的路径
 #define YGCurrentRepoPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"currentRepo.data"]
 #define YGDirPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"dir.data"]
+
+//  下载上传模型存储到沙盒路径
+#define YGDownloadFilesPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"downloadFiles.data"]
+#define YGUploadFilesPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"uploadFiles.data"]
+
+//  选中要上传的图片数组和视频存储的沙盒路径
+#define YGUploadImagesPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"uploadImages.data"]
+#define YGUploadVideoPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"uploadVideo.data"]
+
+//  上传视频发出的通知
+#define YGUploadVideoProgressNotification @"uploadVideoProgressNotification"
 
 #if DEBUG   // 调试阶段
 #define YGLog(...) NSLog(__VA_ARGS__)
