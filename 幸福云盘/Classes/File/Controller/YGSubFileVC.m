@@ -24,9 +24,91 @@
 @interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGHeaderViewDelegate, YGFileUploadDelegate, TZImagePickerControllerDelegate>
 @property (nonatomic, copy) NSString *addDirName;
 @property (nonatomic, copy) void (^uploadProgress)(double progress);
+/** 正在上传文件数组 */
+@property (nonatomic, strong) NSMutableArray *uploadingFiles;
+/** 上传完成文件数组 */
+@property (nonatomic, strong) NSMutableArray *uploadedFiles;
+/** 正在下载文件数组 */
+@property (nonatomic, strong) NSMutableArray *downloadingFiles;
+/** 下载完成文件数组 */
+@property (nonatomic, strong) NSMutableArray *downloadedFiles;
+/** 上传文件传输数组(包括未完成和完成的) */
+@property (nonatomic, strong) NSMutableArray *uploadTransferFiles;
+/** 下载文件传输数组(包括未完成和完成的) */
+@property (nonatomic, strong) NSMutableArray *downloadTransferFiles;
+/** 正在上传的当前文件模型*/
+@property (nonatomic, strong) YGFileModel *uploadingFileModel;
+/** 正在下载的当前文件模型 */
+@property (nonatomic, strong) YGFileModel *downloadingFileModel;
 @end
 
 @implementation YGSubFileVC
+#pragma mark - 懒加载
+- (NSMutableArray *)uploadingFiles
+{
+    if (_uploadingFiles == nil) {
+        _uploadingFiles = [NSMutableArray array];
+    }
+    return _uploadingFiles;
+}
+
+- (NSMutableArray *)uploadedFiles
+{
+    if (_uploadedFiles == nil) {
+        _uploadedFiles = [NSMutableArray array];
+    }
+    return _uploadedFiles;
+}
+
+- (NSMutableArray *)downloadingFiles
+{
+    if (_downloadingFiles == nil) {
+        _downloadingFiles = [NSMutableArray array];
+    }
+    return _downloadingFiles;
+}
+
+- (NSMutableArray *)downloadedFiles
+{
+    if (_downloadedFiles == nil) {
+        _downloadedFiles = [NSMutableArray array];
+    }
+    return _downloadedFiles;
+}
+
+- (NSMutableArray *)uploadTransferFiles
+{
+    if (_uploadTransferFiles == nil) {
+        _uploadTransferFiles = [NSMutableArray array];
+        NSMutableDictionary *uploadingDict = [NSMutableDictionary dictionary];
+        uploadingDict[@"title"] = [NSString stringWithFormat:@"正在上传（%lu）", self.uploadingFiles.count];
+        uploadingDict[@"uploadFiles"] = self.uploadingFiles;
+        
+        NSMutableDictionary *uploadedDict = [NSMutableDictionary dictionary];
+        uploadedDict[@"title"] = [NSString stringWithFormat:@"上传完成 （%lu）", self.uploadedFiles.count];
+        uploadedDict[@"uploadedFiles"] = self.uploadedFiles;
+        
+        [_uploadTransferFiles addObject:uploadingDict];
+        [_uploadTransferFiles addObject:uploadedDict];
+    }
+    return _uploadTransferFiles;
+}
+
+- (NSMutableArray *)downloadTransferFiles
+{
+    if (_downloadTransferFiles == nil) {
+        _downloadTransferFiles = [NSMutableArray array];
+        NSMutableDictionary *downloadingDict = [NSMutableDictionary dictionary];
+        downloadingDict[@"title"] = [NSString stringWithFormat:@"正在下载（%lu）", self.downloadingFiles.count];
+        downloadingDict[@"downloadingFiles"] = self.downloadingFiles;
+        
+        NSMutableDictionary *downloadedDict = [NSMutableDictionary dictionary];
+        downloadedDict[@"title"] = [NSString stringWithFormat:@"下载完成（%lu）", self.downloadedFiles.count];
+        downloadedDict[@"downloadedFiles"] = self.downloadedFiles;
+    }
+    return _downloadTransferFiles;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -156,7 +238,7 @@
     [addFolderView removeFromSuperview];
 }
 
-/** 文件上传 */
+/** 点击文件上传 */
 - (void)fileUpload
 {
     YGFileUploadView *fileUploadView = [[YGFileUploadView alloc] init];
@@ -253,40 +335,24 @@
     [SVProgressHUD showSuccessFace:@"任务已添加至传输列表"];
     
     //  把模型加入上传数组
-    __block YGFileModel *uploadFileModel = [[YGFileModel alloc] init];
-    NSString *fileName = [asset valueForKey:@"filename"];
-    uploadFileModel.name = fileName;
-    uploadFileModel.mtime = @0;
-    uploadFileModel.uploading = YES;
-    NSMutableArray *uploadFiles = [YGFileTransferTool uploadFiles];
-    if (uploadFiles == nil) {  //  数组不存在 创建数组 存入沙盒
-        NSMutableArray *uploadFileArray = [NSMutableArray array];
-        [uploadFileArray addObject:uploadFileModel];
-        [YGFileTransferTool saveUploadFiles:uploadFileArray];
-    } else {    //  数组存在
-        [uploadFiles enumerateObjectsUsingBlock:^(YGFileModel *uploadFileModelInArray, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([uploadFileModelInArray.name isEqualToString:uploadFileModel.name]) {
-                [uploadFiles removeObject:uploadFileModelInArray];
-                [uploadFiles addObject:uploadFileModel];
-                *stop = YES;
-            } else {
-                [uploadFiles addObject:uploadFileModel];
-            }
-        }];
-        [YGFileTransferTool saveUploadFiles:uploadFiles];
-    }
+    NSString *fileName = [self appendFilenameFromAsset:asset];
+    self.uploadingFileModel.name = fileName;
     
-    //  把进度当做通知发出去
-    self.uploadProgress = ^(double progress) {
-        NSDictionary *userInfo = @{@"uploadVideoProgress" : @(progress)};
-        [[NSNotificationCenter defaultCenter] postNotificationName:YGUploadVideoProgressNotification object:nil userInfo:userInfo];
-    };
+    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
+    self.uploadingFileModel.mtime = @(timeInterval);
     
     //  设置options 允许从icloud下载高质量的视频
     PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
     options.networkAccessAllowed = YES;
     options.deliveryMode = PHVideoRequestOptionsDeliveryModeFastFormat;
+    
+    __block YGFileModel *uploadingFileModel = [[YGFileModel alloc] init];
     options.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
+        if (progress < 1.0) {
+            uploadingFileModel.iCloudDownloading = YES;
+        } else {
+            uploadingFileModel.iCloudDownloading = NO;
+        }
         YGLog(@"视频下载进度%f", progress);
     };
     
@@ -294,11 +360,77 @@
     PHImageManager *photoMgr = [PHImageManager defaultManager];
     
     [photoMgr requestAVAssetForVideo:asset options:options resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
-        
-        [self uploadFile:((AVURLAsset *)asset).URL];
+        uploadingFileModel.uploadUrl = ((AVURLAsset *)asset).URL;
     }];
-
+    
+    [self.uploadingFiles addObject:uploadingFileModel];
+    self.uploadingFileModel = uploadingFileModel;
+    
     [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    YGLog(@"%@", self.uploadingFiles);
+//    NSMutableArray *uploadFiles = [YGFileTransferTool uploadFiles];
+//    if (uploadFiles == nil) {  //  数组不存在 创建数组 存入沙盒
+//        NSMutableArray *uploadFileArray = [NSMutableArray array];
+//        [uploadFileArray addObject:uploadFileModel];
+//        [YGFileTransferTool saveUploadFiles:uploadFileArray];
+//    } else {    //  数组存在
+//        [uploadFiles enumerateObjectsUsingBlock:^(YGFileModel *uploadFileModelInArray, NSUInteger idx, BOOL * _Nonnull stop) {
+//            if ([uploadFileModelInArray.name isEqualToString:uploadFileModel.name]) {
+//                [uploadFiles removeObject:uploadFileModelInArray];
+//                [uploadFiles addObject:uploadFileModel];
+//                *stop = YES;
+//            } else {
+//                [uploadFiles addObject:uploadFileModel];
+//            }
+//        }];
+//        [YGFileTransferTool saveUploadFiles:uploadFiles];
+//    }
+    
+    //  把进度当做通知发出去
+//    self.uploadProgress = ^(double progress) {
+//        NSDictionary *userInfo = @{@"uploadVideoProgress" : @(progress)};
+//        [[NSNotificationCenter defaultCenter] postNotificationName:YGUploadVideoProgressNotification object:nil userInfo:userInfo];
+//    };
+    
+
+}
+
+- (NSString *)appendFilenameFromAsset:(PHAsset *)asset
+{
+    //  把拍摄文件类型截取出来
+    
+    NSString *fileExt;
+    PHAssetMediaType mediaType = asset.mediaType;
+    switch (mediaType) {
+        case PHAssetMediaTypeVideo:
+            fileExt = @".mov";
+            break;
+
+        case PHAssetMediaTypeImage:
+            fileExt = @".jpeg";
+            break;
+            
+        case PHAssetMediaTypeAudio:
+            fileExt = @".m4a";
+            break;
+            
+        case PHAssetMediaTypeUnknown:
+            break;
+    }
+    
+    //  把拍摄文件子类型截取出来
+    NSNumber *mediaSubTypes = @(asset.mediaSubtypes);
+    
+    //  把视频创建日期转成字符串
+    NSDate *creationDate = asset.creationDate;
+    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+    fmt.dateFormat = @"HHmm";
+    NSString *dateStr = [fmt stringFromDate:creationDate];
+    fmt.dateFormat = @"yyyy-MM-dd";
+    NSString *yearStr = [fmt stringFromDate:creationDate];
+    
+    return [NSString stringWithFormat:@"%@ %@%@%@%@", yearStr, @(mediaType), mediaSubTypes, dateStr,fileExt];
 }
 
 - (void)uploadFile:(NSURL *)uploadFileUrl

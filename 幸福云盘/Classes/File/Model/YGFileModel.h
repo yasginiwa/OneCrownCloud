@@ -72,7 +72,7 @@
 
 @property (nonatomic, assign) double downloadProgress;
 
-@property (nonatomic, assign, getter=isDownloading) BOOL downloading;
+@property (nonatomic, assign, getter=isICloudDownloading) BOOL iCloudDownloading;
 
-@property (nonatomic, assign, getter=isUploading) BOOL uploading;
+@property (nonatomic, strong) NSURL *uploadUrl;
 @end
