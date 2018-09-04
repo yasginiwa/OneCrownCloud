@@ -19,7 +19,6 @@
 #import "YGHeaderView.h"
 #import <TZImageManager.h>
 #import <TZImagePickerController.h>
-#import "YGFileTransferTool.h"
 
 @interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGHeaderViewDelegate, YGFileUploadDelegate, TZImagePickerControllerDelegate>
 @property (nonatomic, copy) NSString *addDirName;
@@ -123,6 +122,12 @@
 - (void)setupObserv
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getUploadVideoUrlFromIcloud:) name:kYGUploadVideoUrlRequestFromIcloudNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getVideoDownloadingFromIcloudProgress:) name:kYGVideoDownloadingFromIcloudNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getVideoUploadingProgress:) name:kYGVideoUploadingNotification object:nil];
 }
 
 - (void)requestDir
@@ -334,72 +339,40 @@
 {
     [SVProgressHUD showSuccessFace:@"任务已添加至传输列表"];
     
+    YGFileModel *uploadingFileModel = [[YGFileModel alloc] init];
     //  把模型加入上传数组
     NSString *fileName = [self appendFilenameFromAsset:asset];
-    self.uploadingFileModel.name = fileName;
+    uploadingFileModel.name = fileName;
+    uploadingFileModel.mtime = @([[NSDate date] timeIntervalSince1970]);
     
-    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
-    self.uploadingFileModel.mtime = @(timeInterval);
+    [self.uploadingFiles addObject:uploadingFileModel];
+    YGFileModel *lastUploadFileModel = [self.uploadingFiles lastObject];
+    self.uploadingFileModel = lastUploadFileModel;
     
     //  设置options 允许从icloud下载高质量的视频
     PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
     options.networkAccessAllowed = YES;
     options.deliveryMode = PHVideoRequestOptionsDeliveryModeFastFormat;
-    
-    __block YGFileModel *uploadingFileModel = [[YGFileModel alloc] init];
     options.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
-        if (progress < 1.0) {
-            uploadingFileModel.iCloudDownloading = YES;
-        } else {
-            uploadingFileModel.iCloudDownloading = NO;
-        }
-        YGLog(@"视频下载进度%f", progress);
+        NSDictionary *userInfo = @{@"downloadFromIcloudProgress" : @(progress)};
+        [[NSNotificationCenter defaultCenter] postNotificationName:kYGVideoDownloadingFromIcloudNotification object:nil userInfo:userInfo];
     };
     
     //  初始化PHImageManager 通过是否存在PHImageResultIsInCloudKey键判断是否在icloud中
     PHImageManager *photoMgr = [PHImageManager defaultManager];
-    
     [photoMgr requestAVAssetForVideo:asset options:options resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
-        uploadingFileModel.uploadUrl = ((AVURLAsset *)asset).URL;
+        NSDictionary *userInfo = @{@"uploadVideoUrl" : ((AVURLAsset *)asset).URL};
+        [[NSNotificationCenter defaultCenter] postNotificationName:kYGUploadVideoUrlRequestFromIcloudNotification object:nil userInfo:userInfo];
     }];
     
-    [self.uploadingFiles addObject:uploadingFileModel];
-    self.uploadingFileModel = uploadingFileModel;
-    
+    // dismiss Picker控制器
     [picker dismissViewControllerAnimated:YES completion:nil];
-    
-    YGLog(@"%@", self.uploadingFiles);
-//    NSMutableArray *uploadFiles = [YGFileTransferTool uploadFiles];
-//    if (uploadFiles == nil) {  //  数组不存在 创建数组 存入沙盒
-//        NSMutableArray *uploadFileArray = [NSMutableArray array];
-//        [uploadFileArray addObject:uploadFileModel];
-//        [YGFileTransferTool saveUploadFiles:uploadFileArray];
-//    } else {    //  数组存在
-//        [uploadFiles enumerateObjectsUsingBlock:^(YGFileModel *uploadFileModelInArray, NSUInteger idx, BOOL * _Nonnull stop) {
-//            if ([uploadFileModelInArray.name isEqualToString:uploadFileModel.name]) {
-//                [uploadFiles removeObject:uploadFileModelInArray];
-//                [uploadFiles addObject:uploadFileModel];
-//                *stop = YES;
-//            } else {
-//                [uploadFiles addObject:uploadFileModel];
-//            }
-//        }];
-//        [YGFileTransferTool saveUploadFiles:uploadFiles];
-//    }
-    
-    //  把进度当做通知发出去
-//    self.uploadProgress = ^(double progress) {
-//        NSDictionary *userInfo = @{@"uploadVideoProgress" : @(progress)};
-//        [[NSNotificationCenter defaultCenter] postNotificationName:YGUploadVideoProgressNotification object:nil userInfo:userInfo];
-//    };
-    
-
 }
 
+/** 拼接上传文件名 */
 - (NSString *)appendFilenameFromAsset:(PHAsset *)asset
 {
     //  把拍摄文件类型截取出来
-    
     NSString *fileExt;
     PHAssetMediaType mediaType = asset.mediaType;
     switch (mediaType) {
@@ -408,7 +381,7 @@
             break;
 
         case PHAssetMediaTypeImage:
-            fileExt = @".jpeg";
+            fileExt = @".jpg";
             break;
             
         case PHAssetMediaTypeAudio:
@@ -433,6 +406,41 @@
     return [NSString stringWithFormat:@"%@ %@%@%@%@", yearStr, @(mediaType), mediaSubTypes, dateStr,fileExt];
 }
 
+- (void)getVideoDownloadingFromIcloudProgress:(NSNotification *)note
+{
+    NSDictionary *userInfo = note.userInfo;
+    NSNumber *downloadProgress = [userInfo objectForKey:@"downloadFromIcloudProgress"];
+    self.uploadingFileModel.downloadFromIcloudProgress = [downloadProgress doubleValue];
+    
+    YGLog(@"视频下载进度%f", self.uploadingFileModel.downloadFromIcloudProgress);
+}
+
+- (void)getUploadVideoUrlFromIcloud:(NSNotification *)note
+{
+    NSDictionary *userInfo = note.userInfo;
+    NSURL *uploadVideoUrl = [userInfo objectForKey:@"uploadVideoUrl"];
+    NSURL *dirUrl = [uploadVideoUrl URLByDeletingLastPathComponent];
+    NSURL *newUploadVideoUrl = [dirUrl URLByAppendingPathComponent:self.uploadingFileModel.name];
+    
+    [[NSFileManager defaultManager] copyItemAtURL:uploadVideoUrl toURL:newUploadVideoUrl error:nil];
+
+    self.uploadingFileModel.uploadUrl = newUploadVideoUrl;
+    
+    [self uploadFile:self.uploadingFileModel.uploadUrl];
+}
+
+- (void)getVideoUploadingProgress:(NSNotification *)note
+{
+    NSDictionary *userInfo = note.userInfo;
+    NSProgress *progress = [userInfo objectForKey:@"uploadingVideoProgress"];
+    self.uploadingFileModel.uploadProgress = progress.fractionCompleted;
+    if (progress.fractionCompleted == 1.0) {
+        [self.uploadingFiles removeLastObject];
+        self.uploadingFileModel = nil;
+    }
+    YGLog(@"上传进度%f", self.uploadingFileModel.uploadProgress);
+}
+
 - (void)uploadFile:(NSURL *)uploadFileUrl
 {
     //  初始化网络上传相关参数
@@ -447,7 +455,8 @@
             
         } progress:^(NSProgress * _Nonnull uploadProgress) {
             
-            self.uploadProgress(uploadProgress.fractionCompleted);
+            NSDictionary *userInfo = @{@"uploadingVideoProgress" : uploadProgress};
+            [[NSNotificationCenter defaultCenter] postNotificationName:kYGVideoUploadingNotification object:self userInfo:userInfo];
             
         } success:^(id  _Nonnull responseObject) {
             

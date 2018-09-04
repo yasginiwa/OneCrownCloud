@@ -58,7 +58,6 @@
 		B6C4041120F7719C00E95598 /* YGLoginMidView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4041020F7719C00E95598 /* YGLoginMidView.m */; };
 		B6C4041720F78ACF00E95598 /* YGInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C4041620F78ACF00E95598 /* YGInputView.m */; };
 		B6C81A6F21301E7200899EB4 /* YGShareVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C81A6E21301E7200899EB4 /* YGShareVC.m */; };
-		B6C81A73213044FE00899EB4 /* YGFileTransferTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C81A72213044FE00899EB4 /* YGFileTransferTool.m */; };
 		B6DACDA2210C20BE008D164E /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = B6DACDA1210C20BE008D164E /* NSDate+Extension.m */; };
 		B6FBA00E20F62CD10012EFD0 /* YGFileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FBA00D20F62CD10012EFD0 /* YGFileVC.m */; };
 		B6FBA01720F62D4F0012EFD0 /* YGProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FBA01620F62D4F0012EFD0 /* YGProfileVC.m */; };
@@ -168,8 +167,6 @@
 		B6C4041620F78ACF00E95598 /* YGInputView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGInputView.m; sourceTree = "<group>"; };
 		B6C81A6D21301E7200899EB4 /* YGShareVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGShareVC.h; sourceTree = "<group>"; };
 		B6C81A6E21301E7200899EB4 /* YGShareVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGShareVC.m; sourceTree = "<group>"; };
-		B6C81A71213044FE00899EB4 /* YGFileTransferTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileTransferTool.h; sourceTree = "<group>"; };
-		B6C81A72213044FE00899EB4 /* YGFileTransferTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGFileTransferTool.m; sourceTree = "<group>"; };
 		B6DACDA0210C20BE008D164E /* NSDate+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
 		B6DACDA1210C20BE008D164E /* NSDate+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
 		B6FBA00C20F62CD10012EFD0 /* YGFileVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGFileVC.h; sourceTree = "<group>"; };
@@ -227,8 +224,6 @@
 				73484D1F210AF54000BA344B /* YGRepoTool.m */,
 				B6A8E241210DF39600E5117C /* YGDirTool.h */,
 				B6A8E242210DF39600E5117C /* YGDirTool.m */,
-				B6C81A71213044FE00899EB4 /* YGFileTransferTool.h */,
-				B6C81A72213044FE00899EB4 /* YGFileTransferTool.m */,
 			);
 			path = FileTool;
 			sourceTree = "<group>";
@@ -724,7 +719,6 @@
 				B6FBA01720F62D4F0012EFD0 /* YGProfileVC.m in Sources */,
 				B6209E8C20F4EE7E0075497C /* main.m in Sources */,
 				B6FBA00E20F62CD10012EFD0 /* YGFileVC.m in Sources */,
-				B6C81A73213044FE00899EB4 /* YGFileTransferTool.m in Sources */,
 				B63EF3962100D68D00C562DF /* UIButton+Extension.m in Sources */,
 				B6C4040E20F7719000E95598 /* YGLoginTopView.m in Sources */,
 				73F3E7FF211806200054623F /* YGDownloadCell.m in Sources */,

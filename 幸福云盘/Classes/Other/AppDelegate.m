@@ -47,6 +47,10 @@
         }
     }];
     
+    //  创建download文件夹
+    NSString *sandboxPath = [NSSearchPathForDirectoriesInDomains(NSUserDirectory, NSUserDomainMask, YES) lastObject]
+    [NSFileManager defaultManager] createDirectoryAtPath:<#(nonnull NSString *)#> withIntermediateDirectories:<#(BOOL)#> attributes:<#(nullable NSDictionary<NSFileAttributeKey,id> *)#> error:<#(NSError * _Nullable __autoreleasing * _Nullable)#>
+    
     return YES;
 }
 

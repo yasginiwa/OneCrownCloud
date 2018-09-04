@@ -63,6 +63,6 @@
         self.sizeLabel.text = nil;
     }
     
-    self.transferProgressBtn.progress = downloadFileModel.downloadProgress;
+    self.transferProgressBtn.progress = downloadFileModel.downloadFromIcloudProgress;
 }
 @end

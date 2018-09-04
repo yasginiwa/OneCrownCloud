@@ -12,7 +12,6 @@
 #import "YGFileModel.h"
 #import "YGUploadCell.h"
 #import "YGDownloadCell.h"
-#import "YGFileTransferTool.h"
 #import "YGMainNavVC.h"
 #import "YGSubFileVC.h"
 
@@ -69,7 +68,7 @@
 
 - (void)setupNotification
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uploadVideoProgress:) name:YGUploadVideoProgressNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uploadVideoProgress:) name:YGUploadVideoProgressNotification object:nil];
 }
 
 - (void)uploadVideoProgress:(NSNotification *)note
@@ -133,7 +132,7 @@
 
 - (void)refreshTransferTableView
 {
-    self.uploadFiles = [YGFileTransferTool uploadFiles];
+//    self.uploadFiles = [YGFileTransferTool uploadFiles];
     self.uploadFileModel = [self.uploadFiles firstObject];
     [self.transferTableView reloadData];
 }
