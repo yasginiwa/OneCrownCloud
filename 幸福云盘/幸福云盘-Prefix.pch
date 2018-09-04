@@ -40,9 +40,6 @@
 // token模型存储到沙盒的路径
 #define YGTokenPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"token.data"]
 
-//  icloud下载文件夹沙盒路径
-
-
 // 当前选中repo模型存储到沙盒的路径
 #define YGCurrentRepoPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"currentRepo.data"]
 #define YGDirPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"dir.data"]

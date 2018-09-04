@@ -47,10 +47,7 @@
         }
     }];
     
-    //  创建download文件夹
-    NSString *sandboxPath = [NSSearchPathForDirectoriesInDomains(NSUserDirectory, NSUserDomainMask, YES) lastObject]
-    [NSFileManager defaultManager] createDirectoryAtPath:<#(nonnull NSString *)#> withIntermediateDirectories:<#(BOOL)#> attributes:<#(nullable NSDictionary<NSFileAttributeKey,id> *)#> error:<#(NSError * _Nullable __autoreleasing * _Nullable)#>
-    
+
     return YES;
 }
 
@@ -59,7 +56,9 @@
     // 启动界面停留3秒
 //    [NSThread sleepForTimeInterval:3.0];
 
+    //  显示登录界面或是文件界面
     [self chooseRootVC];
+
     return YES;
 }
 

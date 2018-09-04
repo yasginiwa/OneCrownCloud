@@ -17,32 +17,11 @@
 
 @interface YGTransferVC () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) YGMenuView *menuView;
-@property (nonatomic, strong) YGFileModel *uploadFileModel;
-@property (nonatomic, strong) YGFileModel *downloadFileModel;
 @property (nonatomic, weak) UITableView *transferTableView;
-@property (nonatomic, strong) NSMutableArray *downloadFiles;
-@property (nonatomic, strong) NSMutableArray *uploadFiles;
-@property (nonatomic, assign, getter=isShowingDownload) BOOL showDownload;
+
 @end
 
 @implementation YGTransferVC
-
-#pragma mark - 懒加载
-- (NSMutableArray *)downloadFiles
-{
-    if (_downloadFiles == nil) {
-        _downloadFiles = [NSMutableArray array];
-    }
-    return _downloadFiles;
-}
-
-- (NSMutableArray *)uploadFiles
-{
-    if (_uploadFiles == nil) {
-        _uploadFiles = [NSMutableArray array];
-    }
-    return _uploadFiles;
-}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -61,22 +40,21 @@
     
     [self setupNavBar];
     
-    [self setupNotification];
+    [self addObsvr];
     
     YGLog(@"--transfer--viewDidLoad--");
 }
 
-- (void)setupNotification
+- (void)addObsvr
 {
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uploadVideoProgress:) name:YGUploadVideoProgressNotification object:nil];
+    [self.uploadingFileModel addObserver:self forKeyPath:@"uploadProgress" options:NSKeyValueObservingOptionNew context:nil];
 }
 
-- (void)uploadVideoProgress:(NSNotification *)note
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
-    NSDictionary *userInfo = note.userInfo;
-    double progress = [[userInfo objectForKey:@"uploadVideoProgress"] doubleValue];
-    self.uploadFileModel.uploadProgress = progress;
-    YGLog(@"---------%f", progress);
+    if ([keyPath isEqualToString:@"uploadProgress"]) {
+        YGLog(@"%@", change);
+    }
 }
 
 - (void)setupMenuView
@@ -132,8 +110,6 @@
 
 - (void)refreshTransferTableView
 {
-//    self.uploadFiles = [YGFileTransferTool uploadFiles];
-    self.uploadFileModel = [self.uploadFiles firstObject];
     [self.transferTableView reloadData];
 }
 
@@ -141,33 +117,29 @@
 
 #pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.contenType == YGTransferShowContenTypeDownload) {
-        return self.downloadFiles.count;
-    } else {
-        return self.uploadFiles.count;
-    }
-    YGLog(@"download%lu-upload%lu", self.downloadFiles.count, self.uploadFiles.count);
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.contenType == YGTransferShowContenTypeDownload) {
-        static NSString *ID = @"download";
-        YGDownloadCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-        if (cell == nil) {
-            cell = [YGDownloadCell downloadCell];
-        }
-        cell.downloadFileModel = self.downloadFiles[indexPath.row];
-        return cell;
-    } else {
-        static NSString *ID = @"upload";
-        YGUploadCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-        if (cell == nil) {
-            cell = [YGUploadCell uploadCell];
-        }
-        cell.uploadFileModel = self.uploadFiles[indexPath.row];
-        return cell;
-    }
+//    if (self.contenType == YGTransferShowContenTypeDownload) {
+//        static NSString *ID = @"download";
+//        YGDownloadCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+//        if (cell == nil) {
+//            cell = [YGDownloadCell downloadCell];
+//        }
+//        cell.downloadFileModel = self.downloadFiles[indexPath.row];
+//        return cell;
+//    } else {
+//        static NSString *ID = @"upload";
+//        YGUploadCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+//        if (cell == nil) {
+//            cell = [YGUploadCell uploadCell];
+//        }
+//        cell.uploadFileModel = self.uploadFiles[indexPath.row];
+//        return cell;
+//    }
+    return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -191,8 +163,4 @@
     }];
 }
 
-- (void)dealloc
-{
-    [self removeObserver:self.uploadFileModel forKeyPath:@"uploadProgress"];
-}
 @end

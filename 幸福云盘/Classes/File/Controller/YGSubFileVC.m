@@ -19,6 +19,8 @@
 #import "YGHeaderView.h"
 #import <TZImageManager.h>
 #import <TZImagePickerController.h>
+#import "YGTransferVC.h"
+#import "YGMainNavVC.h"
 
 @interface YGSubFileVC () <UIGestureRecognizerDelegate, YGFileCellDelegate, YGAddFolderViewDelegate, YGHeaderViewDelegate, YGFileUploadDelegate, TZImagePickerControllerDelegate>
 @property (nonatomic, copy) NSString *addDirName;
@@ -346,8 +348,11 @@
     uploadingFileModel.mtime = @([[NSDate date] timeIntervalSince1970]);
     
     [self.uploadingFiles addObject:uploadingFileModel];
-    YGFileModel *lastUploadFileModel = [self.uploadingFiles lastObject];
-    self.uploadingFileModel = lastUploadFileModel;
+    //  指定self.uploadingFileModel为uoloadingFiles中最先添加的一个(数组的最后一个元素)
+    self.uploadingFileModel = [self.uploadingFiles lastObject];
+    YGMainNavVC *mainNavVC = self.tabBarController.childViewControllers[2];
+    YGTransferVC *transferVC = [mainNavVC.viewControllers firstObject];
+    transferVC.uploadingFileModel = self.uploadingFileModel;
     
     //  设置options 允许从icloud下载高质量的视频
     PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
@@ -419,12 +424,13 @@
 {
     NSDictionary *userInfo = note.userInfo;
     NSURL *uploadVideoUrl = [userInfo objectForKey:@"uploadVideoUrl"];
-    NSURL *dirUrl = [uploadVideoUrl URLByDeletingLastPathComponent];
-    NSURL *newUploadVideoUrl = [dirUrl URLByAppendingPathComponent:self.uploadingFileModel.name];
+    NSURL *tmpFolderUrl = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@", NSTemporaryDirectory()]];
+    NSURL *newUploadVideoUrl = [tmpFolderUrl URLByAppendingPathComponent:self.uploadingFileModel.name];
     
     [[NSFileManager defaultManager] copyItemAtURL:uploadVideoUrl toURL:newUploadVideoUrl error:nil];
 
     self.uploadingFileModel.uploadUrl = newUploadVideoUrl;
+    YGLog(@"%@", [newUploadVideoUrl absoluteString]);
     
     [self uploadFile:self.uploadingFileModel.uploadUrl];
 }
@@ -434,10 +440,6 @@
     NSDictionary *userInfo = note.userInfo;
     NSProgress *progress = [userInfo objectForKey:@"uploadingVideoProgress"];
     self.uploadingFileModel.uploadProgress = progress.fractionCompleted;
-    if (progress.fractionCompleted == 1.0) {
-        [self.uploadingFiles removeLastObject];
-        self.uploadingFileModel = nil;
-    }
     YGLog(@"上传进度%f", self.uploadingFileModel.uploadProgress);
 }
 
@@ -459,22 +461,22 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:kYGVideoUploadingNotification object:self userInfo:userInfo];
             
         } success:^(id  _Nonnull responseObject) {
-            
             [self refreshLibrary];
+            [self.uploadingFiles removeLastObject];
+            self.uploadingFileModel = nil;
             YGLog(@"%@", responseObject);
             
         } failure:^(NSError * _Nonnull error) {
             
             if (error.code == -1001) {
+                [self.tableView.mj_header endRefreshing];
                 [SVProgressHUD showFailureFace:@"网络超时..."];
             }
-            
         }];
         
     } failure:^(NSError * _Nonnull error) {
         
         [SVProgressHUD showFailureFace:@"上传失败"];
-        
     }];
 }
 
@@ -488,7 +490,6 @@
 {
     YGLog(@"--fileCellDidSelectCheckBtn--");
 }
-
 
 - (void)textChanged:(NSNotification *)note
 {
